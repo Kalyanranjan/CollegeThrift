@@ -1,0 +1,23 @@
+lyan Parajuli
+CS Senior Project - CollegeThrift
+Week 4
+Advisor: Prof. E. Syta
+
+Update:
+1. More Study on Android Development
+	- More Learning on Android Development From Lynda.com and Google Android Documentation and Tutorials
+
+2. Amazon Web Services Setup
+	- Setup Amazon DynamoDb Services for Database Hosing and Authentication Services and learnt about implementing them in an app
+
+3. Photobucket Services Lookup
+	- Looked at Photobucket Image Hosting Services and API to store images of the listing and users
+
+4. Create Listings Page
+	- Created "Create Listings Page" without the backend as I am looking to setup and integrate the database API and image Hosting on the app to store the data and images.
+
+5. Camera API integration
+	- Learnt to use the Android Camera API in order to capture and upload pictures of the items and users
+
+6. Git submodules
+	- Read about git submodules where I maintain the code base in a different repository than the one used for the senior project and combine the code base repo inside the senior project repo

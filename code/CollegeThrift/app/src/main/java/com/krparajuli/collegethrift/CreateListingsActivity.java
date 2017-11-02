@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class CreateListingsActivity extends Activity {
 
     private EditText clTitle, clDesc, clPrice;
@@ -17,6 +20,10 @@ public class CreateListingsActivity extends Activity {
     private String inputValues;
 
     private String TAG = "---------LOG:";
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
+    final DatabaseReference listingsRef = collegeThriftDbRef.child("listings");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +38,16 @@ public class CreateListingsActivity extends Activity {
         clGiveaway = (RadioButton) findViewById(R.id.cl_radio_giveaway);
         clSubmit = (Button) findViewById(R.id.cl_submit);
 
+
+
         clSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 inputValues = getCreateListingValues();
                 Log.v(TAG, inputValues);
-
-            }
+                listingsRef.push().setValue(inputValues);
+                }
         });
-
-
-
     }
 
     private String getCreateListingValues() {
@@ -54,5 +60,4 @@ public class CreateListingsActivity extends Activity {
                     + ", listerId: 91203123192312"
                 +"}";
     }
-
 }

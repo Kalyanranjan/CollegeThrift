@@ -7,5 +7,9 @@
     <string name="cl_title_field">Title</string>
     <string name="cl_desc_field">Description</string>
 
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 
 </resources>

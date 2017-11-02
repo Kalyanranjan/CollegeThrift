@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "387920367547",
+    "firebase_url": "https://collegethrift-base.firebaseio.com",
+    "project_id": "collegethrift-base",
+    "storage_bucket": "collegethrift-base.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387920367547:android:8b2e487e2084efca",
+        "android_client_info": {
+          "package_name": "com.krparajuli.collegethrift"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387920367547-tdi7c65nf59svam6lbiekqii3a550j1v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.krparajuli.collegethrift",
+            "certificate_hash": "ba68542090fb049e2229c0c2e0ae43ad74c8705e"
+          }
+        },
+        {
+          "client_id": "387920367547-h3qhnps83gpubd6qel0grfrf357hk122.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDegp9HcnH83EQR8v666KMAflcUqE1zW5M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387920367547-h3qhnps83gpubd6qel0grfrf357hk122.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

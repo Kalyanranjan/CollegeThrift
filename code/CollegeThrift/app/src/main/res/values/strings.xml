@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CollegeThrift</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Create Listings Page Texts -->
+    <string name="CreateListingTitleFIeld">Title</string>
+</resources>

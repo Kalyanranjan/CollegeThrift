@@ -1,0 +1,26 @@
+Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Week 6
+Advisor: Prof. E. Syta
+
+Update:
+1. Firebase Integration
+- After repeatedly trying to make Amazon DynamoDB integration work and failing
+I decided to try Firebase instead. It took some time to get used to and learn 
+its different components, in addition to few attempts on dummy projects to make
+it work. In the end, it was very straight-forward and was easily integrated from
+android studio and looks very simple.
+
+2. Schema Design and Firebase Databse
+- I took some time learning about best practices in designing database in Firebase
+and also learning how query operations work. Then, I designed a database schema
+for the project. For now, I only have tables for users and listings(posts). The
+schema for chat and transactions will be made in the spring semester because
+those functionalities are schedule for then. The schema is in the file named
+"collegeTHriftSchema.txt" in this folder.
+
+3. Create Listings and View Listings Page
+- The View Listings Page (the main entry page where all the posts can be seen)
+and Create Listings Page (the page where users can make posts) are functional
+and are connected to the databse. However, these posts do not contain images yet
+as I am working on storing images on Firebase Storage and linking them to the posts.

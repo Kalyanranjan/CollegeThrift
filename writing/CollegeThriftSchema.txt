@@ -1,0 +1,21 @@
+{
+users: 
+	{“kalyanUID”: 
+		{fname: “Kalyan” (N),
+		lname: “Parajuli” (N),
+		email: “kalyan.parajuli@trincoll.edu”,
+		password: “”,
+		activationReqd: 0 or PIN,
+	},
+Listings:
+	{“listingID”:
+		{lisitingTitle:….,
+		listingDesc: ……,
+		Type: enum [Trade, Sale, Giveaway],
+		status: enum [sold, deleted, listed]
+		listingUser: [UserID]
+		assets: [IMAGES LINKS/FOLDER]
+		thumbnailIndex: [INDEX OF MAIN THUMBNAIL]
+	},
+}
+

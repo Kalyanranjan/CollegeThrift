@@ -3,5 +3,9 @@
     <string name="action_settings">Settings</string>
 
     <!-- Create Listings Page Texts -->
-    <string name="CreateListingTitleFIeld">Title</string>
+    <string name="cl_page_header">Create Listings</string>
+    <string name="cl_title_field">Title</string>
+    <string name="cl_desc_field">Description</string>
+
+
 </resources>

@@ -6,6 +6,7 @@ users:
 		email: “kalyan.parajuli@trincoll.edu”,
 		password: “”,
 		activationReqd: 0 or PIN,
+		registrationTimestamp: ......,
 	},
 Listings:
 	{“listingID”:
@@ -15,7 +16,8 @@ Listings:
 		status: enum [sold, deleted, listed]
 		listingUser: [UserID]
 		assets: [IMAGES LINKS/FOLDER]
-		thumbnailIndex: [INDEX OF MAIN THUMBNAIL]
+		thumbnailIndex: [INDEX OF MAIN THUMBNAIL],
+		listingTimestamp: .......,
 	},
 }
 

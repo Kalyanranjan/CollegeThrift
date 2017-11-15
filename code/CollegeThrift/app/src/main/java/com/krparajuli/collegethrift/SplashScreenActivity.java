@@ -111,13 +111,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
+        /* Connect to DB and if connection is successful; Go to Listings Page*/
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
 
         if (collegeThriftDbRef != null) {
             Intent viewListingsIntent = new Intent(SplashScreenActivity.this, ViewListingsActivity.class);
             startActivity(viewListingsIntent);
-
         }
 
 

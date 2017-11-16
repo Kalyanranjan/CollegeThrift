@@ -24,6 +24,10 @@ public class ListingsModel {
         this.mForGiveaway = giveaway;
         this.mListingPrice = price;
     }
+    public ListingsModel(String entry) {
+
+    }
+
 
     public String getmListingId() {
         return mListingId;
@@ -76,4 +80,6 @@ public class ListingsModel {
     public void setmListingPrice(int mListingPrice) {
         this.mListingPrice = mListingPrice;
     }
+
+
 }

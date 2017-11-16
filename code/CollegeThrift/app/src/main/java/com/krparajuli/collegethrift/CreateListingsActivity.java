@@ -29,9 +29,6 @@ public class CreateListingsActivity extends Activity {
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    final DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
-    final DatabaseReference listingsRef = collegeThriftDbRef.child("listings");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +48,17 @@ public class CreateListingsActivity extends Activity {
         clSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputValues = getCreateListingValues();
-                Log.v(TAG, inputValues);
-                listingsRef.push().setValue(inputValues);
+                try {
+                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
+                    final DatabaseReference listingsRef = collegeThriftDbRef.child("listings");
+
+                    inputValues = getCreateListingValues();
+                    Log.v(TAG, inputValues);
+                    listingsRef.push().setValue(inputValues);
+                } catch (Exception e) {
+                    Log.v("Error: ", "Database Connection");
+                }
                 }
         });
 
@@ -67,14 +72,12 @@ public class CreateListingsActivity extends Activity {
     }
 
     private String getCreateListingValues() {
-        return "{"
-                    +"title: "+ clTitle.getText()
-                    + ", desc: "+ clDesc.getText()
-                    + ", type: " +  clSale.isChecked()
-                    + ", price: " + clPrice.getText()
-                    + ", status: 1"
-                    + ", listerId: 91203123192312"
-                +"}";
+        return clTitle.getText()
+                    + ","+ clDesc.getText()
+                    + "," +  clSale.isChecked()
+                    + "," + clPrice.getText()
+                    + ",1"
+                    + ",91203123";
     }
 
     private void dispatchTakePictureIntent() {

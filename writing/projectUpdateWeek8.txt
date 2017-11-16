@@ -1,0 +1,29 @@
+Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Week 8
+Advisor: Prof. Ewa Syta
+
+Completed Tasks:
+1. Refactored the ViewListings Page and App flow:
+The app flow and display pages I had last time gave me problem while I was trying to add images and other layout elements. The app was crashing on adding Images to the layout. I had to make to the ViewListings class to make it work.
+2. Worked on making database interactions better
+The database interactions I had earlier were not proper and were kind of hacky. So I worked on making it better. I am still understanding how to index and access things better and working on it.
+
+Outstanding Tasks:
+1. Search Functionality: Since I am still working on the database interactions of the app, the search functionality is not implemented yet.
+2. Users: I have not moved into the users phase of the development as I am clearly stuck in the listings part of the app.
+3. Camera and Photos: The camera is not yet implemented in the app and listings still do not have photos. It is proving difficult to implement the camera API on the app. The new camera API on android (Camera2) is very different than previous (now deprecated) Camera API, so it is taking a lot of time.
+
+Challenges:
+1. Implementing the Camera API
+2. Use of Fragments in the ViewListingActivity
+
+Upcoming Task:
+Since the next week is thanksgiving week, I wish to catch up on all outstanding tasks and handle aforementioned obstacles. The List is:
+1. Implement Camera API and Photos support on the app
+2. User Profiles and Registration and Verification
+3. Connecting Users with Listings
+
+
+
+

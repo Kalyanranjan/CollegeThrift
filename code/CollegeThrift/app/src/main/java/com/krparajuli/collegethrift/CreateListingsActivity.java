@@ -59,6 +59,7 @@ public class CreateListingsActivity extends Activity {
                 } catch (Exception e) {
                     Log.v("Error: ", "Database Connection");
                 }
+                finish();
                 }
         });
 

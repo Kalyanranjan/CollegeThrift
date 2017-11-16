@@ -2,7 +2,11 @@ package com.krparajuli.collegethrift;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +21,8 @@ public class ListingsAdapter extends ArrayAdapter<ListingsModel> implements View
 
     private ArrayList<ListingsModel> dataSet;
     Context mContext;
+
+    private int lastPosition = -1;
 
     private static class ViewHolder {
         ImageView listingThumbnail;
@@ -40,5 +46,32 @@ public class ListingsAdapter extends ArrayAdapter<ListingsModel> implements View
     }
 
 
+    public View getView(int position, View convertView, ViewGroup parent) {
 
+        ListingsModel listingsModel = getItem(position);
+        ViewHolder viewHolder;
+
+        final View result;
+
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.listing_item, parent, false);
+
+            viewHolder.listingTitle = (TextView) convertView.findViewById(R.id.vlw_title);
+
+            result = convertView;
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+            result = convertView;
+        }
+
+        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+        result.startAnimation(animation);
+        lastPosition = position;
+
+        viewHolder.listingTitle.setText(listingsModel.getmListingTitle());
+        return convertView;
+    }
 }

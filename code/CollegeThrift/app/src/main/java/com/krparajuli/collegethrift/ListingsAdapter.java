@@ -17,9 +17,9 @@ import java.util.ArrayList;
  * Created by kal on 11/15/17.
  */
 
-public class ListingsAdapter extends ArrayAdapter<ListingsModel> implements View.OnClickListener {
+public class ListingsAdapter extends ArrayAdapter<Listing> implements View.OnClickListener {
 
-    private ArrayList<ListingsModel> dataSet;
+    private ArrayList<Listing> dataSet;
     Context mContext;
 
     private int lastPosition = -1;
@@ -29,7 +29,7 @@ public class ListingsAdapter extends ArrayAdapter<ListingsModel> implements View
         TextView listingTitle;
     }
 
-    public ListingsAdapter(ArrayList<ListingsModel> data, Context context) {
+    public ListingsAdapter(ArrayList<Listing> data, Context context) {
         super(context, R.layout.listing_item, data);
         this.dataSet = data;
         this.mContext = context;
@@ -40,7 +40,7 @@ public class ListingsAdapter extends ArrayAdapter<ListingsModel> implements View
 
         int position = (Integer) v.getTag();
         Object object = getItem(position);
-        ListingsModel listingsModel = (ListingsModel) object;
+        Listing listing = (Listing) object;
 
         Log.v("Listing", "clicked");
     }
@@ -48,7 +48,7 @@ public class ListingsAdapter extends ArrayAdapter<ListingsModel> implements View
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ListingsModel listingsModel = getItem(position);
+        Listing listing = getItem(position);
         ViewHolder viewHolder;
 
         final View result;
@@ -71,7 +71,7 @@ public class ListingsAdapter extends ArrayAdapter<ListingsModel> implements View
         result.startAnimation(animation);
         lastPosition = position;
 
-        viewHolder.listingTitle.setText(listingsModel.getmListingTitle());
+        viewHolder.listingTitle.setText(listing.getTitle());
         return convertView;
     }
 }

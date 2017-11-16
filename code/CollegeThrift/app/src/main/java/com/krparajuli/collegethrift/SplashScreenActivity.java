@@ -119,10 +119,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             Intent viewListingsIntent = new Intent(SplashScreenActivity.this, ViewListingsActivity.class);
             startActivity(viewListingsIntent);
         }
-
-
-
-
     }
 
     @Override

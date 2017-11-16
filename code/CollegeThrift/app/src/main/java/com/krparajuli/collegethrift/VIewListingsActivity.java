@@ -10,7 +10,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class ViewListingsActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,7 @@ public class ViewListingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_listings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton createListingsIcon = (FloatingActionButton) findViewById(R.id.fab);
         createListingsIcon.setOnClickListener(new View.OnClickListener() {

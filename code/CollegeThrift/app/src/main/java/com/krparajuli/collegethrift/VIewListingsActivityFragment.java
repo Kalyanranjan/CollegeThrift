@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +18,10 @@ import java.util.List;
  * A placeholder fragment containing a simple view.
  */
 public class ViewListingsActivityFragment extends Fragment {
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
+    final DatabaseReference listingsRef = collegeThriftDbRef.child("listings");
 
     ArrayList<ListingsModel> dataSet = new ArrayList<ListingsModel>();
     GridView gridView;

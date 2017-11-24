@@ -40,7 +40,7 @@
         <activity android:name=".CreateListingsActivity" />
 
         <activity android:name=".LoginActivity"
-            android:label="Login"
+            android:label="CollegeThrift"
             android:noHistory="true">
 
         </activity>

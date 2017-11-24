@@ -116,13 +116,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
 
         if (collegeThriftDbRef != null) {
-            Intent viewListingsIntent = new Intent(SplashScreenActivity.this, ViewListingsActivity.class);
+            Intent viewListingsIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
             startActivity(viewListingsIntent);
         }
-
-
-
-
     }
 
     @Override

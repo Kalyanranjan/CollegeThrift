@@ -1,5 +1,8 @@
 package com.krparajuli.collegethrift;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by kal on 11/22/17.
  */
@@ -10,15 +13,17 @@ public class User {
     private String mFirstName;
     private String mLastName;
     private int mActivation;
-    //private String timestamp
+    private int mTimestamp;
 
     public User() {}
 
     public User(String email, String password, String fname, String lname) {
-        mEmail = email;
-        mPassword = password;
-        mFirstName = fname;
-        mLastName = lname;
+        this.mEmail = email;
+        this.mPassword = "pass";
+        this.mFirstName = fname;
+        this.mLastName = lname;
+        this.mActivation = 292853;
+        this.mTimestamp = 0;
     }
 
     public String getmEmail() { return mEmail; }
@@ -36,6 +41,21 @@ public class User {
     private int getmActivation() { return mActivation; }
     private void setmActivation(int mActivation) { this.mActivation = mActivation; }
 
+    private int getmTimestamp() { return mTimestamp; }
+    private void setmTimestamp(int timestamp) {this.mTimestamp = timestamp; }
+
     public void activateUser() { setmActivation(0); }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("email", mEmail);
+        result.put("fname", mFirstName);
+        result.put("lname", mLastName);
+        result.put("password", mPassword);
+        result.put("activation", mActivation);
+        result.put("timestamp", mTimestamp);
+        return result;
+    }
+
 }
 

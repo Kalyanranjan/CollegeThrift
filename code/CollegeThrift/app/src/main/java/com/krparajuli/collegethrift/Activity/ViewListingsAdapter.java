@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift;
+package com.krparajuli.collegethrift.Activity;
 
 import android.content.Context;
 import android.view.View;

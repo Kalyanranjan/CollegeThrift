@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift;
+package com.krparajuli.collegethrift.Activity;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+
+import com.krparajuli.collegethrift.ListingsAdapter;
+import com.krparajuli.collegethrift.ListingsModel;
+import com.krparajuli.collegethrift.R;
 
 import java.util.ArrayList;
 import java.util.List;

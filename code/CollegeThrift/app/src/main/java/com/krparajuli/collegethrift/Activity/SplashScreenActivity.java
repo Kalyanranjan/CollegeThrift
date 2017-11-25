@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift;
+package com.krparajuli.collegethrift.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.krparajuli.collegethrift.Firebase.FBDatabase;
+import com.krparajuli.collegethrift.R;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

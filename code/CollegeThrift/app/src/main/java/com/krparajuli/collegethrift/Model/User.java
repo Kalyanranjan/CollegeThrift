@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift;
+package com.krparajuli.collegethrift.Model;
 
 import java.util.HashMap;
 import java.util.Map;

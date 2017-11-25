@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.krparajuli.collegethrift.ViewListingsActivityFragment"
+    tools:context="com.krparajuli.collegethrift.Activity.ViewListingsActivityFragment"
     tools:showIn="@layout/activity_view_listings">
 
     <GridView

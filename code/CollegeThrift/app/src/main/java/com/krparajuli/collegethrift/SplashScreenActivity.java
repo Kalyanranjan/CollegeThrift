@@ -112,13 +112,27 @@ public class SplashScreenActivity extends AppCompatActivity {
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
         /* Connect to DB and if connection is successful; Go to Listings Page*/
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
+//
+//        if (collegeThriftDbRef != null) {
+//            Intent viewListingsIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+//            startActivity(viewListingsIntent);
+//        }
+        if (FBDatabase.getDbInstance() != null) {
 
-        if (collegeThriftDbRef != null) {
+            //Have to check if logged in or not
+
             Intent viewListingsIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
             startActivity(viewListingsIntent);
         }
+
+        // REPLACE THE CODE ABOVE
+        // Try to get DB instance and Auth Instance
+        // If Auth fails, don't start app
+        // If auth succeeds and db fails and not logged in = LOGIN PAGE
+        // If db fails at login or auth fails = WARNING
+        // Else go to view if logged in
     }
 
     @Override

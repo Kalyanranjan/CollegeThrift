@@ -13,28 +13,28 @@ public class FBDatabase {
     private static String LISTINGS_ROOT = "listings";
     private static String USERS_ROOT = "users";
 
-    private static FirebaseDatabase mDbRef= null;
+    private static FirebaseDatabase mDbInstance= null;
     private static DatabaseReference mListingsDbRef = null;
     private static DatabaseReference mUsersDbRef = null;
 
     private static String mDbError = "Database Error: ";
     private static String mDBSuccess = "Database Success: ";
 
-    public static FirebaseDatabase getDb() {
-        if (mDbRef == null)
-            mDbRef = FirebaseDatabase.getInstance();
-        if (mDbRef == null)
+    public static FirebaseDatabase getDbInstance() {
+        if (mDbInstance == null)
+            mDbInstance = FirebaseDatabase.getInstance();
+        if (mDbInstance == null)
             dbConnErrorDisplay();
 
-        return mDbRef;
+        return mDbInstance;
     }
 
     private static DatabaseReference getReference(String ref) {
-        FirebaseDatabase dbRef = getDb();
-        if (dbRef == null)
+        FirebaseDatabase dbInstance = getDbInstance();
+        if (dbInstance == null)
             return null;
         if (mListingsDbRef == null) {
-            mListingsDbRef = dbRef.getReference().child(ref);
+            mListingsDbRef = dbInstance.getReference().child(ref);
         }
         return mListingsDbRef;
     }

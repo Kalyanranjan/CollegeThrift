@@ -1,12 +1,17 @@
 package com.krparajuli.collegethrift.Activity;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -39,17 +44,26 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.v("Login", "Clicked Login");
                 loginUserUsingCredentials();
             }
         });
     }
 
     private void loginUserUsingCredentials() {
-        String userEmail = mLoginEmailAddress.getText().toString();
-        String userPass = mLoginPassword.getText().toString();
+        String userEmail = mLoginEmailAddress.getText().toString().trim();
+        String userPass = mLoginPassword.getText().toString().trim();
 
-
-
+        boolean signedIn = FBUserAuthentication.signIn(userEmail, userPass, this);
+        if (signedIn) {
+            Snackbar.make(this.findViewById(R.id.li_login_form), "Login Successful", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            Intent viewListingsIntent = new Intent(LoginActivity.this, ViewListingsActivity.class);
+            startActivity(viewListingsIntent);
+        } else {
+            Snackbar.make(this.findViewById(R.id.li_login_form), "Login Unsuccessful", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+        }
     }
 
     public void hasCorrectEmailPrefix() {}

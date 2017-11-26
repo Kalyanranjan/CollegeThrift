@@ -21,7 +21,7 @@
         <activity
             android:name=".Activity.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_splash_screen"
+            android:label="@string/app_name"
             android:noHistory="true"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
@@ -35,9 +35,10 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.CreateListingsActivity" />
+
         <activity
             android:name=".Activity.LoginActivity"
-            android:label="CollegeThrift"
+            android:label="@string/app_name"
             android:noHistory="true"></activity>
         <activity android:name=".Activity.SignUpActivity"></activity>
     </application>

@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.krparajuli.collegethrift.ListingsAdapter;
 import com.krparajuli.collegethrift.ListingsModel;
 import com.krparajuli.collegethrift.R;

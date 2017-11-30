@@ -1,0 +1,25 @@
+﻿Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Week 10
+Advisor: Prof. Ewa Syta
+
+
+Completed Tasks:
+1. Completed User Authentication infrastructure - with Sign In, Sign Up, Email verification and Forgotten Password with minimalist front end. Error catching and User input feedback not implemented yet.
+2. Added Basic User Profile backend where user’s personal informations are stored. Currently, there is not front end to view and edit these informations
+3. Connected Users with Listings
+4. Made ViewListings Page Better with Requests View
+
+
+Outstanding Tasks:
+1. Search Functionality for Listings
+2. Camera and Photos: Was not able to work on Camera Functionalities
+
+
+Challenges:
+1. Making Camera API work
+
+
+Upcoming Task:
+1. Implement Camera API and Add photos for Listings and Users
+2. Front End for User Dashboard and Profiles

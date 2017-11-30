@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.krparajuli.collegethrift.Model.Listing;
 import com.krparajuli.collegethrift.Model.ListingsAdapter;
-import com.krparajuli.collegethrift.ListingsModel;
 import com.krparajuli.collegethrift.R;
 
 import java.util.ArrayList;
@@ -21,11 +19,7 @@ import java.util.ArrayList;
  */
 public class ViewListingsActivityFragment extends Fragment {
 
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    final DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
-    final DatabaseReference listingsRef = collegeThriftDbRef.child("listings");
-
-    ArrayList<ListingsModel> dataSet = new ArrayList<ListingsModel>();
+    ArrayList<Listing> dataSet = new ArrayList<Listing>();
     GridView gridView;
     ListingsAdapter listingsAdapter;
 
@@ -37,28 +31,33 @@ public class ViewListingsActivityFragment extends Fragment {
         Log.v("Here", "HEAR");
         gridView = (GridView) listingsFragment.findViewById(R.id.vl_grid);
         populateDataSet();
-//        listingsAdapter = new ListingsAdapter(dataSet, getActivity());
-//
-//        gridView.setAdapter(listingsAdapter);
+        listingsAdapter = new ListingsAdapter(dataSet, getActivity());
+
+        gridView.setAdapter(listingsAdapter);
         return listingsFragment;
     }
 
     private void populateDataSet() {
-        ListingsModel lm = new ListingsModel("hdasdjasd",
-                "First Listing",
-                "First Listing Desc",
+        Listing lm = new Listing(
+                "Iphone 6s",
+                "Mint",
                 true,
                 true,
                 false,
-                120);
+                120,
+                "Asdasdasdasd"
+        );
         dataSet.add(lm);
-        ListingsModel tm = new ListingsModel("sdasdas",
+
+
+        Listing tm = new Listing(
+                "sdasdas",
                 "Second Listings",
-                "Second Listing Desc",
                 false,
                 false,
                 true,
-                0);
+                0,
+                "asdasdasd");
         dataSet.add(tm);
     }
 }

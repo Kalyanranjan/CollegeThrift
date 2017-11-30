@@ -34,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 userFname = mSignupUserFname.getText().toString().trim();
-                userEmail = mSignupUserPassword.getText().toString().trim();
+                userEmail = mSignupUserEmail.getText().toString().trim();
                 userPass = mSignupUserPassword.getText().toString().trim();
 
                 FBUserAuthentication.signUp(userFname, userEmail, userPass, SignUpActivity.this);

@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift;
+package com.krparajuli.collegethrift.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,8 +9,9 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.krparajuli.collegethrift.Firebase.FBDatabase;
+import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
+import com.krparajuli.collegethrift.R;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -109,20 +110,39 @@ public class SplashScreenActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        // findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
+        /* Connect to DB and if connection is successful; Go to Listings Page*/
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
+//
+//        if (collegeThriftDbRef != null) {
+//            Intent viewListingsIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+//            startActivity(viewListingsIntent);
+//        }
+//      if (FBDatabase.getDbInstance() != null) {
+//
+//            //Have to check if logged in or not
+//
+//            Intent viewListingsIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+//            startActivity(viewListingsIntent);
+//        }
 
-        if (collegeThriftDbRef != null) {
-            Intent viewListingsIntent = new Intent(SplashScreenActivity.this, ViewListingsActivity.class);
-            startActivity(viewListingsIntent);
-
+//      REPLACE THE CODE ABOVE
+        Intent nextIntent;
+        if (FBUserAuthentication.userSignedIn()) {
+            // View if you can get DB Instance
+            nextIntent = new Intent(SplashScreenActivity.this, ViewListingsActivity.class);
+        } else {
+            nextIntent = new Intent(SplashScreenActivity.this, LoginActivity.class);
         }
+        startActivity(nextIntent);
 
-
-
-
+        // Try to get DB instance and Auth Instance
+        // If Auth fails, don't start app
+        // If auth succeeds and db fails and not logged in = LOGIN PAGE
+        // If db fails at login or auth fails = WARNING
+        // Else go to view if logged in
     }
 
     @Override

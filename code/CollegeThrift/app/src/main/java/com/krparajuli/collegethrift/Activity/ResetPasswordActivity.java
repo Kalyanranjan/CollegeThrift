@@ -38,7 +38,6 @@ public class ResetPasswordActivity extends Activity {
             public void onClick(View view) {
                 FirebaseAuth auth = FBUserAuthentication.getAuthInstance();
                  mEmailAddr = mForgotPasswordEmailAddress.getText().toString().trim();
-                Log.v("---------------", "HERE");
 
                 auth.sendPasswordResetEmail(mEmailAddr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {

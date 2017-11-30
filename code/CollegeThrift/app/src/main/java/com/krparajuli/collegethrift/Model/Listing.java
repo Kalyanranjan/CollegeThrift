@@ -12,39 +12,40 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Listing {
 
-    private String uid;
     private String title;
-    private String description;
-    private int type;
+    private String desc;
+    private boolean sale;
+    private boolean trade;
+    private boolean giveaway;
     private int price;
+    private String lister;
 
     public Listing() {}
 
-    public Listing(String uid, String title, String desc, int type, int price) {
-        this.uid = uid;
+    public Listing(String title, String desc,
+                   boolean sale, boolean trade, boolean giveaway, int price,
+                   String lister) {
         this.title = title;
-        this.description = desc;
-        this.type = type;
+        this.desc = desc;
+        this.sale = sale;
+        this.trade = trade;
+        this.giveaway = giveaway;
         this.price = price;
+        this.lister = lister;
     }
 
     @Exclude
     public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", uid);
-        result.put("title", title);
-        result.put("description", description);
-        result.put("type", type);
-        result.put("price", price);
-        return result;
-    }
+        HashMap<String, Object> listing = new HashMap<>();
+        listing.put("title", title);
+        listing.put("desc", desc);
+        listing.put("sale", sale);
+        listing.put("trade", trade);
+        listing.put("giveaway", giveaway);
+        listing.put("price", price);
+        listing.put("lister", lister);
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
+        return listing;
     }
 
     public String getTitle() {
@@ -55,20 +56,36 @@ public class Listing {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public int getType() {
-        return type;
+    public boolean isSale() {
+        return sale;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setSale(boolean sale) {
+        this.sale = sale;
+    }
+
+    public boolean isTrade() {
+        return trade;
+    }
+
+    public void setTrade(boolean trade) {
+        this.trade = trade;
+    }
+
+    public boolean isGiveaway() {
+        return giveaway;
+    }
+
+    public void setGiveaway(boolean giveaway) {
+        this.giveaway = giveaway;
     }
 
     public int getPrice() {
@@ -77,5 +94,13 @@ public class Listing {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getLister() {
+        return lister;
+    }
+
+    public void setLister(String lister) {
+        this.lister = lister;
     }
 }

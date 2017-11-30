@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift;
+package com.krparajuli.collegethrift.Model;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.krparajuli.collegethrift.Model.Listing;
+import com.krparajuli.collegethrift.R;
 
 import java.util.ArrayList;
 

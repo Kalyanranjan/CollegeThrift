@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift;
+package com.krparajuli.collegethrift.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.krparajuli.collegethrift.R;
 
 public class CreateListingsActivity extends Activity {
 

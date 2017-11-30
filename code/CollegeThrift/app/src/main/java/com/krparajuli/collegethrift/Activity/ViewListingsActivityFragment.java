@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift;
+package com.krparajuli.collegethrift.Activity;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.widget.GridView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.krparajuli.collegethrift.ListingsAdapter;
+import com.krparajuli.collegethrift.ListingsModel;
+import com.krparajuli.collegethrift.R;
 
 import java.util.ArrayList;
 import java.util.List;

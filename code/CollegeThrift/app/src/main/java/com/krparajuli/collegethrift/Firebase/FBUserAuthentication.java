@@ -2,6 +2,7 @@ package com.krparajuli.collegethrift.Firebase;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.krparajuli.collegethrift.Activity.LoginActivity;
 
 import static android.content.ContentValues.TAG;
 
@@ -22,6 +24,7 @@ import static android.content.ContentValues.TAG;
 public class FBUserAuthentication {
 
     public static FirebaseAuth mAuth = null;
+    public static FirebaseUser mUser = null;
 
     public static void instantiate() {
         if (mAuth == null)
@@ -37,13 +40,12 @@ public class FBUserAuthentication {
     }
 
     public static boolean userSignedIn() {
-        instantiate();
-        return (mAuth.getCurrentUser() != null);
+        return (mUser != null);
     }
 
     public static FirebaseUser getUser() {
         instantiate();
-        return mAuth.getCurrentUser();
+        return mUser;
     }
 
 
@@ -62,11 +64,14 @@ public class FBUserAuthentication {
                         }
                     }
                 });
-        return (mAuth.getCurrentUser() != null);
+        mUser = mAuth.getCurrentUser();
+        return (mUser != null);
     };
 
-
-
-
-
+    public static void signOut(Activity activity) {
+        mAuth.signOut();
+        mUser = null;
+        Intent loginPage = new Intent(activity, LoginActivity.class);
+        activity.startActivity(loginPage);
+    }
 }

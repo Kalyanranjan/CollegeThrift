@@ -16,8 +16,10 @@ import com.krparajuli.collegethrift.R;
 
 public class ResetPasswordActivity extends Activity {
 
-    public EditText mForgotPasswordEmailAddress;
-    public Button mForgotPasswordSubmitButton;
+    private EditText mForgotPasswordEmailAddress;
+    private Button mForgotPasswordSubmitButton;
+
+    private String emailAddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +29,12 @@ public class ResetPasswordActivity extends Activity {
         mForgotPasswordEmailAddress = (EditText) findViewById(R.id.rp_useremail);
 
         mForgotPasswordSubmitButton = (Button) findViewById(R.id.rp_submit_button);
+        // the following has to be moved to FBUserAuthentication
         mForgotPasswordEmailAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth auth = FBUserAuthentication.getAuthInstance();
-                String emailAddr = mForgotPasswordEmailAddress.getText().toString().trim();
+                 emailAddr = mForgotPasswordEmailAddress.getText().toString().trim();
 
                 auth.sendPasswordResetEmail(emailAddr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {

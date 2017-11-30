@@ -12,6 +12,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Listing {
 
+    // need to change all fields to mTitle.. and so on
     private String title;
     private String desc;
     private boolean sale;

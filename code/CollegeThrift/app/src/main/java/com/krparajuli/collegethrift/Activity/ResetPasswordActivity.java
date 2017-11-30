@@ -27,6 +27,7 @@ public class ResetPasswordActivity extends Activity {
         mForgotPasswordEmailAddress = (EditText) findViewById(R.id.rp_useremail);
 
         mForgotPasswordSubmitButton = (Button) findViewById(R.id.rp_submit_button);
+        // the following has to be moved to FBUserAuthentication
         mForgotPasswordEmailAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

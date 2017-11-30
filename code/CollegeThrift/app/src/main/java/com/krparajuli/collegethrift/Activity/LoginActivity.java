@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText mLoginEmailAddress;
     private EditText mLoginPassword;
+    private TextView mForgotPasswordLink;
     private Button mLoginButton;
     private Button mSignupButton;
 
@@ -48,6 +50,17 @@ public class LoginActivity extends AppCompatActivity {
                 loginUserUsingCredentials();
             }
         });
+
+        mForgotPasswordLink = (TextView) findViewById(R.id.li_forgotten_pass_text);
+        mForgotPasswordLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent forgotPassIntent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                startActivity(forgotPassIntent);
+            }
+        });
+
+
     }
 
     private void loginUserUsingCredentials() {

@@ -81,6 +81,15 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <TextView
+                android:id="@+id/li_forgotten_pass_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Forgotten Password?"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:textAlignment="center" />
+
             <Button
                 android:id="@+id/li_login_button"
                 style="?android:textAppearanceSmall"

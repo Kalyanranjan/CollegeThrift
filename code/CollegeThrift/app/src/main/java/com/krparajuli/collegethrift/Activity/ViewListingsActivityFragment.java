@@ -38,9 +38,9 @@ public class ViewListingsActivityFragment extends Fragment {
         Log.v("Here", "HEAR");
         gridView = (GridView) listingsFragment.findViewById(R.id.vl_grid);
         populateDataSet();
-        listingsAdapter = new ListingsAdapter(dataSet, getActivity());
-
-        gridView.setAdapter(listingsAdapter);
+//        listingsAdapter = new ListingsAdapter(dataSet, getActivity());
+//
+//        gridView.setAdapter(listingsAdapter);
         return listingsFragment;
     }
 

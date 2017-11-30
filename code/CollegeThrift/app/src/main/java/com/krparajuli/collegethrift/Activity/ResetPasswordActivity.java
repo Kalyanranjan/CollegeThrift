@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,8 +17,10 @@ import com.krparajuli.collegethrift.R;
 
 public class ResetPasswordActivity extends Activity {
 
-    public EditText mForgotPasswordEmailAddress;
-    public Button mForgotPasswordSubmitButton;
+    private EditText mForgotPasswordEmailAddress;
+    private Button mForgotPasswordSubmitButton;
+
+    private String mEmailAddr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +30,16 @@ public class ResetPasswordActivity extends Activity {
         mForgotPasswordEmailAddress = (EditText) findViewById(R.id.rp_useremail);
 
         mForgotPasswordSubmitButton = (Button) findViewById(R.id.rp_submit_button);
+
         // the following has to be moved to FBUserAuthentication
-        mForgotPasswordEmailAddress.setOnClickListener(new View.OnClickListener() {
+
+        mForgotPasswordSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth auth = FBUserAuthentication.getAuthInstance();
-                String emailAddr = mForgotPasswordEmailAddress.getText().toString().trim();
+                 mEmailAddr = mForgotPasswordEmailAddress.getText().toString().trim();
 
-                auth.sendPasswordResetEmail(emailAddr)
+                auth.sendPasswordResetEmail(mEmailAddr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

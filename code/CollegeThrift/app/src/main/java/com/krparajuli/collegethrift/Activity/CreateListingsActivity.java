@@ -12,16 +12,17 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.krparajuli.collegethrift.FBDatabase;
+import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
+
+import java.util.HashMap;
 
 public class CreateListingsActivity extends Activity {
 
     private EditText clTitle, clDesc, clPrice;
     private RadioButton clSale, clTrade, clGiveaway;
     private Button clSubmit;
-
-    private String inputValues;
 
     private String TAG = "---------LOG:";
 
@@ -50,13 +51,11 @@ public class CreateListingsActivity extends Activity {
             @Override
             public void onClick(View view) {
                 try {
-                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    final DatabaseReference collegeThriftDbRef = database.getReference("collegethrift-base");
-                    final DatabaseReference listingsRef = collegeThriftDbRef.child("listings");
+                    DatabaseReference listingsRef = FBDatabase.getListingsDbRef();
 
-                    inputValues = getCreateListingValues();
-                    Log.v(TAG, inputValues);
-                    listingsRef.push().setValue(inputValues);
+                    HashMap<String, Object> inputObject = getCreateListingObject();
+                    Log.v(TAG, inputObject.toString());
+                    listingsRef.push().setValue(inputObject);
                 } catch (Exception e) {
                     Log.v("Error: ", "Database Connection");
                 }
@@ -73,13 +72,17 @@ public class CreateListingsActivity extends Activity {
         });
     }
 
-    private String getCreateListingValues() {
-        return clTitle.getText()
-                    + ","+ clDesc.getText()
-                    + "," +  clSale.isChecked()
-                    + "," + clPrice.getText()
-                    + ",1"
-                    + ",91203123";
+    private HashMap<String, Object> getCreateListingObject() {
+        HashMap<String, Object> listing = new HashMap<>();
+        listing.put("title", clTitle.getText().toString().trim());
+        listing.put("desc", clDesc.getText().toString().trim());
+        listing.put("sale", clSale.isChecked());
+        listing.put("trade", clTrade.isChecked());
+        listing.put("giveaway", clTrade.isChecked());
+        listing.put("price", clPrice.getText().toString().trim());
+        listing.put("lister", FBUserAuthentication.getUser().getUid());
+
+        return listing;
     }
 
     private void dispatchTakePictureIntent() {

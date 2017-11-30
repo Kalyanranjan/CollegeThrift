@@ -20,7 +20,7 @@ public class FBDatabase {
     private static String mDbError = "Database Error: ";
     private static String mDBSuccess = "Database Success: ";
 
-    public static FirebaseDatabase getDbInstance() {
+    public static FirebaseDatabase instantiateDb() {
         if (mDbInstance == null)
             mDbInstance = FirebaseDatabase.getInstance();
         if (mDbInstance == null)
@@ -30,11 +30,11 @@ public class FBDatabase {
     }
 
     private static DatabaseReference getReference(String ref) {
-        FirebaseDatabase dbInstance = getDbInstance();
-        if (dbInstance == null)
+        instantiateDb();
+        if (mDbInstance == null)
             return null;
         if (mListingsDbRef == null) {
-            mListingsDbRef = dbInstance.getReference().child(ref);
+            mListingsDbRef = mDbInstance.getReference().child(ref);
         }
         return mListingsDbRef;
     }

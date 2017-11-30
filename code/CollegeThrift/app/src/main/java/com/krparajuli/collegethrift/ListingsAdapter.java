@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.krparajuli.collegethrift.Model.Listing;
+
 import java.util.ArrayList;
 
 /**

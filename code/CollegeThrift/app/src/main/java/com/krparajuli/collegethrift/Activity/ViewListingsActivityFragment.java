@@ -8,13 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.FBDatabase;
 import com.krparajuli.collegethrift.Model.Listing;
 import com.krparajuli.collegethrift.Model.ListingsAdapter;
 import com.krparajuli.collegethrift.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -25,6 +31,8 @@ public class ViewListingsActivityFragment extends Fragment {
     GridView gridView;
     ListingsAdapter listingsAdapter;
 
+    AtomicInteger listingsCount = new AtomicInteger();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,6 +40,59 @@ public class ViewListingsActivityFragment extends Fragment {
 
         DatabaseReference listingsRef = FBDatabase.getListingsDbRef();
 
+        listingsRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                int newCount = listingsCount.incrementAndGet();
+                dataSet.add(dataSnapshot.getValue(Listing.class));
+
+                Log.v("-----", dataSnapshot.toString());
+                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                while (iterator.hasNext()) {
+                    Log.v("-------", iterator.next().toString());
+//                    dataSet.add(listing);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKay) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//                long numChildren = dataSnapshot.getChildrenCount();
+//                System.out.println(listingsCount.get() + " == " + numChildren);
+//
+//                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+//                while (iterator.hasNext()) {
+//                    Listing listing = iterator.next().getValue(Listing.class);
+//                    dataSet.add(listing);
+//                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         gridView = (GridView) listingsFragment.findViewById(R.id.vl_grid);
         populateDataSet();
@@ -48,7 +109,7 @@ public class ViewListingsActivityFragment extends Fragment {
                 true,
                 true,
                 false,
-                120,
+                "120",
                 "Asdasdasdasd"
         );
         dataSet.add(lm);
@@ -60,7 +121,7 @@ public class ViewListingsActivityFragment extends Fragment {
                 false,
                 false,
                 true,
-                0,
+                "0",
                 "asdasdasd");
         dataSet.add(tm);
     }

@@ -18,13 +18,13 @@ public class Listing {
     private boolean sale;
     private boolean trade;
     private boolean giveaway;
-    private int price;
+    private String price;
     private String lister;
 
     public Listing() {}
 
     public Listing(String title, String desc,
-                   boolean sale, boolean trade, boolean giveaway, int price,
+                   boolean sale, boolean trade, boolean giveaway, String price,
                    String lister) {
         this.title = title;
         this.desc = desc;
@@ -89,11 +89,11 @@ public class Listing {
         this.giveaway = giveaway;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

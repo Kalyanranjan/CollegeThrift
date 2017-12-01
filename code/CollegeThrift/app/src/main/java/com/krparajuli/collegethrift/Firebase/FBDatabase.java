@@ -29,22 +29,42 @@ public class FBDatabase {
         return mDbInstance;
     }
 
-    private static DatabaseReference getReference(String ref) {
+    public static FirebaseDatabase instantiateDbPersistently() {
+        instantiateDb();
+        mDbInstance.setPersistenceEnabled(true);
+        return mDbInstance;
+    }
+
+    public static void removeDBPersistence() {
+        if (mDbInstance != null)
+            mDbInstance.setPersistenceEnabled(false);
+    }
+
+    private static DatabaseReference getReference(String ref, boolean dbPersistence) {
         instantiateDb();
         if (mDbInstance == null)
             return null;
+        mDbInstance.setPersistenceEnabled(dbPersistence);
         if (mListingsDbRef == null) {
             mListingsDbRef = mDbInstance.getReference().child(ref);
         }
         return mListingsDbRef;
     }
 
+    public static DatabaseReference getReference(String ref) {
+        return getReference(ref, false);
+    }
+
+    public static DatabaseReference getPersistentReference(String ref) {
+        return getReference(ref, true);
+    }
+
     public static DatabaseReference getUsersDbRef() {
-       return getReference(USERS_ROOT);
+       return getReference(USERS_ROOT, true);
     }
 
     public static DatabaseReference getListingsDbRef() {
-        return getReference(LISTINGS_ROOT);
+        return getReference(LISTINGS_ROOT, true);
     }
 
     public static void dbConnErrorDisplay() {

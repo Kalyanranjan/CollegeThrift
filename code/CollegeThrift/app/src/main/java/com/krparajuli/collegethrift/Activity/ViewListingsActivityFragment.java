@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.krparajuli.collegethrift.FBDatabase;
 import com.krparajuli.collegethrift.Model.Listing;
 import com.krparajuli.collegethrift.Model.ListingsAdapter;
 import com.krparajuli.collegethrift.R;
@@ -26,9 +28,11 @@ public class ViewListingsActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View listingsFragment =  inflater.inflate(R.layout.fragment_view_listings, container, false);;
+        View listingsFragment =  inflater.inflate(R.layout.fragment_view_listings, container, false);
 
-        Log.v("Here", "HEAR");
+        DatabaseReference listingsRef = FBDatabase.getListingsDbRef();
+
+
         gridView = (GridView) listingsFragment.findViewById(R.id.vl_grid);
         populateDataSet();
         listingsAdapter = new ListingsAdapter(dataSet, getActivity());
@@ -59,5 +63,9 @@ public class ViewListingsActivityFragment extends Fragment {
                 0,
                 "asdasdasd");
         dataSet.add(tm);
+    }
+
+    public void getListings() {
+
     }
 }

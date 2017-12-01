@@ -2,15 +2,19 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="500px"
     android:layout_height="wrap_content"
+
+    android:layout_margin="10dp"
+    android:layout_marginBottom="20dp"
     tools:context="com.krparajuli.collegethrift.Activity.CreateListingsActivity">
+    <!--android:background="@color/listing_background"-->
 
 
     <ImageView
         android:id="@+id/vlw_image"
-        android:layout_width="100px"
-        android:layout_height="200px"
+        android:layout_width="300px"
+        android:layout_height="300px"
 
         android:src="@drawable/ic_image"
 
@@ -19,13 +23,70 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <TextView
         android:id="@+id/vlw_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="DUMMY TEXT"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:text="Microsoft Surface"
+        android:textAlignment="center"
+        android:textSize="15dp"
+
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vlw_image" />
+
+    <LinearLayout
+        android:id="@+id/vlw_stglayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vlw_title"
+
+        tools:layout_editor_absoluteX="109dp"
+        tools:layout_editor_absoluteY="134dp">
+
+        <TextView
+            android:id="@+id/vlw_sale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+
+            android:text="Sale" />
+
+
+        <TextView
+            android:id="@+id/vlw_trade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+
+            android:text="Trade" />
+
+        <TextView
+            android:id="@+id/vlw_giveaway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+
+            android:text="Giveaway" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/vlw_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Price: N/A"
+        android:textAlignment="center"
+
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vlw_stglayout" />
+
 </android.support.constraint.ConstraintLayout>

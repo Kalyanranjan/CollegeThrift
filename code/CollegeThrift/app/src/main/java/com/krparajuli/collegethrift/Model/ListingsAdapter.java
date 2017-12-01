@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.krparajuli.collegethrift.Model.Listing;
 import com.krparajuli.collegethrift.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -30,6 +32,10 @@ public class ListingsAdapter extends ArrayAdapter<Listing> implements View.OnCli
     private static class ViewHolder {
         ImageView listingThumbnail;
         TextView listingTitle;
+        TextView listingSale;
+        TextView listingTrade;
+        TextView listingGiveaway;
+        TextView listingPrice;
     }
 
     public ListingsAdapter(ArrayList<Listing> data, Context context) {
@@ -62,6 +68,10 @@ public class ListingsAdapter extends ArrayAdapter<Listing> implements View.OnCli
             convertView = inflater.inflate(R.layout.listing_item, parent, false);
 
             viewHolder.listingTitle = (TextView) convertView.findViewById(R.id.vlw_title);
+            viewHolder.listingSale = (TextView) convertView.findViewById(R.id.vlw_sale);
+            viewHolder.listingTrade = (TextView) convertView.findViewById(R.id.vlw_trade);
+            viewHolder.listingGiveaway = (TextView) convertView.findViewById(R.id.vlw_giveaway);
+            viewHolder.listingPrice = (TextView) convertView.findViewById(R.id.vlw_price);
 
             result = convertView;
             convertView.setTag(viewHolder);
@@ -75,6 +85,10 @@ public class ListingsAdapter extends ArrayAdapter<Listing> implements View.OnCli
         lastPosition = position;
 
         viewHolder.listingTitle.setText(listing.getTitle());
+//        viewHolder.listingSale.setText(listing.isSale() ? "Sale" :"");
+        viewHolder.listingTrade.setText(listing.isTrade() ? "Trade" : "");
+        viewHolder.listingGiveaway.setText(listing.isGiveaway() ? "Giveaway" : "");
+        viewHolder.listingPrice.setText("Price: $" + listing.getPrice());
         return convertView;
     }
 }

@@ -124,9 +124,18 @@ public class ViewListingsActivityFragment extends Fragment {
                 "0",
                 "asdasdasd");
         dataSet.add(tm);
+
+
+        Listing sm = new Listing(
+                "Monitor",
+                "Third Listing",
+                true,
+                false,
+                false,
+                "40",
+                "ME2"
+        );
+        dataSet.add(sm);
     }
 
-    public void getListings() {
-
-    }
 }

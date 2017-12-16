@@ -66,8 +66,8 @@ public class CreateListingsActivity extends Activity {
         clImageCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent cameraIntent = new Intent(CreateListingsActivity.this, CameraActivity.class);
-//                startActivity(cameraIntent);
+                Intent cameraIntent = new Intent(CreateListingsActivity.this, CameraActivity.class);
+                startActivity(cameraIntent);
             }
         });
     }

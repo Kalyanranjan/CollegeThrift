@@ -1,0 +1,18 @@
+﻿Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Week 10
+Advisor: Prof. Ewa Syta
+
+
+Completed Tasks:
+1. Made a Camera Activity which is able to take pictures
+
+Outstanding Task
+1. Get the pictures from the camera and store it in the app
+2. Add Camera/picture functionality to users
+3. Search Functionality for Listings
+
+Upcoming Tasks:
+1. Implement Camera and Images completely
+2. Create User Dashboard and Profiles
+3. Create Listings Edit pages

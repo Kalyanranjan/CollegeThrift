@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.FBDatabase;
+import com.krparajuli.collegethrift.Model.ItemCategory;
 import com.krparajuli.collegethrift.Model.Listing;
 import com.krparajuli.collegethrift.Model.ListingsAdapter;
 import com.krparajuli.collegethrift.R;
@@ -110,7 +111,8 @@ public class ViewListingsActivityFragment extends Fragment {
                 true,
                 false,
                 "120",
-                "Asdasdasdasd"
+                "Asdasdasdasd",
+                ItemCategory.GADGET
         );
         dataSet.add(lm);
 
@@ -122,7 +124,8 @@ public class ViewListingsActivityFragment extends Fragment {
                 false,
                 true,
                 "0",
-                "asdasdasd");
+                "asdasdasd",
+                ItemCategory.OTHER);
         dataSet.add(tm);
 
 
@@ -133,7 +136,8 @@ public class ViewListingsActivityFragment extends Fragment {
                 false,
                 false,
                 "40",
-                "ME2"
+                "ME2",
+                ItemCategory.APPLIANCE
         );
         dataSet.add(sm);
     }

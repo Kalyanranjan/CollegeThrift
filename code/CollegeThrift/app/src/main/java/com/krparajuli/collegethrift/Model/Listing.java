@@ -20,12 +20,13 @@ public class Listing {
     private boolean giveaway;
     private String price;
     private String lister;
+    private ItemCategory category;
 
     public Listing() {}
 
     public Listing(String title, String desc,
                    boolean sale, boolean trade, boolean giveaway, String price,
-                   String lister) {
+                   String lister, ItemCategory category) {
         this.title = title;
         this.desc = desc;
         this.sale = sale;
@@ -33,6 +34,7 @@ public class Listing {
         this.giveaway = giveaway;
         this.price = price;
         this.lister = lister;
+        this.category = category;
     }
 
     @Exclude
@@ -45,6 +47,7 @@ public class Listing {
         listing.put("giveaway", giveaway);
         listing.put("price", price);
         listing.put("lister", lister);
+        listing.put("category", category.OTHER);
 
         return listing;
     }

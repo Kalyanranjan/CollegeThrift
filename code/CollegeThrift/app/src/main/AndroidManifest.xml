@@ -46,6 +46,8 @@
         <activity android:name=".Activity.ResetPasswordActivity"
             android:label="@string/app_name" />
 
+        <activity android:name=".EasyImage.MainActivity" />
+
     </application>
 
 </manifest>

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.krparajuli.collegethrift.R;
+
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

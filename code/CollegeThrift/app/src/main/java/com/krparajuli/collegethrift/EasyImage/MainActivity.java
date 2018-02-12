@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.krparajuli.collegethrift.R;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

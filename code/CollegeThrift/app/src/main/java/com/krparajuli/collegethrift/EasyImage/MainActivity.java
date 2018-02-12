@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         EasyImage.configuration(this)
-                .setImagesFolderName("EasyImage sample")
+                .setImagesFolderName("CollegeThrift Images")
                 .setCopyTakenPhotosToPublicGalleryAppFolder(true)
                 .setCopyPickedImagesToPublicGalleryAppFolder(true)
                 .setAllowMultiplePickInGallery(true);

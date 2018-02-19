@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        EasyImage.configuration(this)
+        EasyImage.configuration(MainActivity.this)
                 .setImagesFolderName("CollegeThrift Images")
                 .setCopyTakenPhotosToPublicGalleryAppFolder(true)
                 .setCopyPickedImagesToPublicGalleryAppFolder(true)

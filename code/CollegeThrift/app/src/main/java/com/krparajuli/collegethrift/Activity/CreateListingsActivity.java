@@ -17,7 +17,10 @@ import com.krparajuli.collegethrift.FBDatabase;
 import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
 
+import java.io.File;
 import java.util.HashMap;
+
+import pl.tajchert.nammu.Nammu;
 
 public class CreateListingsActivity extends Activity {
 
@@ -28,6 +31,10 @@ public class CreateListingsActivity extends Activity {
     private String TAG = "---------LOG:";
 
     private ImageButton clImageCapture;
+
+    // All EasyImage Configuration
+    private File photo;
+
     private CameraManager camManager;
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -37,6 +44,7 @@ public class CreateListingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_listings);
+        Nammu.init(this);
 
         clTitle = (EditText) findViewById(R.id.cl_edit_listing_title);
         clDesc = (EditText) findViewById(R.id.cl_edit_listing_desc);

@@ -3,6 +3,7 @@ package com.krparajuli.collegethrift.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,8 +14,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.krparajuli.collegethrift.FBDatabase;
+import com.krparajuli.collegethrift.Firebase.FBStorage;
 import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
 import com.squareup.picasso.Picasso;
@@ -40,7 +46,7 @@ public class CreateListingActivity extends AppCompatActivity {
 
     private static final String PHOTO_KEY = "listing_image_photo";
     private String IMAGES_FOLDER_NAME = "CollegeThriftImages";
-    private File returnedPhoto;
+    private File returnedPhoto = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +172,34 @@ public class CreateListingActivity extends AppCompatActivity {
 //                .into(CreateListingActivity.clListingImage);
 
         clListingImage.setImageURI(Uri.fromFile(returnedPhoto));
+    }
+
+    private Uri uploadListingThumbnailImageAndGetUrl() {
+        if (returnedPhoto == null)
+            return null;
+
+        Uri file = Uri.fromFile(returnedPhoto);
+        StorageReference thumbnailsRef = FBStorage.getListingThumbnailReference();
+        StorageReference imageRef = thumbnailsRef.child("ti1");
+
+        imageRef.putFile(file)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        FBStorage.setmLastTaskSnapshotUrl(downloadUrl);
+                    }
+                })
+
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                    }
+                });
+        return FBStorage.readOncemLastSnapshotUrl();
     }
 
     @Override

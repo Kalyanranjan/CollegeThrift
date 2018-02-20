@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cl_edit_listing_title" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/cl_category_label"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -74,11 +74,11 @@
         android:prompt="@string/cl_listing_categories_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/cl_category_label"
         app:layout_constraintTop_toBottomOf="@+id/cl_edit_listing_desc"></Spinner>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/cl_type_label"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -99,7 +99,7 @@
         android:prompt="@string/cl_listing_types_label"
         app:layout_constraintBottom_toTopOf="@+id/cl_listing_thumb_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/cl_type_label"
         app:layout_constraintTop_toBottomOf="@+id/cl_spinner_category"></Spinner>
 
     <ImageView
@@ -109,8 +109,26 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/cl_type_label"
         app:srcCompat="@drawable/ic_image" />
+
+    <EditText
+        android:id="@+id/cl_edit_price"
+        android:layout_width="153dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        android:ems="10"
+        android:hint="Price (In USD)"
+        android:inputType="number"
+
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintStart_toEndOf="@+id/cl_listing_thumb_image"
+        app:layout_constraintTop_toBottomOf="@+id/cl_spinner_type" />
 
     <Button
         android:id="@+id/cl_button_add_image"
@@ -118,15 +136,15 @@
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="Add Main Image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toEndOf="@+id/cl_listing_thumb_image"
-        app:layout_constraintTop_toBottomOf="@+id/cl_spinner_type" />
+        app:layout_constraintTop_toBottomOf="@+id/cl_edit_price" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/cl_button_remove_image"
         android:layout_width="158dp"
         android:layout_height="47dp"
         android:layout_marginEnd="8dp"
@@ -134,12 +152,25 @@
         android:layout_marginTop="8dp"
         android:text="Remove Current"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toEndOf="@+id/cl_listing_thumb_image"
         app:layout_constraintTop_toBottomOf="@+id/cl_button_add_image" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/cl_button_cancel"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Cancel and return"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_listing_thumb_image"
+        app:layout_constraintVertical_bias="0.206" />
+
+    <Button
+        android:id="@+id/cl_button_create"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="76dp"
@@ -149,21 +180,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toEndOf="@+id/button6"
+        app:layout_constraintStart_toEndOf="@+id/cl_button_cancel"
         tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Cancel and return"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.206" />
 
 
 </android.support.constraint.ConstraintLayout>

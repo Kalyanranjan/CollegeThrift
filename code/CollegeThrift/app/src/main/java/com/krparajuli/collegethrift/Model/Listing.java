@@ -6,6 +6,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.HashMap;
 import java.util.Map;
 
+/*NTS = probably this is not required */
+
 /**
  * Created by kal on 11/16/17.
  */

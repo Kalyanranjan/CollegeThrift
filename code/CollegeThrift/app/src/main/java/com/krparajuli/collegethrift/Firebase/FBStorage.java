@@ -1,5 +1,6 @@
 package com.krparajuli.collegethrift.Firebase;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.firebase.storage.FirebaseStorage;
@@ -22,6 +23,8 @@ public class FBStorage {
     private static String mStorageError = "Storage Error";
     private static String mStorageSuccess = "Storage Success";
 
+    private static Uri mLastTaskSnapshotUrl = null;
+
     private static StorageReference instantiateStorage() {
         if (mStorageRef == null)
             mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -31,7 +34,7 @@ public class FBStorage {
         return mStorageRef;
     }
 
-    private static StorageReference getListingThumbnailReference() {
+    public static StorageReference getListingThumbnailReference() {
         instantiateStorage();
         if (mStorageRef == null)
                 return null;
@@ -43,7 +46,7 @@ public class FBStorage {
         return mListingThumbnailRef;
     }
 
-    private static StorageReference getListingImagesReference() {
+    public static StorageReference getListingImagesReference() {
         instantiateStorage();
         if (mStorageRef == null)
             return null;
@@ -55,7 +58,7 @@ public class FBStorage {
         return mListingImagesRef;
     }
 
-    private static StorageReference getUserProfileReference() {
+    public static StorageReference getUserProfileReference() {
         instantiateStorage();
         if (mStorageRef == null)
             return null;
@@ -67,6 +70,13 @@ public class FBStorage {
         return mUserProfileRef;
     }
 
+    public static void setmLastTaskSnapshotUrl(Uri uri) {mLastTaskSnapshotUrl = uri; }
+
+    public static Uri readOncemLastSnapshotUrl() {
+        Uri temp = mLastTaskSnapshotUrl;
+        mLastTaskSnapshotUrl = null;
+        return temp;
+    }
 
     private static void storageErrorDisplay() {
         Log.v("FBStorage", "Storage Connection Error");

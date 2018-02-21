@@ -41,10 +41,9 @@ public class FBDatabase {
     }
 
     private static DatabaseReference getReference(String ref, boolean dbPersistence) {
-        instantiateDb();
+        instantiateDbPersistently();
         if (mDbInstance == null)
             return null;
-        mDbInstance.setPersistenceEnabled(dbPersistence);
         if (mListingsDbRef == null) {
             mListingsDbRef = mDbInstance.getReference().child(ref);
         }

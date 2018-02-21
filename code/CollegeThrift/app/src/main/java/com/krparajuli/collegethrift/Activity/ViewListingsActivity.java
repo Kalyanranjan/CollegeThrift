@@ -39,9 +39,6 @@ public class ViewListingsActivity extends AppCompatActivity {
         createListingsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
                 Intent createListingsIntent = new Intent(ViewListingsActivity.this, CreateListingsActivity.class);
                 startActivity(createListingsIntent);
             }
@@ -70,7 +67,6 @@ public class ViewListingsActivity extends AppCompatActivity {
                 FBUserAuthentication.signOut(this);
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     .setAction("Action", null).show();
             Intent viewListingsIntent = new Intent(LoginActivity.this, ViewListingsActivity.class);
             startActivity(viewListingsIntent);
+            finish();
         } else {
             Snackbar.make(this.findViewById(R.id.li_login_form), "Login Unsuccessful", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -84,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
     public void hasCorrectEmailFormat() {}
 
     public void unregisteredUserWarningAndMessage() {
-
     }
 }
 

@@ -67,6 +67,7 @@ public class ViewListingsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_logout:
                 FBUserAuthentication.signOut(this);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

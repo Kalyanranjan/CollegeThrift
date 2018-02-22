@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.Firebase.FBDatabase;
 import com.krparajuli.collegethrift.Model.ItemCategory;
 import com.krparajuli.collegethrift.Model.Listing;
-import com.krparajuli.collegethrift.Model.ListingsAdapter;
+import com.krparajuli.collegethrift.Adapter.ListingsAdapter;
 import com.krparajuli.collegethrift.R;
 
 import java.util.ArrayList;
@@ -34,6 +34,8 @@ public class ViewListingsActivityFragment extends Fragment {
 
     AtomicInteger listingsCount = new AtomicInteger();
 
+    private int singleFetchListingLimit = 3;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +44,9 @@ public class ViewListingsActivityFragment extends Fragment {
         listingsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Log.v("-----------", " "+prevChildKey);
-                int newCount = listingsCount.incrementAndGet();
-                dataSet.add(dataSnapshot.getValue(Listing.class));
+//                Log.v("-----------", " "+prevChildKey);
+                //int newCount = listingsCount.incrementAndGet();
+                //dataSet.add(dataSnapshot.getValue(Listing.class));
             }
 
             @Override
@@ -64,17 +66,18 @@ public class ViewListingsActivityFragment extends Fragment {
             }
         });
 
-        listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        listingsRef.limitToLast(singleFetchListingLimit).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long numChildren = dataSnapshot.getChildrenCount();
-                //System.out.println(listingsCount.get() + " == " + numChildren);
+                System.out.println(listingsCount.get() + " == " + numChildren);
 
                 Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
                 while (iterator.hasNext()) {
-                   // Log.v("********************", iterator.next().toString());
+                    DataSnapshot ds = iterator.next();
+                    Log.v("********************", ds.toString());
 
-                    Listing listing = iterator.next().getValue(Listing.class);
+                    Listing listing = ds.getValue(Listing.class);
                     dataSet.add(listing);
                 }
             }

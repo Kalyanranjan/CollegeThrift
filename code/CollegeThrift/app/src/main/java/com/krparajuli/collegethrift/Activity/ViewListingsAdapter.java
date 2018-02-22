@@ -10,7 +10,7 @@ import android.widget.TextView;
  * Created by kal on 11/3/17.
  */
 
-public class ViewListingsAdapter extends BaseAdapter {
+public class    ViewListingsAdapter extends BaseAdapter {
 
     private Context mContext;
 

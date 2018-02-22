@@ -12,11 +12,15 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 
 import com.google.firebase.database.DatabaseReference;
+import com.krparajuli.collegethrift.EasyImage.MainActivity;
 import com.krparajuli.collegethrift.FBDatabase;
 import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
 
+import java.io.File;
 import java.util.HashMap;
+
+import pl.tajchert.nammu.Nammu;
 
 public class CreateListingsActivity extends Activity {
 
@@ -27,6 +31,10 @@ public class CreateListingsActivity extends Activity {
     private String TAG = "---------LOG:";
 
     private ImageButton clImageCapture;
+
+    // All EasyImage Configuration
+    private File photo;
+
     private CameraManager camManager;
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -36,6 +44,7 @@ public class CreateListingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_listings);
+        Nammu.init(this);
 
         clTitle = (EditText) findViewById(R.id.cl_edit_listing_title);
         clDesc = (EditText) findViewById(R.id.cl_edit_listing_desc);
@@ -66,7 +75,7 @@ public class CreateListingsActivity extends Activity {
         clImageCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cameraIntent = new Intent(CreateListingsActivity.this, CameraActivity.class);
+                Intent cameraIntent = new Intent(CreateListingsActivity.this, MainActivity.class);
                 startActivity(cameraIntent);
             }
         });

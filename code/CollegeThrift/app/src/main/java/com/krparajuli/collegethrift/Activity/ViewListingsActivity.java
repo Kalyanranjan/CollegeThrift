@@ -42,7 +42,7 @@ public class ViewListingsActivity extends AppCompatActivity {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
 
-                Intent createListingsIntent = new Intent(ViewListingsActivity.this, CreateListingsActivity.class);
+                Intent createListingsIntent = new Intent(ViewListingsActivity.this, CreateListingActivity.class);
                 startActivity(createListingsIntent);
             }
         });

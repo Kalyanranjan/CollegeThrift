@@ -69,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean signedIn = FBUserAuthentication.signIn(userEmail, userPass, this);
         if (signedIn) {
-            Snackbar.make(this.findViewById(R.id.li_login_form), "Login Successful", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+//            Snackbar.make(this.findViewById(R.id.li_login_form), "Login Successful", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
             Intent viewListingsIntent = new Intent(LoginActivity.this, ViewListingsActivity.class);
             startActivity(viewListingsIntent);
             finish();

@@ -6,6 +6,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+
+/**
+ * NTS - Probably not required
+ */
+
 /**
  * Created by kal on 11/3/17.
  */

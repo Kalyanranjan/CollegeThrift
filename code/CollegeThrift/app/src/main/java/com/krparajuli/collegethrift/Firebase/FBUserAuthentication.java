@@ -25,12 +25,13 @@ import static android.content.ContentValues.TAG;
 
 public class FBUserAuthentication {
 
+    //Maybe you cannot start with null on this. See SplashScreen bug on UseSignedIn
     private static FirebaseAuth mAuth = null;
     private static FirebaseUser mUser = null;
 
     public static void instantiate() {
         if (mAuth == null)
-        mAuth = FirebaseAuth.getInstance();
+            mAuth = FirebaseAuth.getInstance();
         if (mAuth == null) {
             //Display error message
         }
@@ -59,6 +60,15 @@ public class FBUserAuthentication {
     public static boolean canGiveUserAccess() {
         return userSignedIn() && userVerified();
     }
+
+//    public static boolean createAndSaveAuthToken() {
+//        if (mAuth == null)
+//            return false;
+//        String uid = mAuth.getCurrentUser().toString();
+//        String authToken = FirebaseAuth.getInstance().createCustomTokenAsync(uid).get();
+//    }
+
+//    public static boolean signInUsingToken()
 
     public static boolean signIn(String email, String password, Activity activity) {
         instantiate();

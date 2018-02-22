@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.krparajuli.collegethrift.Firebase.FBDatabase;
 import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
 

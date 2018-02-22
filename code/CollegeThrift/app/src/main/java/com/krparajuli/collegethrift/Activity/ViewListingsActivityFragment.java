@@ -13,7 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.krparajuli.collegethrift.FBDatabase;
+import com.krparajuli.collegethrift.Firebase.FBDatabase;
 import com.krparajuli.collegethrift.Model.ItemCategory;
 import com.krparajuli.collegethrift.Model.Listing;
 import com.krparajuli.collegethrift.Model.ListingsAdapter;

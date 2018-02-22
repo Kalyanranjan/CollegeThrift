@@ -12,8 +12,7 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 
 import com.google.firebase.database.DatabaseReference;
-import com.krparajuli.collegethrift.EasyImage.MainActivity;
-import com.krparajuli.collegethrift.FBDatabase;
+import com.krparajuli.collegethrift.Firebase.FBDatabase;
 import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
 

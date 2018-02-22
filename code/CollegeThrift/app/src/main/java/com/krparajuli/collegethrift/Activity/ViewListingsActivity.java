@@ -15,14 +15,13 @@ import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
 
 public class ViewListingsActivity extends AppCompatActivity {
-
-
     @Override
     protected  void onStart() {
         super.onStart();
         if (!FBUserAuthentication.userSignedIn()) {
             Intent loginActivity = new Intent(ViewListingsActivity.this, LoginActivity.class);
             startActivity(loginActivity);
+            finish();
         }
     }
 
@@ -70,7 +69,6 @@ public class ViewListingsActivity extends AppCompatActivity {
                 FBUserAuthentication.signOut(this);
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

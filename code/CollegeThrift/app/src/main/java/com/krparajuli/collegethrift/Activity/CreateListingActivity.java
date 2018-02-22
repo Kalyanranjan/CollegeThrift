@@ -22,7 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 //import com.google.firebase.storage.StorageReference;
 //import com.google.firebase.storage.UploadTask;
-import com.krparajuli.collegethrift.FBDatabase;
+import com.krparajuli.collegethrift.Firebase.FBDatabase;
 import com.krparajuli.collegethrift.Firebase.FBStorage;
 import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;

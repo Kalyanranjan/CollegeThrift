@@ -1,10 +1,13 @@
 package com.krparajuli.collegethrift.Activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +20,8 @@ import android.widget.Spinner;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+//import com.google.firebase.storage.StorageReference;
+//import com.google.firebase.storage.UploadTask;
 import com.krparajuli.collegethrift.FBDatabase;
 import com.krparajuli.collegethrift.Firebase.FBStorage;
 import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
@@ -75,7 +78,22 @@ public class CreateListingActivity extends AppCompatActivity {
         clAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EasyImage.openCamera(CreateListingActivity.this, 0);
+                int permissionCheck = ContextCompat.checkSelfPermission(CreateListingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                    EasyImage.openCamera(CreateListingActivity.this, 0);
+                } else {
+                    Nammu.askForPermission(CreateListingActivity.this, Manifest.permission.CAMERA, new PermissionCallback() {
+                        @Override
+                        public void permissionGranted() {
+                            EasyImage.openCamera(CreateListingActivity.this, 0);
+                        }
+
+                        @Override
+                        public void permissionRefused() {
+                            // Send Snackbar regarding refused permission
+                        }
+                    });
+                }
             }
         });
 
@@ -174,33 +192,33 @@ public class CreateListingActivity extends AppCompatActivity {
         clListingImage.setImageURI(Uri.fromFile(returnedPhoto));
     }
 
-    private Uri uploadListingThumbnailImageAndGetUrl() {
-        if (returnedPhoto == null)
-            return null;
-
-        Uri file = Uri.fromFile(returnedPhoto);
-        StorageReference thumbnailsRef = FBStorage.getListingThumbnailReference();
-        StorageReference imageRef = thumbnailsRef.child("ti1");
-
-        imageRef.putFile(file)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        FBStorage.setmLastTaskSnapshotUrl(downloadUrl);
-                    }
-                })
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
-                    }
-                });
-        return FBStorage.readOncemLastSnapshotUrl();
-    }
+//    private Uri uploadListingThumbnailImageAndGetUrl() {
+//        if (returnedPhoto == null)
+//            return null;
+//
+//        Uri file = Uri.fromFile(returnedPhoto);
+//        StorageReference thumbnailsRef = FBStorage.getListingThumbnailReference();
+//        StorageReference imageRef = thumbnailsRef.child("ti1");
+//
+//        imageRef.putFile(file)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        // Get a URL to the uploaded content
+//                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//                        FBStorage.setmLastTaskSnapshotUrl(downloadUrl);
+//                    }
+//                })
+//
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        // Handle unsuccessful uploads
+//                        // ...
+//                    }
+//                });
+//        return FBStorage.readOncemLastSnapshotUrl();
+//    }
 
     @Override
     protected void onDestroy() {

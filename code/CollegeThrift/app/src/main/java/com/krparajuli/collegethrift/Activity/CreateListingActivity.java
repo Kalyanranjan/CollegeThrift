@@ -20,8 +20,8 @@ import android.widget.Spinner;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+//import com.google.firebase.storage.StorageReference;
+//import com.google.firebase.storage.UploadTask;
 import com.krparajuli.collegethrift.FBDatabase;
 import com.krparajuli.collegethrift.Firebase.FBStorage;
 import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
@@ -192,33 +192,33 @@ public class CreateListingActivity extends AppCompatActivity {
         clListingImage.setImageURI(Uri.fromFile(returnedPhoto));
     }
 
-    private Uri uploadListingThumbnailImageAndGetUrl() {
-        if (returnedPhoto == null)
-            return null;
-
-        Uri file = Uri.fromFile(returnedPhoto);
-        StorageReference thumbnailsRef = FBStorage.getListingThumbnailReference();
-        StorageReference imageRef = thumbnailsRef.child("ti1");
-
-        imageRef.putFile(file)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        FBStorage.setmLastTaskSnapshotUrl(downloadUrl);
-                    }
-                })
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
-                    }
-                });
-        return FBStorage.readOncemLastSnapshotUrl();
-    }
+//    private Uri uploadListingThumbnailImageAndGetUrl() {
+//        if (returnedPhoto == null)
+//            return null;
+//
+//        Uri file = Uri.fromFile(returnedPhoto);
+//        StorageReference thumbnailsRef = FBStorage.getListingThumbnailReference();
+//        StorageReference imageRef = thumbnailsRef.child("ti1");
+//
+//        imageRef.putFile(file)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        // Get a URL to the uploaded content
+//                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//                        FBStorage.setmLastTaskSnapshotUrl(downloadUrl);
+//                    }
+//                })
+//
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        // Handle unsuccessful uploads
+//                        // ...
+//                    }
+//                });
+//        return FBStorage.readOncemLastSnapshotUrl();
+//    }
 
     @Override
     protected void onDestroy() {

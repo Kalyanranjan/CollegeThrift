@@ -130,7 +130,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 //      REPLACE THE CODE ABOVE
         Intent nextIntent;
-        if (FBUserAuthentication.userSignedIn()) {
+        if (FBUserAuthentication.getUser() != null) {
             // View if you can get DB Instance
             nextIntent = new Intent(SplashScreenActivity.this, ViewListingsActivity.class);
         } else {

@@ -27,6 +27,9 @@ public class FBDatabase {
             dbConnErrorDisplay();
         if (persistence)
             mDbInstance.setPersistenceEnabled(true);
+        // This ^^^ needs to be handled in a better way; can't set persistence enabled
+        // later after the query is made
+        // This is a bug
         return mDbInstance;
     }
 

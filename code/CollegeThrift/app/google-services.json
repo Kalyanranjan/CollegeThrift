@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "387920367547-0ohea8l2hans4f4hcli5ucdaa9gtc5qk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.krparajuli.collegethrift",
+            "certificate_hash": "1cc8e08df055ba2d7056f379e4b220cf673afb31"
+          }
+        },
+        {
           "client_id": "387920367547-tdi7c65nf59svam6lbiekqii3a550j1v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

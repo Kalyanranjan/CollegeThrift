@@ -7,7 +7,7 @@
 
     android:layout_margin="10dp"
     android:layout_marginBottom="20dp"
-    tools:context="com.krparajuli.collegethrift.Activity.CreateListingsActivity">
+    tools:context="com.krparajuli.collegethrift.Activity.CreateListingActivity">
     <!--android:background="@color/listing_background"-->
 
 

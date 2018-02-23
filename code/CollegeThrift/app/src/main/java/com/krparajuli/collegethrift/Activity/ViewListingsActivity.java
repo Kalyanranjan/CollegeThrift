@@ -15,14 +15,13 @@ import com.krparajuli.collegethrift.Firebase.FBUserAuthentication;
 import com.krparajuli.collegethrift.R;
 
 public class ViewListingsActivity extends AppCompatActivity {
-
-
     @Override
     protected  void onStart() {
         super.onStart();
         if (!FBUserAuthentication.userSignedIn()) {
             Intent loginActivity = new Intent(ViewListingsActivity.this, LoginActivity.class);
             startActivity(loginActivity);
+            finish();
         }
     }
 
@@ -42,7 +41,7 @@ public class ViewListingsActivity extends AppCompatActivity {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
 
-                Intent createListingsIntent = new Intent(ViewListingsActivity.this, CreateListingsActivity.class);
+                Intent createListingsIntent = new Intent(ViewListingsActivity.this, CreateListingActivity.class);
                 startActivity(createListingsIntent);
             }
         });
@@ -68,9 +67,9 @@ public class ViewListingsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_logout:
                 FBUserAuthentication.signOut(this);
+                finish();
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

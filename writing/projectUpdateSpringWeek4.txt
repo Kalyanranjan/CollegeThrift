@@ -1,0 +1,23 @@
+Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Spring Semester Week 4
+Advisor: Prof. Ewa Syta
+
+Completed Tasks:
+1. Did research into using Camera API in Android Api
+2. Looked for Libraries and learnt to integrate libraries into Android Studio
+3. Added Camera Library to the application and working to use in it desired way
+
+Outstanding Tasks:
+1. Make the Camera functionality fully functional
+
+Challenges
+1. Get things done fast
+
+Upcoming Tasks:
+I will try to finish all these tasks during Trin Days.
+1. Create a View and functionality to see and interact with each listings individually
+2. Edit Listing Page and functiinality
+3. User Dashboard and Information Editing
+
+

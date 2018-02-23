@@ -15,6 +15,25 @@
 
     <string name="title_activity_camera">CameraActivity</string>
 
+    <string name="cl_listing_types_label">Choose Listing Type</string>
+    <string-array name="cl_listing_types">
+        <item>Sale only</item>
+        <item>Sale or Trade</item>
+        <item>Trade Only</item>
+        <item>Giveaway</item>
+    </string-array>
+
+    <string name="cl_listing_categories_label">Choose Listing Category</string>
+    <string-array name="cl_listing_categories">
+        <item>BOOKS</item>
+        <item>STATIONERY</item>
+        <item>GADGET</item>
+        <item>APPLIANCE</item>
+        <item>CLOTHING</item>
+        <item>KITCHEN</item>
+        <item>OTHER</item>
+    </string-array>
+
 
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>

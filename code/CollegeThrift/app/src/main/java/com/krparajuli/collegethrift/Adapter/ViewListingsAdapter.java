@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.Activity;
+package com.krparajuli.collegethrift.Adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,11 +6,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+
+/**
+ * NTS - Probably not required
+ */
+
 /**
  * Created by kal on 11/3/17.
  */
 
-public class ViewListingsAdapter extends BaseAdapter {
+public class    ViewListingsAdapter extends BaseAdapter {
 
     private Context mContext;
 

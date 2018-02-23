@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.Activity;
+package com.krparajuli.collegethrift.Fragment;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -39,6 +39,7 @@ public class ViewListingsActivityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         DatabaseReference listingsRef = FBDatabase.getListingsDbRef();
         listingsRef.addChildEventListener(new ChildEventListener() {

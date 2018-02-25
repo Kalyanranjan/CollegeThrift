@@ -24,6 +24,8 @@ import java.util.List;
 
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.tajchert.nammu.Nammu;
+import pl.tajchert.nammu.PermissionCallback;
 
 public class CreateListingActivity extends AppCompatActivity {
 
@@ -105,11 +107,11 @@ public class CreateListingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    DatabaseReference listingsRef = FBDatabase.getListingsDbRef();
-
-                    HashMap<String, Object> inputObject = getCreateListingObject();
-//                    Log.v(TAG, inputObject.toString());
-                    listingsRef.push().setValue(inputObject);
+//                    DatabaseReference listingsRef = FBDatabase.getListingsDbRef();
+//
+//                    HashMap<String, Object> inputObject = getCreateListingObject();
+////                    Log.v(TAG, inputObject.toString());
+//                    listingsRef.push().setValue(inputObject);
                 } catch (Exception e) {
                     Log.v("Error: ", "Database Connection");
                 }

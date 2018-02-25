@@ -4,7 +4,6 @@
 
     <string name="heading_recent">Recent</string>
 
-    
 
     <!-- Create Listings Page Texts -->
     <string name="cl_page_header">Create Listings</string>
@@ -43,8 +42,6 @@
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
-
-
 
 
     <string name="label_google_sign_in">Firebase + Google Sign In</string>

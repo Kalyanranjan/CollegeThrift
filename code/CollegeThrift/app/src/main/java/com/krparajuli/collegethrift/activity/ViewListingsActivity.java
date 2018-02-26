@@ -82,6 +82,8 @@ public class ViewListingsActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch(id) {
             case R.id.action_search:
+                Intent searchIntent = new Intent(ViewListingsActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
                 break;
             case R.id.action_settings:
                 return true;

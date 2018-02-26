@@ -18,6 +18,7 @@ public class ViewListingsRecentFragment extends ViewListingsFragment{
         // due to sorting by push() keys
         Query recentListingsQuery = databaseReference.child("listings")
                 .limitToFirst(100);
+
         // [END recent_listings_query]
 
         return recentListingsQuery;

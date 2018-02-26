@@ -35,7 +35,7 @@
         </activity>
         <activity android:name=".activity.ViewListingsActivity" />
         <activity android:name=".activity.CreateListingsActivity" />
-        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.SearchActivity"> </activity>
     </application>
 
 </manifest>

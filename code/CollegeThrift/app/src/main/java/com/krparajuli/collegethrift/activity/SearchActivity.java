@@ -131,18 +131,19 @@ public class SearchActivity extends AppCompatActivity {
 
     public void prepareQuery(DatabaseReference databaseReference) {
         Query prepQuery = databaseReference.child("listings");
-        if (mCategorySearch) {
-            prepQuery = prepQuery.orderByChild("category").equalTo(ListingCategory.values()[lsCategorySpinner.getSelectedItemPosition()].toString());
-        }
-        if (mTypeSearch) {
-            prepQuery = prepQuery.orderByChild("type").equalTo(ListingType.values()[lsTypeSpinner.getSelectedItemPosition()].toString());
-        }
+//        if (mCategorySearch) {
+//            prepQuery = prepQuery.orderByChild("category").equalTo(ListingCategory.values()[lsCategorySpinner.getSelectedItemPosition()].toString());
+//        }
+//        if (mTypeSearch) {
+//            prepQuery = prepQuery.orderByChild("type").equalTo(ListingType.values()[lsTypeSpinner.getSelectedItemPosition()].toString());
+//        }
         // The integer might not be able to parsed correctly here
         if (mPriceSearch) {
             if (!lsPriceFrom.getText().toString().equals(""))
                 prepQuery = prepQuery.orderByChild("price").startAt(lsPriceFrom.getText().toString());
+
             //if (!lsPriceTo.getText().toString().equals(""))
-//                prepQuery = prepQuery.orderByChild("price").endAt(lsPriceTo.getText().toString());
+            //    prepQuery = prepQuery.orderByChild("price").endAt(lsPriceTo.getText().toString());
         }
         mQuery = prepQuery;
     }

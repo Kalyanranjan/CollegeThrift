@@ -1,0 +1,24 @@
+Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Week 6
+Advisor: Prof. E. Syta
+
+Completed Tasks:
+1. Camera Functionality Added with Image Storage Completed
+- I completed getting the app to take the photo, get it in the app and store it in the Firebase storage cloud. Similar Functionality for users might be needed in the future, but I did not put it as a priority. Will focus on it in the future.
+2. Search Functionality Completed
+- I successfully created a search Page and the search functionality for the users, which is able to search through the listings using the title, Category(Books, Gadgets, Appliances, etc.), Types (Sale Only, Sale or Trade, Trade Only, Giveaway) or the Price Range of the Listings. However, the seach can only filter using one of the above criteria, because firebase database does not allow for multiple key search. To combat this problem and increase the flexibility of the search, I have deployed elastic search on my Firebase database. It will take some 2-5 more hours to make that happen.
+3. Complete Revamp of the App
+- I redid the important components of the app as it was very buggy and not with the best design.
+
+Outstanding Tasks:
+1. Create a page to Edit the Listings
+
+Challenges:
+1. Deployment of Elastic Search Server and Connecting it to Firebase Database
+- In order to make elastic search functional in the Firebase Server, I had to install nodejs, npm and firebase-tools. One of those components is not functioning correctly, giving an error. I will try again with another machine or another instance.
+
+
+Upcoming Tasks:
+1. User Dashboard and Information Editing
+2. Start on the messaging Infrastructure

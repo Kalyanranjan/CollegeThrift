@@ -3,6 +3,7 @@ package com.krparajuli.collegethrift.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -77,9 +78,9 @@ public class CreateListingsActivity extends AppCompatActivity {
         clCategory = (Spinner) findViewById(R.id.cl_spinner_category);
         clAddImage = (Button) findViewById(R.id.cl_button_add_image);
         clRemoveImage = (Button) findViewById(R.id.cl_button_remove_image);
+        clListingImage = (ImageView) findViewById(R.id.cl_listing_thumb_image);
 
-
-        clSubmitButton = (FloatingActionButton) findViewById(R.id.fab_submit_post);
+        clSubmitButton = (FloatingActionButton) findViewById(R.id.cl_fab_submit);
         clSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,14 +253,21 @@ public class CreateListingsActivity extends AppCompatActivity {
             photoRetrieveError.setAction("Action", null).show();
             return;
         }
-        returnedPhoto = returnedPhotosList.get(0);
-        clListingImage.setImageURI(Uri.fromFile(returnedPhoto));
+//        returnedPhoto = returnedPhotosList.get(0);
+        clListingImage.setImageURI(Uri.fromFile(returnedPhotosList.get(0)));
+        EasyImage.clearConfiguration(CreateListingsActivity.this);
+
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        EasyImage.clearConfiguration(CreateListingsActivity.this);
+    protected void onDestroy() {
+        // Clear any configuration that was done!
+        EasyImage.clearConfiguration(this);
+        super.onDestroy();
     }
+
+
+
+    // Need to gather all entries (especially Spinner Enums) and username/id
 
 }

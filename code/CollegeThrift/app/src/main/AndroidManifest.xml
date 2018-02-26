@@ -34,7 +34,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ViewListingsActivity" />
-        <activity android:name=".activity.CreateListingActivity" />
         <activity android:name=".activity.CreateListingsActivity"></activity>
     </application>
 

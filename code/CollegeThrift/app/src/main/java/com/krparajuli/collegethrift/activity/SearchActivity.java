@@ -37,6 +37,8 @@ public class SearchActivity extends AppCompatActivity {
     private Spinner lsTypeSpinner, lsCategorySpinner;
     private Button lsSubmitButton;
 
+    private boolean mCategorySearch = false, mTypeSearch = false, mPriceSearch = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class SearchActivity extends AppCompatActivity {
         lsPriceTo = (EditText) findViewById(R.id.ls_price_to_edit);
         lsSubmitButton = (Button) findViewById(R.id.ls_search_button);
 
+        disableFilterOptions();
 
         lsSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +91,32 @@ public class SearchActivity extends AppCompatActivity {
                 mRecycler.setAdapter(mAdapter);
             }
         });
+
+        lsTypeCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTypeSearch = !mTypeSearch;
+                lsTypeSpinner.setEnabled(mTypeSearch);
+            }
+        });
+
+
+        lsCategoryCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCategorySearch = !mCategorySearch;
+                lsCategorySpinner.setEnabled(mCategorySearch);
+            }
+        });
+
+        lsPriceCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPriceSearch = !mPriceSearch;
+                lsPriceFrom.setEnabled(mPriceSearch);
+                lsPriceTo.setEnabled(mPriceSearch);
+            }
+        });
     }
 
     @Override
@@ -101,5 +130,17 @@ public class SearchActivity extends AppCompatActivity {
     public void prepareQuery(DatabaseReference databaseReference) {
         mQuery = databaseReference.child("listings")
                 .limitToFirst(100);
+    }
+
+    public void disableFilterOptions() {
+        lsCategorySpinner.setEnabled(false);
+        lsTypeSpinner.setEnabled(false);
+        lsPriceFrom.setEnabled(false);
+        lsPriceTo.setEnabled(false);
+        lsSubmitButton.setEnabled(false);
+    }
+
+    public void validateSubmitSearch() {
+
     }
 }

@@ -16,6 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.model.Listing;
+import com.krparajuli.collegethrift.model.ListingCategory;
+import com.krparajuli.collegethrift.model.ListingType;
 import com.krparajuli.collegethrift.viewholder.ListingViewHolder;
 
 public class SearchActivity extends AppCompatActivity {
@@ -128,8 +130,21 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void prepareQuery(DatabaseReference databaseReference) {
-        mQuery = databaseReference.child("listings")
-                .limitToFirst(100);
+        Query prepQuery = databaseReference.child("listings");
+        if (mCategorySearch) {
+            prepQuery = prepQuery.orderByChild("category").equalTo(ListingCategory.values()[lsCategorySpinner.getSelectedItemPosition()].toString());
+        }
+        if (mTypeSearch) {
+            prepQuery = prepQuery.orderByChild("type").equalTo(ListingType.values()[lsTypeSpinner.getSelectedItemPosition()].toString());
+        }
+        // The integer might not be able to parsed correctly here
+        if (mPriceSearch) {
+            if (!lsPriceFrom.getText().toString().equals(""))
+                prepQuery = prepQuery.orderByChild("price").startAt(lsPriceFrom.getText().toString());
+            //if (!lsPriceTo.getText().toString().equals(""))
+//                prepQuery = prepQuery.orderByChild("price").endAt(lsPriceTo.getText().toString());
+        }
+        mQuery = prepQuery;
     }
 
     public void disableFilterOptions() {
@@ -137,7 +152,7 @@ public class SearchActivity extends AppCompatActivity {
         lsTypeSpinner.setEnabled(false);
         lsPriceFrom.setEnabled(false);
         lsPriceTo.setEnabled(false);
-        lsSubmitButton.setEnabled(false);
+        //lsSubmitButton.setEnabled(false);
     }
 
     public void validateSubmitSearch() {

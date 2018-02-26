@@ -12,5 +12,5 @@ public enum ListingCategory {
     CLOTHING,
     DECORATIVE,
     KITCHEN,
-    OTHER
+    OTHER;
 }

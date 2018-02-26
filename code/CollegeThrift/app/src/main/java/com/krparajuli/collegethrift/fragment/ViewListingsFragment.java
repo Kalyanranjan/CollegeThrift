@@ -45,8 +45,6 @@ public abstract class ViewListingsFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END create_database_reference]
 
-        Log.v("ASD", "AD");
-
         mRecycler = (RecyclerView) rootView.findViewById(R.id.listing_recycler_view);
         return rootView;
     }
@@ -63,7 +61,6 @@ public abstract class ViewListingsFragment extends Fragment {
 
         //Set up FirebaseRecyclerAdapter with the Query
         final Query listingsQuery = getQuery(mDatabase);
-        Log.v(TAG, "Mi Amor");
         mAdapter = new FirebaseRecyclerAdapter<Listing, ListingViewHolder>(Listing.class, R.layout.listing_item,
                 ListingViewHolder.class, listingsQuery) {
 

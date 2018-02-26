@@ -80,8 +80,14 @@ public class ViewListingsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.action_search:
+                break;
+            case R.id.action_settings:
+                return true;
+            case R.id.action_logout:
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);

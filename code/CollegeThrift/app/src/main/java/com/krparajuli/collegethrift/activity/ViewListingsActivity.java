@@ -28,10 +28,12 @@ public class ViewListingsActivity extends AppCompatActivity {
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
              final Fragment[] mFragments = new Fragment[] {
-                    new ViewListingsRecentFragment()
+                    new ViewListingsRecentFragment(),
+                     new ViewListingsRecentFragment()
             };
             private final String[] mFragmentNames = new String[] {
-                    getString(R.string.heading_recent)
+                    getString(R.string.heading_recent),
+                    "Favourites"
             };
 
             @Override

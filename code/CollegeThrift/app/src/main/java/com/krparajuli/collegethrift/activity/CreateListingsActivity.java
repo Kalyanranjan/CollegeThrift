@@ -1,6 +1,12 @@
 package com.krparajuli.collegethrift.activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,8 +28,15 @@ import com.krparajuli.collegethrift.model.Listing;
 import com.krparajuli.collegethrift.model.ListingCategory;
 import com.krparajuli.collegethrift.model.ListingType;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.tajchert.nammu.Nammu;
+import pl.tajchert.nammu.PermissionCallback;
 
 public class CreateListingsActivity extends AppCompatActivity {
 
@@ -31,6 +45,7 @@ public class CreateListingsActivity extends AppCompatActivity {
 
     private static final String PHOTO_KEY = "listing_image_photo";
     private String IMAGES_FOLDER_NAME = "CollegeThriftImages";
+    private File returnedPhoto = null;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
@@ -39,12 +54,10 @@ public class CreateListingsActivity extends AppCompatActivity {
     // Layout Objects
     private EditText clTitle, clDesc, clPrice;
     private Spinner clType, clCategory;
-    private Button clAddImage, clRemoveImage, clCancelListing,clCreateListing;
+    private Button clAddImage, clRemoveImage;
+    private ImageView clListingImage;
 
-
-    private EditText mTitleField;
-    private EditText mBodyField;
-    private FloatingActionButton mSubmitButton;
+    private FloatingActionButton clSubmitButton;
 
 
     @Override
@@ -57,31 +70,74 @@ public class CreateListingsActivity extends AppCompatActivity {
         // [END initialize_database_ref]
 
 
-        mTitleField = (EditText) findViewById(R.id.field_title);
-        mBodyField = (EditText) findViewById(R.id.field_body);
-        mSubmitButton = (FloatingActionButton) findViewById(R.id.fab_submit_post);
+        clTitle = (EditText) findViewById(R.id.cl_title_edit);
+        clDesc = (EditText) findViewById(R.id.cl_desc_edit);
+        clPrice = (EditText) findViewById(R.id.cl_edit_price);
+        clType = (Spinner) findViewById(R.id.cl_spinner_type);
+        clCategory = (Spinner) findViewById(R.id.cl_spinner_category);
+        clAddImage = (Button) findViewById(R.id.cl_button_add_image);
+        clRemoveImage = (Button) findViewById(R.id.cl_button_remove_image);
 
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+
+        clSubmitButton = (FloatingActionButton) findViewById(R.id.fab_submit_post);
+        clSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submitPost();
             }
         });
+
+        EasyImage.configuration(this)
+                .setImagesFolderName(IMAGES_FOLDER_NAME)
+                .setCopyTakenPhotosToPublicGalleryAppFolder(false)
+                .setCopyPickedImagesToPublicGalleryAppFolder(false)
+                .setAllowMultiplePickInGallery(false);
+
+        // Add Image Button
+        clAddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int permissionCheck = ContextCompat.checkSelfPermission(CreateListingsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                    EasyImage.openCamera(CreateListingsActivity.this, 0);
+                } else {
+                    Nammu.askForPermission(CreateListingsActivity.this, Manifest.permission.CAMERA, new PermissionCallback() {
+                        @Override
+                        public void permissionGranted() {
+                            EasyImage.openCamera(CreateListingsActivity.this, 0);
+                        }
+
+                        @Override
+                        public void permissionRefused() {
+                            // Send Snackbar regarding refused permission
+                        }
+                    });
+                }
+            }
+        });
+
+        clRemoveImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                returnedPhoto = null;
+                clListingImage.setImageResource(R.drawable.ic_image);
+            }
+        });
     }
 
     private void submitPost() {
-        final String title = mTitleField.getText().toString();
-        final String body = mBodyField.getText().toString();
+        final String title = clTitle.getText().toString();
+        final String body = clDesc.getText().toString();
 
         // Title is required
         if (TextUtils.isEmpty(title)) {
-            mTitleField.setError(REQUIRED);
+            clTitle.setError(REQUIRED);
             return;
         }
 
         // Body is required
         if (TextUtils.isEmpty(body)) {
-            mBodyField.setError(REQUIRED);
+            clDesc.setError(REQUIRED);
             return;
         }
 
@@ -135,12 +191,12 @@ public class CreateListingsActivity extends AppCompatActivity {
     }
 
     private void setEditingEnabled(boolean enabled) {
-        mTitleField.setEnabled(enabled);
-        mBodyField.setEnabled(enabled);
+        clTitle.setEnabled(enabled);
+        clDesc.setEnabled(enabled);
         if (enabled) {
-            mSubmitButton.setVisibility(View.VISIBLE);
+            clSubmitButton.setVisibility(View.VISIBLE);
         } else {
-            mSubmitButton.setVisibility(View.GONE);
+            clSubmitButton.setVisibility(View.GONE);
         }
     }
 
@@ -159,5 +215,51 @@ public class CreateListingsActivity extends AppCompatActivity {
         mDatabase.updateChildren(childUpdates);
     }
     // [END write_fan_out]
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                //Some error handling
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onImagesPicked(List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                onPhotosReturned(imageFiles);
+            }
+
+            @Override
+            public void onCanceled(EasyImage.ImageSource source, int type) {
+                //Cancel handling, you might wanna remove taken photo if it was canceled
+                if (source == EasyImage.ImageSource.CAMERA) {
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(CreateListingsActivity.this);
+                    if (photoFile != null) photoFile.delete();
+                }
+            }
+        });
+    }
+
+    private void onPhotosReturned(List<File> returnedPhotosList){
+        if (returnedPhotosList.size() < 1) {
+            Snackbar photoRetrieveError = Snackbar.make(findViewById(R.id.cl_button_add_image),
+                    "Photo(s) Not Retrieved. Try Again",
+                    Snackbar.LENGTH_SHORT);
+            photoRetrieveError.setAction("Action", null).show();
+            return;
+        }
+        returnedPhoto = returnedPhotosList.get(0);
+        clListingImage.setImageURI(Uri.fromFile(returnedPhoto));
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyImage.clearConfiguration(CreateListingsActivity.this);
+    }
 
 }

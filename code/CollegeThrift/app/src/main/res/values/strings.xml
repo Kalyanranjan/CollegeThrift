@@ -34,6 +34,7 @@
         <item>APPLIANCE</item>
         <item>CLOTHING</item>
         <item>KITCHEN</item>
+        <item>DECORATIVE</item>
         <item>OTHER</item>
     </string-array>
 

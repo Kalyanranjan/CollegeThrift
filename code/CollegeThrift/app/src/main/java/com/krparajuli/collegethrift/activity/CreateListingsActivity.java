@@ -42,7 +42,7 @@ import pl.tajchert.nammu.PermissionCallback;
 
 public class CreateListingsActivity extends AppCompatActivity {
 
-    private static final String TAG = "NewPostActivity";
+    private static final String TAG = "CreateListingsActivity";
     private static final String REQUIRED = "Required";
 
     private static final String PHOTO_KEY = "listing_image_photo";
@@ -139,10 +139,10 @@ public class CreateListingsActivity extends AppCompatActivity {
         final String title = clTitle.getText().toString();
         final String desc = clDesc.getText().toString();
         final int category = clCategory.getSelectedItemPosition();
-        final int type = clCategory.getSelectedItemPosition();
+        final int type = clType.getSelectedItemPosition();
         int price = 0;
         final long dateTimeEpoch = System.currentTimeMillis();
-        final String listerId = mAuthentication.getCurrentUser().getUid();
+        final String listerId = mAuthentication.getCurrentUser().getUid(); // Need Error Check
         final int status = 0;
 
 

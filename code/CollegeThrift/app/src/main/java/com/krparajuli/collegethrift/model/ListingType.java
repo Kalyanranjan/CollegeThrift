@@ -5,8 +5,18 @@ package com.krparajuli.collegethrift.model;
  */
 
 public enum ListingType {
-    SALE_ONLY,
-    SALE_TRADE,
-    TRADE_ONLY,
-    GIVEAWAY
+    SALE_ONLY(0),
+    SALE_TRADE(1),
+    TRADE_ONLY(2),
+    GIVEAWAY(3);
+
+    private final int value;
+
+    private ListingType(int value) {
+        this.value = value;
+    }
+
+    public int getValue(){
+        return value;
+    }
 }

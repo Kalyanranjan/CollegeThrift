@@ -17,20 +17,27 @@ public class Listing {
     private String desc;
     private ListingType type;
     private ListingCategory category;
-    private String price;
+    private int price;
+    private String thumbnailUrl;
     private String listerUid;
-    private String dateListed;
+    private long dateListed;
+    private int status; // 0 is active, 1 if dormant, 2 if sold, 3 if deleted
 
     public Listing() {}         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
 
-    public Listing(String title, String desc, ListingType type, ListingCategory category, String price, String listerUid, String dateListed) {
+    public Listing(String title, String desc,
+                   ListingType type, ListingCategory category,
+                   int price, String thumbnailUrl,
+                   String listerUid, long dateListed, int status) {
         this.title = title;
         this.desc = desc;
         this.type = type;
         this.category = category;
         this.price = price;
+        this.thumbnailUrl = thumbnailUrl;
         this.listerUid = listerUid;
         this.dateListed = dateListed;
+        this.status = status;
     }
 
     @Exclude
@@ -41,8 +48,10 @@ public class Listing {
         listing.put("type", type);
         listing.put("category", category);
         listing.put("price", price);
+        listing.put("thumbnail_url", thumbnailUrl);
         listing.put("lister", listerUid);
         listing.put("date_listed", dateListed);
+        listing.put("status", status);
 
         return listing;
     }
@@ -77,12 +86,20 @@ public class Listing {
         this.category = category;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public String getListerUid() {
@@ -93,11 +110,19 @@ public class Listing {
         this.listerUid = listerUid;
     }
 
-    public String getDateListed() {
+    public long getDateListed() {
         return dateListed;
     }
 
-    public void setDateListed(String dateListed) {
+    public void setDateListed(long dateListed) {
         this.dateListed = dateListed;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

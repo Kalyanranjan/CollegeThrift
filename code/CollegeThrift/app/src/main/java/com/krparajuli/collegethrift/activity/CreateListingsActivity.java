@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +53,10 @@ public class CreateListingsActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
+    // [START declare_authentication_instance]
+    private FirebaseAuth mAuthentication;
+    // [END declare_authentication_instance]
+
     // Layout Objects
     private EditText clTitle, clDesc, clPrice;
     private Spinner clType, clCategory;
@@ -69,6 +74,10 @@ public class CreateListingsActivity extends AppCompatActivity {
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
+
+        // [START declare_authentication_instance]
+        mAuthentication = FirebaseAuth.getInstance();
+        // [END declare_authentication_instance]
 
 
         clTitle = (EditText) findViewById(R.id.cl_title_edit);
@@ -128,7 +137,14 @@ public class CreateListingsActivity extends AppCompatActivity {
 
     private void submitPost() {
         final String title = clTitle.getText().toString();
-        final String body = clDesc.getText().toString();
+        final String desc = clDesc.getText().toString();
+        final int category = clCategory.getSelectedItemPosition();
+        final int type = clCategory.getSelectedItemPosition();
+        int price = 0;
+        final long dateTimeEpoch = System.currentTimeMillis();
+        final String listerId = mAuthentication.getCurrentUser().getUid();
+        final int status = 0;
+
 
         // Title is required
         if (TextUtils.isEmpty(title)) {
@@ -137,18 +153,25 @@ public class CreateListingsActivity extends AppCompatActivity {
         }
 
         // Body is required
-        if (TextUtils.isEmpty(body)) {
+        if (TextUtils.isEmpty(desc)) {
             clDesc.setError(REQUIRED);
             return;
+        }
+
+        // Price is required if "Sale"
+        if ((type == ListingType.SALE_ONLY.getValue()) || (type == ListingType.SALE_TRADE.getValue())) {
+            final String priceText  = clPrice.getText().toString();
+            if (TextUtils.isEmpty(priceText)) {
+                clPrice.setError(REQUIRED);
+                return;
+            } else {
+                price = Integer.valueOf(priceText);
+            }
         }
 
         // Disable button so there are no multi-posts
         setEditingEnabled(false);
         Toast.makeText(this, "Posting...", Toast.LENGTH_SHORT).show();
-
-        // final String userId = getUid();
-        final String uid = "HASDSAD";
-
 
 //        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
 //                new ValueEventListener() {
@@ -184,7 +207,9 @@ public class CreateListingsActivity extends AppCompatActivity {
 //                    }
 //                });
 
-        writeListingToDb(uid, "KALYAN", title, body);
+        writeListingToDb(title, desc, category, type, price,
+                "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fti1?alt=media&token=c7c4ebc5-e017-47b2-98bf-3ec8c1c8992f",
+                listerId, dateTimeEpoch, status);
         setEditingEnabled(true);
         finish();
 
@@ -202,16 +227,23 @@ public class CreateListingsActivity extends AppCompatActivity {
     }
 
     // [START write_fan_out]
-    private void writeListingToDb(String userId, String username, String title, String body) {
+    private void writeListingToDb(String title, String desc,
+                                  int category, int type,
+                                  int price, String thumbnailUrl,
+                                  String listerUid, long dateTimeEpoch, int status) {
+
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("listings").push().getKey();
-        Listing listing = new Listing(title, body, ListingType.GIVEAWAY, ListingCategory.APPLIANCE, "120", userId, "asdasd");
+        Listing listing = new Listing(title, desc,
+                ListingType.values()[type], ListingCategory.values()[category],
+                price, thumbnailUrl,
+                listerUid, dateTimeEpoch, status);
         Map<String, Object> listingValues = listing.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/listings/" + key, listingValues);
-//        childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
+        childUpdates.put("/user-listings/" + listerUid + "/" + key, listingValues);
 
         mDatabase.updateChildren(childUpdates);
     }
@@ -253,10 +285,9 @@ public class CreateListingsActivity extends AppCompatActivity {
             photoRetrieveError.setAction("Action", null).show();
             return;
         }
-//        returnedPhoto = returnedPhotosList.get(0);
-        clListingImage.setImageURI(Uri.fromFile(returnedPhotosList.get(0)));
+        returnedPhoto = returnedPhotosList.get(0);
+        clListingImage.setImageURI(Uri.fromFile(returnedPhoto));
         EasyImage.clearConfiguration(CreateListingsActivity.this);
-
     }
 
     @Override
@@ -265,9 +296,4 @@ public class CreateListingsActivity extends AppCompatActivity {
         EasyImage.clearConfiguration(this);
         super.onDestroy();
     }
-
-
-
-    // Need to gather all entries (especially Spinner Enums) and username/id
-
 }

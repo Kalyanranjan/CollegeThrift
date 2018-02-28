@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.krparajuli.collegethrift.activity.SearchActivity">
+
+    <EditText
+        android:id="@+id/ls_keyword_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="Keyword Search"
+        android:maxLines="1" />
+
+    <LinearLayout
+        android:id="@+id/ls_spinners"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ls_keyword_edit"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/ls_category_check"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Category Search"/>
+
+            <Spinner
+                android:id="@+id/ls_spinner_category"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:entries="@array/cl_listing_categories"
+                android:prompt="@string/cl_listing_categories_label">
+            </Spinner>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/ls_type_check"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Type Search"/>
+
+            <Spinner
+                android:id="@+id/ls_spinner_type"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:entries="@array/cl_listing_types"
+                android:prompt="@string/cl_listing_types_label">
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/ls_price_check"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.5"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Price Search"/>
+
+            <EditText
+                android:id="@+id/ls_price_from_edit"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+
+                android:ems="10"
+                android:hint="From"
+                android:inputType="number"
+
+                android:textSize="16dp"/>
+
+            <EditText
+                android:id="@+id/ls_price_to_edit"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+
+                android:ems="10"
+                android:hint="To"
+                android:inputType="number"
+
+                android:textSize="16dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/ls_search_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Search" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ls_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+        android:padding="5dp"
+        android:layout_below="@+id/ls_spinners"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/listing_item" >
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

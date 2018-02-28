@@ -1,8 +1,13 @@
 package com.krparajuli.collegethrift.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,18 +19,51 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.fragment.ViewListingsRecentFragment;
 
 public class DrawerViewListingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FragmentPagerAdapter mPagerAdapter;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_view_listings);
+
+        mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+
+            final Fragment[] mFragments = new Fragment[] {
+                    new ViewListingsRecentFragment(),
+                    new ViewListingsRecentFragment()
+            };
+            private final String[] mFragmentNames = new String[] {
+                    getString(R.string.heading_recent),
+                    "Favourites"
+            };
+
+            @Override
+            public Fragment getItem(int position) { return mFragments[position]; }
+
+            @Override
+            public int getCount() { return mFragments.length; }
+
+            @Override
+            public CharSequence getPageTitle(int position) { return mFragmentNames[position]; }
+        };
+
+        // Set up the ViewPager with the selections adapter
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mPagerAdapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager, true);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_create_listings);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,9 +106,16 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+//            case R.id.action_search:
+//                Intent searchIntent = new Intent(ViewListingsActivity.this, SearchActivity.class);
+//                startActivity(searchIntent);
+//                break;
+            case R.id.action_settings:
+                return true;
+//            case R.id.action_logout:
+//                return true;
+
         }
 
         return super.onOptionsItemSelected(item);

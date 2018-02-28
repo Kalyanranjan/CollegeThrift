@@ -33,12 +33,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ViewListingsActivity" />
-        <activity android:name=".activity.CreateListingsActivity" />
-        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.CreateListingsActivity"
+            android:label="Create Listings"/>
+        <activity android:name=".activity.SearchActivity"
+            android:label="Filter/Search Listings"></activity>
         <activity
             android:name=".activity.DrawerViewListingsActivity"
-            android:label="@string/title_activity_drawer_view_listings"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

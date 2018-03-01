@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.fragment.ViewListingsRecentFragment;
 
@@ -107,12 +108,12 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch(id) {
-//            case R.id.action_search:
-//                Intent searchIntent = new Intent(ViewListingsActivity.this, SearchActivity.class);
-//                startActivity(searchIntent);
-//                break;
-            case R.id.action_settings:
-                return true;
+            case R.id.dvlm_action_search:
+                Intent searchIntent = new Intent(DrawerViewListingsActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
+                break;
+//            case R.id.action_settings:
+//                return true;
 //            case R.id.action_logout:
 //                return true;
 
@@ -126,7 +127,18 @@ public class DrawerViewListingsActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        switch (id){
+            case R.id.dlvd_nav_sign_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent loginIntent = new Intent(DrawerViewListingsActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+                finish();
+                break;
+            default:
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+        }
 //        if (id == R.id.nav_camera) {
 //            // Handle the camera action
 //        } else if (id == R.id.nav_gallery) {
@@ -141,8 +153,8 @@ public class DrawerViewListingsActivity extends AppCompatActivity
 //
 //        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
+
 }

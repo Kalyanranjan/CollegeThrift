@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -54,7 +55,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Buttons
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
+        findViewById(R.id.forgotten_password).setOnClickListener(this);
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -68,12 +69,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    if (!user.isEmailVerified()) {
+                            user.sendEmailVerification();
+                            Toast.makeText(LoginActivity.this,"Verification email sent",
+                                Toast.LENGTH_SHORT).show();
+                            mAuth.signOut();
+                    }
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
                 // [START_EXCLUDE]
-                updateUI(user);
+                updateUI(firebaseAuth.getCurrentUser());
                 // [END_EXCLUDE]
             }
         };
@@ -107,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
                             mStatusTextView.setText(R.string.auth_failed);
+                        } else {
                         }
                         hideProgressDialog();
                         // [END_EXCLUDE]
@@ -136,6 +144,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (!task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
+                        } else {
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            user.sendEmailVerification()
+//                                    .addOnCompleteListener(this, new OnCompleteListener() {
+//                                        @Override
+//                                        public void onComplete(@NonNull Task task) {
+//                                            // Re-enable button
+//                                            //findViewById(R.id.verify_email_button).setEnabled(true);
+//
+//                                            if (task.isSuccessful()) {
+//                                                Toast.makeText(LoginActivity.this,
+//                                                        "Verification email sent",
+//                                                        Toast.LENGTH_SHORT).show();
+//                                            } else {
+//                                                Log.e(TAG, "sendEmailVerification", task.getException());
+//                                                Toast.makeText(LoginActivity.this,
+//                                                        "Failed to send verification email.",
+//                                                        Toast.LENGTH_SHORT).show();
+//                                            }
+//                                        }
+//                                    });
+//                            mAuth.signOut();
+                            Toast.makeText(LoginActivity.this, R.string.sign_up_verification_required, Toast.LENGTH_LONG).show();
+
                         }
 
                         // [START_EXCLUDE]
@@ -144,6 +176,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
         // [END create_user_with_email]
+
     }
 
     private void signOut() {
@@ -185,6 +218,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
+            mPasswordField.getText().clear();
+
             //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
     }
@@ -196,8 +231,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.email_sign_in_button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.sign_out_button) {
-            signOut();
+        } else if (i == R.id.forgotten_password) {
+//            signOut();
         }
     }
 

@@ -46,8 +46,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         // Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
+        mStatusTextView = (TextView) findViewById(R.id.error_message);
+//        mDetailTextView = (TextView) findViewById(R.id.warning_message);
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
 
@@ -181,11 +181,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             finish();
         } else {
             mStatusTextView.setText("Incorrect Password");
-            mDetailTextView.setText(null);
+//            mDetailTextView.setText(null);
 
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+            //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
     }
 

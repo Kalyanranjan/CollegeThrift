@@ -17,11 +17,10 @@
         <ImageView
             android:id="@+id/icon"
             style="@style/ThemeOverlay.FirebaseIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/desc_firebase_lockup"
-            android:src="@drawable/firebase_lockup_400"
-            android:visibility="gone" />
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:contentDescription="CollegeThrift"
+            android:src="@drawable/ic_waving_dollar_bills" />
 
         <TextView
             android:id="@+id/title_text"
@@ -30,17 +29,6 @@
             android:layout_marginBottom="@dimen/title_bottom_margin"
             android:text="CollegeThrift"
             android:theme="@style/ThemeOverlay.MyTitleText" />
-
-        <TextView
-            android:id="@+id/status"
-            style="@style/ThemeOverlay.MyTextDetail"
-            android:text="@string/signed_out" />
-
-        <TextView
-            android:id="@+id/detail"
-            style="@style/ThemeOverlay.MyTextDetail"
-            tools:text="Firebase User ID: 123456789abc" />
-
     </LinearLayout>
 
 
@@ -51,10 +39,20 @@
         android:background="@color/grey_300"
         android:gravity="center_vertical">
 
+        <TextView
+            android:id="@+id/error_message"
+            style="@style/ThemeOverlay.MyTextDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HELLO"
+            android:textColor="@color/cardview_light_background"
+            tools:background="?android:attr/colorError" />
+
         <LinearLayout
             android:id="@+id/email_password_fields"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/error_message"
             android:orientation="vertical"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
@@ -100,16 +98,20 @@
                 android:layout_weight="1"
                 android:text="@string/create_account"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
+
         </LinearLayout>
 
-        <Button
+        <TextView
             android:id="@+id/sign_out_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/sign_out"
+            android:textColor="@color/colorAccent"
+            android:layout_below="@+id/email_password_buttons"
+            android:text="Forgotten Password"
             android:theme="@style/ThemeOverlay.MyDarkButton"
-            android:visibility="gone" />
+            />
+
 
     </RelativeLayout>
 

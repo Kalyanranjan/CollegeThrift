@@ -33,10 +33,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CreateListingsActivity"
-            android:label="Create Listings"/>
-        <activity android:name=".activity.SearchActivity"
-            android:label="Filter/Search Listings"></activity>
+        <activity
+            android:name=".activity.CreateListingsActivity"
+            android:label="Create Listings" />
+        <activity
+            android:name=".activity.SearchActivity"
+            android:label="Filter/Search Listings" />
         <activity
             android:name=".activity.DrawerViewListingsActivity"
             android:label="@string/app_name"
@@ -46,6 +48,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ScrollerMyListingsActivity"
+            android:label="@string/title_activity_scroller_my_listings"
+            android:parentActivityName=".activity.DrawerViewListingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.krparajuli.collegethrift.activity.DrawerViewListingsActivity" />
         </activity>
     </application>
 

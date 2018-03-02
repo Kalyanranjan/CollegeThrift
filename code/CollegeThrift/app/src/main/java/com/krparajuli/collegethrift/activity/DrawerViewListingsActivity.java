@@ -135,9 +135,6 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.dlvd_nav_my_listings:
-                Intent myListingsIntent = new Intent(DrawerViewListingsActivity.this, ScrollerMyListingsActivity.class);
-                startActivity(myListingsIntent);
-                break;
             default:
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);

@@ -16,10 +16,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.model.User;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -36,10 +45,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // [START declare_auth]
     private FirebaseAuth mAuth;
     // [END declare_auth]
-
     // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
     // [END declare_auth_listener]
+    // [START declare_firebase_database]
+    private FirebaseDatabase mDatabase;
+    // [END declare_firebase_database]
+
+    private boolean creatingUser = false;
+    private String signUpEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +80,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    if (!user.isEmailVerified()) {
+                    if (!creatingUser && !user.isEmailVerified()) {
                             user.sendEmailVerification();
-                            Toast.makeText(LoginActivity.this,"Verification email sent",
+                            Toast.makeText(LoginActivity.this,R.string.login_verification_required,
                                 Toast.LENGTH_SHORT).show();
                             mAuth.signOut();
                     }
@@ -88,33 +103,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signIn(String email, String password) {
-        Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
             return;
         }
-
         showProgressDialog();
-
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
-                        }
-
-                        // [START_EXCLUDE]
-                        if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
-                        } else {
                         }
                         hideProgressDialog();
                         // [END_EXCLUDE]
@@ -124,7 +127,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
+        creatingUser = true;
+        signUpEmail = email;
         if (!validateForm()) {
             return;
         }
@@ -136,40 +140,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
+
                         if (!task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, R.string.auth_failed,
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//                            user.sendEmailVerification()
-//                                    .addOnCompleteListener(this, new OnCompleteListener() {
-//                                        @Override
-//                                        public void onComplete(@NonNull Task task) {
-//                                            // Re-enable button
-//                                            //findViewById(R.id.verify_email_button).setEnabled(true);
-//
-//                                            if (task.isSuccessful()) {
-//                                                Toast.makeText(LoginActivity.this,
-//                                                        "Verification email sent",
-//                                                        Toast.LENGTH_SHORT).show();
-//                                            } else {
-//                                                Log.e(TAG, "sendEmailVerification", task.getException());
-//                                                Toast.makeText(LoginActivity.this,
-//                                                        "Failed to send verification email.",
-//                                                        Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        }
-//                                    });
-//                            mAuth.signOut();
+                            Exception ex =  task.getException();
+//                            if (ex.equals((Exception)FirebaseAuthUserCollisionException)) {
+//                                Toast.makeText(LoginActivity.this, R.string.user_already_exists,
+//                                        Toast.LENGTH_SHORT).show();
+//                            } else if (ex.equals(FirebaseAuthWeakPasswordException)) {
+//                                Toast.makeText(LoginActivity.this, R.string.weak_password,
+//                                        Toast.LENGTH_SHORT).show();
+//                            } else {
+                                Toast.makeText(LoginActivity.this, R.string.auth_failed,
+                                        Toast.LENGTH_SHORT).show();
+//                            }
+                            Log.w(TAG, "auth_failed", ex);
+                        } else{
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String uidKey = user.getUid();
+                            String userEmail = user.getEmail();
+                            String key = mDatabase.getInstance().getReference("/users").push().getKey();
+                            Map<String, Object> map = new User(uidKey, userEmail).toMap();
+                            mDatabase.getInstance().getReference("/users").child(uidKey).setValue(map);
+                            mAuth.signOut();
+
                             Toast.makeText(LoginActivity.this, R.string.sign_up_verification_required, Toast.LENGTH_LONG).show();
-
+                            creatingUser = false;
                         }
-
                         // [START_EXCLUDE]
                         hideProgressDialog();
                         // [END_EXCLUDE]
@@ -190,6 +189,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = mEmailField.getText().toString();
         if (TextUtils.isEmpty(email)) {
             mEmailField.setError("Required.");
+            valid = false;
+        } else if (!email.endsWith("@trincoll.edu")){
+            mEmailField.setError("Not a valid trincoll.edu email");
             valid = false;
         } else {
             mEmailField.setError(null);
@@ -213,14 +215,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(viewListingsIntent);
             finish();
         } else {
-            mStatusTextView.setText("Incorrect Password");
-//            mDetailTextView.setText(null);
-
+//            mStatusTextView.setText("Incorrect Password");
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
             mPasswordField.getText().clear();
-
-            //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
     }
 
@@ -235,7 +233,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            signOut();
         }
     }
-
 
     public void showProgressDialog() {
         if (mProgressDialog == null) {

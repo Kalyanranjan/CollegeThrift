@@ -8,23 +8,11 @@
 
     <!-- Login Page Messages -->
     <string name="login_verification_required">Email Address is not verified. Check your email inbox or resend email verification below.</string>
-    <string name="sign_up_verification_required"> Sign Up Successful! You can sign after verifying your email address. Check your email inbox or try resending email verification below.</string>
+    <string name="sign_up_verification_required"> Signed Up Successful! Verification email has been sent to your inbox.</string>
     <string name="auth_failed">Incorrect email or password! Try Again</string>
+    <string name="user_already_exists">User with the email address already exists</string>
     <string name="verification_email_sent">Verification email sent! Check your email inbox.</string>
     <string name="forgotten_password_email_sent">Password Reset email sent! Check your email inbox.</string>
-
-    <!-- Create Listings Page Texts -->
-    <string name="cl_page_header">Create Listings</string>
-    <string name="cl_title_field">Title</string>
-    <string name="cl_desc_field">Description</string>
-
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="title_activity_fullscreen">CameraActivity</string>
-
-    <string name="title_activity_camera">CameraActivity</string>
 
     <string name="cl_listing_types_label">Choose Listing Type</string>
     <string-array name="cl_listing_types">
@@ -55,7 +43,6 @@
     <string name="token_null">Token: null</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
-    <string name="firebase_status_fmt">Firebase User: %s</string>
     <string name="firebase_user_management">Firebase User Management</string>
 
     <string name="id_fmt">User ID: %s</string>
@@ -63,5 +50,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="forgotten_password_resend_verification_email">Forgotten Password / Resend Verification Email</string>
+    <string name="weak_password">Weak Pasword. Try another password</string>
 
 </resources>

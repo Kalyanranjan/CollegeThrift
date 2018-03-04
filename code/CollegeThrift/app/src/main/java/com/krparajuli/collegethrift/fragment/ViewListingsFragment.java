@@ -1,5 +1,6 @@
 package com.krparajuli.collegethrift.fragment;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.krparajuli.collegethrift.activity.ListingDetailActivity;
 import com.krparajuli.collegethrift.model.Listing;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.viewholder.ListingViewHolder;
@@ -66,14 +68,17 @@ public abstract class ViewListingsFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(ListingViewHolder viewHolder, Listing listing, int position) {
-                final DatabaseReference listingsRef = getRef(position);
+                final DatabaseReference listingRef = getRef(position);
 
                 // Set click listener for the whole post view
-                final String listingKey = listingsRef.getKey();
+                final String listingKey = listingRef.getKey();
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Launch ListingDetailActivity here
+                        // Launch ListingDetailsActivity
+                        Intent listingDetailIntent = new Intent(getActivity(), ListingDetailActivity.class);
+                        listingDetailIntent.putExtra(ListingDetailActivity.EXTRA_LISTING_KEY, listingKey);
+                        startActivity(listingDetailIntent);
                     }
                 });
                 viewHolder.bindToListing(listing);

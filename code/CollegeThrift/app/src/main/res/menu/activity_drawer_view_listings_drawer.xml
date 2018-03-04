@@ -44,9 +44,9 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/dlvd_nav_dashboard"
+                android:id="@+id/dlvd_nav_my_listings"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Dashboard" />
+                android:title="My Listings" />
             <item
                 android:id="@+id/dlvd_nav_messages"
                 android:icon="@drawable/ic_menu_send"

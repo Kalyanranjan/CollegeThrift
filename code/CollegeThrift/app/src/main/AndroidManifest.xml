@@ -50,15 +50,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.VerificationResetActivity" />
-        <activity android:name=".activity.ListingDetailActivity" />
-        <activity
-            android:name=".activity.DashboardActivity"
-            android:label="@string/title_activity_dashboard"
-            android:parentActivityName=".activity.DrawerViewListingsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.krparajuli.collegethrift.activity.DrawerViewListingsActivity" />
-        </activity>
+        <activity android:name=".activity.ListingDetailActivity"></activity>
     </application>
 
 </manifest>

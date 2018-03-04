@@ -134,15 +134,11 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 startActivity(loginIntent);
                 finish();
                 break;
-            case R.id.dlvd_nav_dashboard:
-                Intent dashboardIntent = new Intent(DrawerViewListingsActivity.this, DashboardActivity.class);
-                startActivity(dashboardIntent);
-                closeDrawer();
-                break;
+            case R.id.dlvd_nav_my_listings:
             default:
-                closeDrawer();
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
                 break;
-
         }
 //        if (id == R.id.nav_camera) {
 //            // Handle the camera action
@@ -162,8 +158,4 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         return true;
     }
 
-    private void closeDrawer() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-    }
 }

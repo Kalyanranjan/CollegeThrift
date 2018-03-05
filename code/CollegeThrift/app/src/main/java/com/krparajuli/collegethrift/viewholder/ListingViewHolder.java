@@ -1,5 +1,6 @@
 package com.krparajuli.collegethrift.viewholder;
 
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,7 @@ import java.util.List;
 public class ListingViewHolder extends RecyclerView.ViewHolder{
 
     private TextView listingTitle, listingDesc, listingSale, listingTrade, listingGiveaway, listingPrice, listingCategory;
-    private ImageView listingThumbnail;
+    private ImageView listingThumbnail, listingFavoriteEdit;
 
     public ListingViewHolder(View listingView) {
         super(listingView);
@@ -34,9 +35,10 @@ public class ListingViewHolder extends RecyclerView.ViewHolder{
         listingPrice = (TextView) listingView.findViewById(R.id.vlh_listing_price);
         listingCategory = (TextView) listingView.findViewById(R.id.vlh_listing_category);
         listingThumbnail = (ImageView) listingView.findViewById(R.id.vlh_listing_thumbnail);
+        listingFavoriteEdit = (ImageView) listingView.findViewById(R.id.vlh_edit_favorite_image);
     }
 
-    public void bindToListing(Listing listing) {
+    public void bindToListing(Listing listing, String signedInUserUid) {
         listingTitle.setText(listing.getTitle());
         listingDesc.setText(listing.getDesc());
         listingPrice.setText("$"+String.valueOf(listing.getPrice()));
@@ -54,5 +56,12 @@ public class ListingViewHolder extends RecyclerView.ViewHolder{
         } else if (listing.getType() == ListingType.GIVEAWAY) {
             listingGiveaway.setVisibility(View.VISIBLE);
         }
+
+        if (signedInUserUid.equals(listing.getListerUid())) {
+            listingFavoriteEdit.setImageResource(R.drawable.ic_image_edit);
+        } else {
+            listingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
+        }
+
     }
 }

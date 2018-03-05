@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -27,6 +28,8 @@ public class SearchActivity extends AppCompatActivity {
     // [START define_database_reference]
     private DatabaseReference mDatabase;
     // [END define_database_reference]
+
+    private FirebaseAuth mAuth;
 
     private Query mQuery = null;
 
@@ -87,7 +90,7 @@ public class SearchActivity extends AppCompatActivity {
                                 // Launch ListingDetailActivity here
                             }
                         });
-                        viewHolder.bindToListing(listing);
+                        viewHolder.bindToListing(listing, mAuth.getInstance().getCurrentUser().getUid().toString());
                     }
                 };
                 mRecycler.setAdapter(mAdapter);

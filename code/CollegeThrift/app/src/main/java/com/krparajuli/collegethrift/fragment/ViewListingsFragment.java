@@ -31,6 +31,8 @@ public abstract class ViewListingsFragment extends Fragment {
     private DatabaseReference mDatabase;
     // [END define_database_reference]
 
+    private FirebaseAuth mAuth;
+
     private FirebaseRecyclerAdapter<Listing, ListingViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
@@ -81,7 +83,7 @@ public abstract class ViewListingsFragment extends Fragment {
                         startActivity(listingDetailIntent);
                     }
                 });
-                viewHolder.bindToListing(listing);
+                viewHolder.bindToListing(listing, mAuth.getInstance().getCurrentUser().getUid().toString());
             }
         };
         mRecycler.setAdapter(mAdapter);

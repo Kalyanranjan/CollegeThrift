@@ -48,9 +48,9 @@ public class Listing {
         listing.put("type", type);
         listing.put("category", category);
         listing.put("price", price);
-        listing.put("thumbnail_url", thumbnailUrl);
-        listing.put("lister", listerUid);
-        listing.put("date_listed", dateListed);
+        listing.put("thumbnailUrl", thumbnailUrl);
+        listing.put("listerUid", listerUid);
+        listing.put("dateListed", dateListed);
         listing.put("status", status);
 
         return listing;

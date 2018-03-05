@@ -29,7 +29,7 @@ public class MyListingsActivity extends AppCompatActivity {
                     new ViewListingsRecentFragment()
             };
             private final String[] mFragmentNames = new String[]{
-                    "Currently Listed",
+                    "Current",
                     "Sold",
                     "Removed"
             };

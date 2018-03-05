@@ -84,25 +84,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    if (!creatingUser && !user.isEmailVerified()) {
-                            user.sendEmailVerification();
-                            Toast.makeText(LoginActivity.this,R.string.login_verification_required,
+                    if (creatingUser) { // If Signing Up
+                        user.sendEmailVerification();
+                        Toast.makeText(LoginActivity.this, R.string.sign_up_verification_required, Toast.LENGTH_LONG).show();
+                    } else if (!creatingUser && !user.isEmailVerified()) { // If logging in and email unverified
+                        user.sendEmailVerification();
+                        Toast.makeText(LoginActivity.this,R.string.login_verification_required,
                                 Toast.LENGTH_SHORT).show();
-                            mAuth.signOut();
+                        mAuth.signOut();
                     }
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // [START_EXCLUDE]
-                updateUI(firebaseAuth.getCurrentUser());
-                // [END_EXCLUDE]
+
+                if (creatingUser) { // Do not login if new user
+                    updateUI(null);
+                } else {
+                    updateUI(firebaseAuth.getCurrentUser());
+                }
             }
         };
         // [END auth_state_listener]
     }
 
     private void signIn(String email, String password) {
+        creatingUser = false;
+
         if (!validateForm()) {
             return;
         }
@@ -128,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void createAccount(String email, String password) {
         creatingUser = true;
-        signUpEmail = email;
+
         if (!validateForm()) {
             return;
         }
@@ -161,13 +169,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             FirebaseUser user = mAuth.getCurrentUser();
                             String uidKey = user.getUid();
                             String userEmail = user.getEmail();
-                            String key = mDatabase.getInstance().getReference("/users").push().getKey();
                             Map<String, Object> map = new User(uidKey, userEmail).toMap();
                             mDatabase.getInstance().getReference("/users").child(uidKey).setValue(map);
                             mAuth.signOut();
-
-                            Toast.makeText(LoginActivity.this, R.string.sign_up_verification_required, Toast.LENGTH_LONG).show();
-                            creatingUser = false;
                         }
                         // [START_EXCLUDE]
                         hideProgressDialog();

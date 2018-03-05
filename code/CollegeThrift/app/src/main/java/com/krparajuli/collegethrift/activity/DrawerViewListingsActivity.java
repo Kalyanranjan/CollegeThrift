@@ -3,7 +3,6 @@ package com.krparajuli.collegethrift.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -55,13 +54,13 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         };
 
         // Set up the ViewPager with the selections adapter
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.dvl_container);
         mViewPager.setAdapter(mPagerAdapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.dvl_tabs);
         tabLayout.setupWithViewPager(mViewPager, true);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.dash_toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_create_listings);
@@ -135,7 +134,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.dlvd_nav_dashboard:
-                Intent dashboardIntent = new Intent(DrawerViewListingsActivity.this, DashboardActivity.class);
+                Intent dashboardIntent = new Intent(DrawerViewListingsActivity.this, MyListingsActivity.class);
                 startActivity(dashboardIntent);
                 closeDrawer();
                 break;

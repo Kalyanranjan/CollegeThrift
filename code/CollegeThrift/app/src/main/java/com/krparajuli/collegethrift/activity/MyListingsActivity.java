@@ -59,7 +59,8 @@ public class MyListingsActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.dash_toolbar);
         setSupportActionBar(toolbar);
-        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
     }
 }

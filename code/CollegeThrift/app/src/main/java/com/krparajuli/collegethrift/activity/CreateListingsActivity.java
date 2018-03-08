@@ -136,6 +136,12 @@ public class CreateListingsActivity extends AppCompatActivity {
                 clListingImage.setImageResource(R.drawable.ic_image);
             }
         });
+
+        placePostIfEdit();
+    }
+
+    public void placePostIfEdit() {
+        Log.v(TAG, String.valueOf(EDIT_MODE_BOOLEAN_KEY));
     }
 
     private void submitPost() {

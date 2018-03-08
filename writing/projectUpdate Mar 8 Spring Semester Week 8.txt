@@ -1,0 +1,21 @@
+Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Spring Semester Week 8 Update - March 8
+Advisor: Prof. E. Syta
+
+Completed Tasks:
+1. Listings Editing
+- The feature involving editing of the listings is complete.
+2. User Dashboard
+- This page gives a list of the users listings and categorizes them as current, sold or removed. This page is also completed. Users can also edit their informations in the app.
+3. Messaging Infrastructure Setup
+- Looked at the firebase implementation of the messaging app. I looked at resources and documentation involving Firebase Cloud Messaging and also other alternatives.
+
+Outstanding Tasks:
+None from the target for this period
+
+Challenges:
+None
+
+Upcoming Tasks:
+1. Write code on the messaging infrastructure aspect of the app where two can start multiple messaging threads pertaining to different listings. This task might be time consuming and will most probably take more time than just 2 weeks. Thus, the aim is to complete as much as possible of this task before the next meeting, with aim to complete within 3 weeks (not counting the week of spring break).

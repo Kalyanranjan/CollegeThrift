@@ -67,12 +67,12 @@ public class ListingDetailActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        // Add value event listener to the post
-        // [START post_value_event_listener]
+        // Add value event listener to the listing
+        // [START listing_value_event_listener]
         ValueEventListener listingListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
+                // Get Listing object and use the values to update the UI
                 Listing listing = dataSnapshot.getValue(Listing.class);
                 // [START_EXCLUDE]
                 mTitleView.setText(listing.getTitle());

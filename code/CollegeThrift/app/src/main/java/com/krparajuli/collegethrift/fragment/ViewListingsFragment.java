@@ -92,8 +92,8 @@ public abstract class ViewListingsFragment extends Fragment {
                     public void onClick(View view) {
                         if (listing.getListerUid().equals(mAuth.getInstance().getCurrentUser().getUid())) { // if the user is the lister
                             Intent editListingIntent = new Intent(getActivity(), CreateListingsActivity.class);
-                            editListingIntent.putExtra(CreateListingsActivity.EDIT_LISTINGS_KEY, listingKey);
-                            editListingIntent.putExtra(CreateListingsActivity.EDIT_MODE_BOOLEAN_KEY, true);
+                            editListingIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_LISTINGS_KEY, listingKey);
+                            editListingIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_MODE_BOOLEAN_KEY, true);
                             startActivity(editListingIntent);
                         } else {
                             Toast.makeText(getActivity(), "Listing Favorited", Toast.LENGTH_SHORT).show();

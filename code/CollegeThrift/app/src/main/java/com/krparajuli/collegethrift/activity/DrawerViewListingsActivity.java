@@ -68,7 +68,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                Intent createListingsIntent = new Intent(DrawerViewListingsActivity.this, CreateListingsActivity.class);
-               createListingsIntent.putExtra(CreateListingsActivity.EDIT_MODE_BOOLEAN_KEY, false);
+               createListingsIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_MODE_BOOLEAN_KEY, false);
                startActivity(createListingsIntent);
             }
         });

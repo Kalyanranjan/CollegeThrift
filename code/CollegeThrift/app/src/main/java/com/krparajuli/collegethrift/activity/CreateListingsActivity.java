@@ -3,7 +3,6 @@ package com.krparajuli.collegethrift.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.Image;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -49,10 +48,13 @@ public class CreateListingsActivity extends AppCompatActivity {
     private String IMAGES_FOLDER_NAME = "CollegeThriftImages";
     private File returnedPhoto = null;
 
-    public static final String EDIT_MODE_BOOLEAN_KEY = "key_to_check_edit_mode";
-    public static final String EDIT_LISTINGS_KEY = "key_of_listing_to_id";
+    public static final String EXTRA_EDIT_MODE_BOOLEAN_KEY = "key_to_check_edit_mode";
+    public static final String EXTRA_EDIT_LISTINGS_KEY = "key_of_listing_to_id";
     private static String mListingKey;
     private static boolean mEditMode;
+
+    private DatabaseReference mListingReference;
+    private ValueEventListener mListingListener = null;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
@@ -85,8 +87,13 @@ public class CreateListingsActivity extends AppCompatActivity {
         // [END declare_authentication_instance]
 
 
-        mEditMode = getIntent().getBooleanExtra(EDIT_MODE_BOOLEAN_KEY, false);
-        Log.v(TAG, "ASDSAD"+ String.valueOf(mEditMode));
+        mEditMode = getIntent().getBooleanExtra(EXTRA_EDIT_MODE_BOOLEAN_KEY, false);
+        if (mEditMode) {
+            mListingKey = getIntent().getStringExtra(EXTRA_EDIT_LISTINGS_KEY);
+            // Initialize Database
+            mListingReference = FirebaseDatabase.getInstance().getReference()
+                    .child("listings").child(mListingKey);
+        }
 
         clTitle = (EditText) findViewById(R.id.cl_title_edit);
         clDesc = (EditText) findViewById(R.id.cl_desc_edit);
@@ -101,7 +108,7 @@ public class CreateListingsActivity extends AppCompatActivity {
         clSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitPost();
+                submitOrEditPost();
             }
         });
 
@@ -142,15 +149,67 @@ public class CreateListingsActivity extends AppCompatActivity {
             }
         });
 
-        placePostIfEdit();
     }
 
-    public void placePostIfEdit() {
-        Log.v(TAG, String.valueOf(EDIT_MODE_BOOLEAN_KEY));
-        Log.v(TAG, EDIT_LISTINGS_KEY);
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Add value event listener to the listing
+        // [START listing_value_event_listener]
+        ValueEventListener listingListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Listing object and use the values to update the UI
+                Listing listing = dataSnapshot.getValue(Listing.class);
+                // [END_EXCLUDE]
+                clTitle.setText(listing.getTitle());
+                clDesc.setText(listing.getDesc());
+                clType.setSelection(listing.getType().getValue());
+                clCategory.setSelection(listing.getCategory().getValue());
+                clPrice.setText(String.valueOf(listing.getPrice()));
+                //Get Image here
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // [START_EXCLUDE]
+                Toast.makeText(CreateListingsActivity.this, "Failed to load post.",
+                        Toast.LENGTH_SHORT).show();
+                // [END_EXCLUDE]
+            }
+        };
+
+        if (mEditMode) {
+            readyForEdit();
+            // [BEGIN listing_value_event_listener]
+            mListingReference.addValueEventListener(listingListener);
+            // [END listing_value_event_listener]
+
+            // Keep copy of listing listener so we can remove it when app stops
+            mListingListener = listingListener;
+        }
     }
 
-    private void submitPost() {
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove post value event listener
+        if (mListingListener != null) {
+            mListingReference.removeEventListener(mListingListener);
+        }
+    }
+
+    private void readyForEdit() {
+        // Change title
+        setTitle("Edit Listing");
+        // Place it
+    }
+
+    private void submitOrEditPost() {
         final String title = clTitle.getText().toString();
         final String desc = clDesc.getText().toString();
         final int category = clCategory.getSelectedItemPosition();
@@ -250,6 +309,9 @@ public class CreateListingsActivity extends AppCompatActivity {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("listings").push().getKey();
+        if (mEditMode) {
+            key = mListingKey;
+        }
         Listing listing = new Listing(title, desc,
                 ListingType.values()[type], ListingCategory.values()[category],
                 price, thumbnailUrl,

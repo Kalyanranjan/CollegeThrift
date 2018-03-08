@@ -49,6 +49,9 @@ public class CreateListingsActivity extends AppCompatActivity {
     private String IMAGES_FOLDER_NAME = "CollegeThriftImages";
     private File returnedPhoto = null;
 
+    public static final String EDIT_MODE_BOOLEAN_KEY = "key_to_check_edit_mode";
+    public static final String EDIT_LISTINGS_KEY = "key_of_listing_to_id";
+
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
     // [END declare_database_ref]

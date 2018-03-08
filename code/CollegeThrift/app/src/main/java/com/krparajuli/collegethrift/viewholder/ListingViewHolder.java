@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.krparajuli.collegethrift.model.Listing;
@@ -23,6 +24,8 @@ public class ListingViewHolder extends RecyclerView.ViewHolder{
 
     private TextView listingTitle, listingDesc, listingSale, listingTrade, listingGiveaway, listingPrice, listingCategory;
     private ImageView listingThumbnail, listingFavoriteEdit;
+    public LinearLayout listingFavoriteEditLayout;
+
 
     public ListingViewHolder(View listingView) {
         super(listingView);
@@ -36,6 +39,7 @@ public class ListingViewHolder extends RecyclerView.ViewHolder{
         listingCategory = (TextView) listingView.findViewById(R.id.vlh_listing_category);
         listingThumbnail = (ImageView) listingView.findViewById(R.id.vlh_listing_thumbnail);
         listingFavoriteEdit = (ImageView) listingView.findViewById(R.id.vlh_edit_favorite_image);
+        listingFavoriteEditLayout = (LinearLayout) listingView.findViewById(R.id.vlh_edit_favorite);
     }
 
     public void bindToListing(Listing listing, String signedInUserUid) {

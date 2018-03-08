@@ -9,12 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.krparajuli.collegethrift.activity.CreateListingsActivity;
 import com.krparajuli.collegethrift.activity.ListingDetailActivity;
 import com.krparajuli.collegethrift.model.Listing;
 import com.krparajuli.collegethrift.R;
@@ -69,7 +71,7 @@ public abstract class ViewListingsFragment extends Fragment {
                 ListingViewHolder.class, listingsQuery) {
 
             @Override
-            protected void populateViewHolder(ListingViewHolder viewHolder, Listing listing, int position) {
+            protected void populateViewHolder(ListingViewHolder viewHolder, final Listing listing, int position) {
                 final DatabaseReference listingRef = getRef(position);
 
                 // Set click listener for the whole post view
@@ -83,6 +85,24 @@ public abstract class ViewListingsFragment extends Fragment {
                         startActivity(listingDetailIntent);
                     }
                 });
+
+                // Set click listener for edit button
+                viewHolder.listingFavoriteEditLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (listing.getListerUid().equals(mAuth.getInstance().getCurrentUser().getUid())) { // if the user is the lister
+                            Intent editListingIntent = new Intent(getActivity(), CreateListingsActivity.class);
+                            editListingIntent.putExtra(CreateListingsActivity.EDIT_LISTINGS_KEY, listingKey);
+                            editListingIntent.putExtra(CreateListingsActivity.EDIT_MODE_BOOLEAN_KEY, true);
+                            startActivity(editListingIntent);
+                        } else {
+                            Toast.makeText(getActivity(), "Listing Favorited", Toast.LENGTH_SHORT).show();
+                            Log.v(TAG, "Listing Favorited");
+                        }
+                    }
+                });
+
+
                 viewHolder.bindToListing(listing, mAuth.getInstance().getCurrentUser().getUid().toString());
             }
         };

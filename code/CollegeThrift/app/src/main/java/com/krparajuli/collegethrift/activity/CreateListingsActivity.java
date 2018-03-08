@@ -51,6 +51,8 @@ public class CreateListingsActivity extends AppCompatActivity {
 
     public static final String EDIT_MODE_BOOLEAN_KEY = "key_to_check_edit_mode";
     public static final String EDIT_LISTINGS_KEY = "key_of_listing_to_id";
+    private static String mListingKey;
+    private static boolean mEditMode;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
@@ -82,6 +84,9 @@ public class CreateListingsActivity extends AppCompatActivity {
         mAuthentication = FirebaseAuth.getInstance();
         // [END declare_authentication_instance]
 
+
+        mEditMode = getIntent().getBooleanExtra(EDIT_MODE_BOOLEAN_KEY, false);
+        Log.v(TAG, "ASDSAD"+ String.valueOf(mEditMode));
 
         clTitle = (EditText) findViewById(R.id.cl_title_edit);
         clDesc = (EditText) findViewById(R.id.cl_desc_edit);
@@ -142,6 +147,7 @@ public class CreateListingsActivity extends AppCompatActivity {
 
     public void placePostIfEdit() {
         Log.v(TAG, String.valueOf(EDIT_MODE_BOOLEAN_KEY));
+        Log.v(TAG, EDIT_LISTINGS_KEY);
     }
 
     private void submitPost() {

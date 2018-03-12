@@ -26,6 +26,7 @@ exports.indexListingsToElastic = functions.database.ref("/listings/{listing_id}"
 			username: elasticSearchConfig.username,
 			password: elasticSearchConfig.password
 		},
+		method: elasticSearchMethod,
 		body: listingData,
 		json: true
 	};

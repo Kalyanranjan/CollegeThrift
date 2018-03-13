@@ -37,6 +37,11 @@ dependencies {
     compile 'com.github.jkwiecien:EasyImage:2.0.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.tajchert:Nammu:1.2.0'
+
+    // retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    //gson
+    compile 'com.google.code.gson:gson:2.8.2'
 }
 
 

@@ -40,8 +40,8 @@ dependencies {
 
     // retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    //gson
-    compile 'com.google.code.gson:gson:2.8.2'
+    //retrofit gson
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 }
 
 

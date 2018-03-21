@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,9 +13,12 @@ import android.widget.Spinner;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.model.Listing;
 import com.krparajuli.collegethrift.model.ListingCategory;
@@ -33,6 +37,8 @@ public class SearchActivity extends AppCompatActivity {
 
     private Query mQuery = null;
 
+    private String mElasticSearchPassword;
+
     private FirebaseRecyclerAdapter<Listing, ListingViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
@@ -43,6 +49,8 @@ public class SearchActivity extends AppCompatActivity {
     private Button lsSubmitButton;
 
     private boolean mCategorySearch = false, mTypeSearch = false, mPriceSearch = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +140,32 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    public void prepareQuery(DatabaseReference databaseReference) {
+    private void getElasticSearchPasword() {
+        Log.d(TAG, "getElasticSearchPassword: retrieving elasticSearch password");
+
+        Query query = FirebaseDatabase.getInstance().getReference()
+                .child("elasticSearch")
+                .child("password");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
+                mElasticSearchPassword = singleSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+
+
+
+    private void prepareQuery(DatabaseReference databaseReference) {
         Query prepQuery = databaseReference.child("listings");
 //        if (mCategorySearch) {
 //            prepQuery = prepQuery.orderByChild("category").equalTo(ListingCategory.values()[lsCategorySpinner.getSelectedItemPosition()].toString());
@@ -151,7 +184,7 @@ public class SearchActivity extends AppCompatActivity {
         mQuery = prepQuery;
     }
 
-    public void disableFilterOptions() {
+    private void disableFilterOptions() {
         lsCategorySpinner.setEnabled(false);
         lsTypeSpinner.setEnabled(false);
         lsPriceFrom.setEnabled(false);
@@ -159,7 +192,7 @@ public class SearchActivity extends AppCompatActivity {
         //lsSubmitButton.setEnabled(false);
     }
 
-    public void validateSubmitSearch() {
+    private void validateSubmitSearch() {
 
     }
 }

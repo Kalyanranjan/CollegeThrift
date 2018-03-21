@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.activity;
+package com.krparajuli.collegethrift.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -7,10 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.fragment.ViewListingsRecentFragment;
+import com.krparajuli.collegethrift.fragments.ViewListingsRecentFragment;
 
 public class MyListingsActivity extends AppCompatActivity {
     private FragmentPagerAdapter mPagerAdapter;

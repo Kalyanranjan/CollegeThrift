@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.activity;
+package com.krparajuli.collegethrift.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,18 +20,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.model.Listing;
-import com.krparajuli.collegethrift.model.ListingCategory;
-import com.krparajuli.collegethrift.model.ListingHitsList;
-import com.krparajuli.collegethrift.model.ListingHitsObject;
-import com.krparajuli.collegethrift.model.ListingType;
+import com.krparajuli.collegethrift.models.Listing;
+import com.krparajuli.collegethrift.models.ListingCategory;
+import com.krparajuli.collegethrift.models.ListingHitsList;
+import com.krparajuli.collegethrift.models.ListingHitsObject;
 import com.krparajuli.collegethrift.utils.ElasticSearchAPI;
-import com.krparajuli.collegethrift.viewholder.ListingViewHolder;
+import com.krparajuli.collegethrift.viewholders.ListingViewHolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import okhttp3.Credentials;
 import retrofit2.Call;

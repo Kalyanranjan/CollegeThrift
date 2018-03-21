@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.activity;
+package com.krparajuli.collegethrift.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.fragment.ViewListingsRecentFragment;
+import com.krparajuli.collegethrift.fragments.ViewListingsRecentFragment;
 
 public class DrawerViewListingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

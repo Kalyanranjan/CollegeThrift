@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.model;
+package com.krparajuli.collegethrift.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

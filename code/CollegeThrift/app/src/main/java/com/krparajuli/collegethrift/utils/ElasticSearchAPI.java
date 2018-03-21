@@ -1,6 +1,6 @@
 package com.krparajuli.collegethrift.utils;
 
-import com.krparajuli.collegethrift.model.ListingHitsObject;
+import com.krparajuli.collegethrift.models.ListingHitsObject;
 
 import java.util.Map;
 

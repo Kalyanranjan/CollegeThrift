@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.model;
+package com.krparajuli.collegethrift.models;
 
 /**
  * Created by kal on 2/24/18.

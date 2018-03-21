@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.activity;
+package com.krparajuli.collegethrift.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -25,9 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.model.Listing;
-import com.krparajuli.collegethrift.model.ListingCategory;
-import com.krparajuli.collegethrift.model.ListingType;
+import com.krparajuli.collegethrift.models.Listing;
+import com.krparajuli.collegethrift.models.ListingCategory;
+import com.krparajuli.collegethrift.models.ListingType;
 
 import java.io.File;
 import java.util.HashMap;

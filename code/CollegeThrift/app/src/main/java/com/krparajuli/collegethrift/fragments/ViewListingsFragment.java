@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.fragment;
+package com.krparajuli.collegethrift.fragments;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -16,11 +16,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.krparajuli.collegethrift.activity.CreateListingsActivity;
-import com.krparajuli.collegethrift.activity.ListingDetailActivity;
-import com.krparajuli.collegethrift.model.Listing;
+import com.krparajuli.collegethrift.activities.CreateListingsActivity;
+import com.krparajuli.collegethrift.activities.ListingDetailActivity;
+import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.viewholder.ListingViewHolder;
+import com.krparajuli.collegethrift.viewholders.ListingViewHolder;
 
 /**
  * A placeholder fragment containing a simple view.

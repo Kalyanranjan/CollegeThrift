@@ -1,20 +1,14 @@
-package com.krparajuli.collegethrift.viewholder;
+package com.krparajuli.collegethrift.viewholders;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.krparajuli.collegethrift.model.Listing;
+import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.model.ListingType;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
+import com.krparajuli.collegethrift.models.ListingType;
 
 /**
  * Created by kal on 2/24/18.

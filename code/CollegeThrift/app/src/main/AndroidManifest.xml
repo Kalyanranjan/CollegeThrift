@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -34,17 +34,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CreateListingsActivity"
+            android:name=".activities.CreateListingsActivity"
             android:label="Create Listings"
-            android:parentActivityName=".activity.DrawerViewListingsActivity"/>
+            android:parentActivityName=".activities.DrawerViewListingsActivity"/>
 
         <activity
-            android:name=".activity.SearchActivity"
+            android:name=".activities.SearchActivity"
             android:label="Filter/Search Listings"
-            android:parentActivityName=".activity.DrawerViewListingsActivity"/>
+            android:parentActivityName=".activities.DrawerViewListingsActivity"/>
 
         <activity
-            android:name=".activity.DrawerViewListingsActivity"
+            android:name=".activities.DrawerViewListingsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -54,22 +54,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.VerificationResetActivity"
-            android:parentActivityName=".activity.LoginActivity"/>
+        <activity android:name=".activities.VerificationResetActivity"
+            android:parentActivityName=".activities.LoginActivity"/>
 
-        <activity android:name=".activity.ListingDetailActivity" />
+        <activity android:name=".activities.ListingDetailActivity" />
 
         <activity
-            android:name=".activity.MyListingsActivity"
+            android:name=".activities.MyListingsActivity"
             android:label="My Listings"
-            android:parentActivityName=".activity.DrawerViewListingsActivity"
+            android:parentActivityName=".activities.DrawerViewListingsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.krparajuli.collegethrift.activity.DrawerViewListingsActivity" />
+            android:value="com.krparajuli.collegethrift.activities.DrawerViewListingsActivity" />
         </activity>
 
     </application>

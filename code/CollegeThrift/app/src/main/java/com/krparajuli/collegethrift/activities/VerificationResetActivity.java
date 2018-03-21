@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.activity;
+package com.krparajuli.collegethrift.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

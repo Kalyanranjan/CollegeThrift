@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.fragment;
+package com.krparajuli.collegethrift.fragments;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;

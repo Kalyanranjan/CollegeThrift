@@ -1,4 +1,4 @@
-package com.krparajuli.collegethrift.activity;
+package com.krparajuli.collegethrift.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.model.Listing;
+import com.krparajuli.collegethrift.models.Listing;
 
 public class ListingDetailActivity extends AppCompatActivity {
 

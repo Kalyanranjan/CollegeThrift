@@ -2,6 +2,7 @@ package com.krparajuli.collegethrift.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -25,6 +27,7 @@ import com.krparajuli.collegethrift.models.ListingCategory;
 import com.krparajuli.collegethrift.models.ListingHitsList;
 import com.krparajuli.collegethrift.models.ListingHitsObject;
 import com.krparajuli.collegethrift.utils.ElasticSearchAPI;
+import com.krparajuli.collegethrift.utils.ListingListAdapter;
 import com.krparajuli.collegethrift.viewholders.ListingViewHolder;
 
 import java.io.IOException;
@@ -42,6 +45,8 @@ public class SearchActivity extends AppCompatActivity {
 
     private static final String TAG = "SearchActivity";
     private static final String BASE_URL = "http://35.225.53.194//elasticsearch/";
+    private static int NUM_GRID_COLS = 1;
+
 
     // [START define_database_reference]
     private DatabaseReference mDatabase;
@@ -55,8 +60,10 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<Listing> mListings;
 
     private FirebaseRecyclerAdapter<Listing, ListingViewHolder> mAdapter;
-    private RecyclerView mRecycler;
+    private RecyclerView mRecyclerView;
+    private GridLayoutManager mGridLayoutManager;
     private LinearLayoutManager mManager;
+    private ListingListAdapter mListingAdapter;
 
     private EditText lsKeywordText, lsPriceFrom, lsPriceTo;
     private CheckBox lsTypeCheck, lsCategoryCheck, lsPriceCheck;
@@ -78,11 +85,10 @@ public class SearchActivity extends AppCompatActivity {
 
         getElasticSearchPasword();
 
-        mRecycler = (RecyclerView) findViewById(R.id.ls_recycler_view);
-        mManager = new LinearLayoutManager(this);
-        mManager.setReverseLayout(true);
-        mManager.setStackFromEnd(true);
-        mRecycler.setLayoutManager(mManager);
+        mRecyclerView = (RecyclerView) findViewById(R.id.ls_recycler_view);
+        mGridLayoutManager = new GridLayoutManager(this, 1);
+        mGridLayoutManager.setReverseLayout(true);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
 
         lsKeywordText = (EditText) findViewById(R.id.ls_keyword_edit);
         lsTypeSpinner = (Spinner) findViewById(R.id.ls_spinner_type);
@@ -101,25 +107,25 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View view) {
                 prepareQuery(mDatabase);
 
-                mAdapter = new FirebaseRecyclerAdapter<Listing, ListingViewHolder>(Listing.class, R.layout.listing_item,
-                        ListingViewHolder.class, mQuery) {
-
-                    @Override
-                    protected void populateViewHolder(ListingViewHolder viewHolder, Listing listing, int position) {
-                        final DatabaseReference listingsRef = getRef(position);
-
-                        // Set click listener for the whole post view
-                        final String listingKey = listingsRef.getKey();
-                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                // Launch ListingDetailActivity here
-                            }
-                        });
-                        viewHolder.bindToListing(listing, mAuth.getInstance().getCurrentUser().getUid().toString());
-                    }
-                };
-                mRecycler.setAdapter(mAdapter);
+//                mAdapter = new FirebaseRecyclerAdapter<Listing, ListingViewHolder>(Listing.class, R.layout.layout_listing_item,
+//                        ListingViewHolder.class, mQuery) {
+//
+//                    @Override
+//                    protected void populateViewHolder(ListingViewHolder viewHolder, Listing listing, int position) {
+//                        final DatabaseReference listingsRef = getRef(position);
+//
+//                        // Set click listener for the whole post view
+//                        final String listingKey = listingsRef.getKey();
+//                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                // Launch ListingDetailActivity here
+//                            }
+//                        });
+//                        viewHolder.bindToListing(listing, mAuth.getInstance().getCurrentUser().getUid().toString());
+//                    }
+//                };
+//                mRecyclerView.setAdapter(mAdapter);
             }
         });
 
@@ -180,6 +186,17 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
+    private void setupPostsList() {
+
+        mListingAdapter = new ListingListAdapter(this, mListings);
+        Log.d(TAG, "we dint it");
+
+        mRecyclerView.setAdapter(mListingAdapter);
+        Log.d(TAG, "we dint it");
+
+        Log.d(TAG, mListings.toString());
+        Log.d(TAG, "we did it");
+    }
 
 
     private void prepareQuery(DatabaseReference databaseReference) {
@@ -229,6 +246,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
 
                     Log.d(TAG, "onResponse: size: " + mListings.size());
+                    setupPostsList();
 
                 } catch (NullPointerException e) {
                     Log.v(TAG, "onResponse: NullPointerException: " + e.getMessage());

@@ -144,7 +144,7 @@
         android:padding="5dp"
         android:layout_below="@+id/ls_spinners"
         android:scrollbars="vertical"
-        tools:listitem="@layout/listing_item" >
+        tools:listitem="@layout/layout_listing_item" >
 
     </android.support.v7.widget.RecyclerView>
 

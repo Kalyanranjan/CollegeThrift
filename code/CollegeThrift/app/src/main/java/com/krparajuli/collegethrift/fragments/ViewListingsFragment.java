@@ -67,7 +67,7 @@ public abstract class ViewListingsFragment extends Fragment {
 
         //Set up FirebaseRecyclerAdapter with the Query
         final Query listingsQuery = getQuery(mDatabase);
-        mAdapter = new FirebaseRecyclerAdapter<Listing, ListingViewHolder>(Listing.class, R.layout.listing_item,
+        mAdapter = new FirebaseRecyclerAdapter<Listing, ListingViewHolder>(Listing.class, R.layout.layout_listing_item,
                 ListingViewHolder.class, listingsQuery) {
 
             @Override

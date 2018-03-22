@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.models.Listing;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
 
     private Context mContext;
     private ArrayList<Listing> mListings;
+    private ImageLoader mImageLoader;
 
 
     public class ListingViewHolder extends RecyclerView.ViewHolder {
@@ -50,6 +52,8 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
     public ListingListAdapter(Context context, ArrayList<Listing> listings) {
         mContext = context;
         mListings = listings;
+        mImageLoader = ImageLoader.getInstance();
+        mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
     }
 
     @Override
@@ -60,7 +64,7 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
 
     @Override
     public void onBindViewHolder(ListingViewHolder holder, int position) {
-        //ImageLoader.getInstance().displayImage(mListings.get(position).getThumbnailUrl(), holder.mListingThumbnail);
+        mImageLoader.getInstance().displayImage(mListings.get(position).getThumbnailUrl(), holder.mListingThumbnail);
         holder.mListingThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

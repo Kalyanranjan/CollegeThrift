@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -105,27 +104,8 @@ public class SearchActivity extends AppCompatActivity {
         lsSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                prepareQuery(mDatabase);
+                executeQueryAndSetupListings(mDatabase);
 
-//                mAdapter = new FirebaseRecyclerAdapter<Listing, ListingViewHolder>(Listing.class, R.layout.layout_listing_item,
-//                        ListingViewHolder.class, mQuery) {
-//
-//                    @Override
-//                    protected void populateViewHolder(ListingViewHolder viewHolder, Listing listing, int position) {
-//                        final DatabaseReference listingsRef = getRef(position);
-//
-//                        // Set click listener for the whole post view
-//                        final String listingKey = listingsRef.getKey();
-//                        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                // Launch ListingDetailActivity here
-//                            }
-//                        });
-//                        viewHolder.bindToListing(listing, mAuth.getInstance().getCurrentUser().getUid().toString());
-//                    }
-//                };
-//                mRecyclerView.setAdapter(mAdapter);
             }
         });
 
@@ -186,20 +166,13 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    private void setupPostsList() {
-
+    private void setupListingLists() {
         mListingAdapter = new ListingListAdapter(this, mListings);
-        Log.d(TAG, "we dint it");
-
         mRecyclerView.setAdapter(mListingAdapter);
-        Log.d(TAG, "we dint it");
-
-        Log.d(TAG, mListings.toString());
-        Log.d(TAG, "we did it");
     }
 
 
-    private void prepareQuery(DatabaseReference databaseReference) {
+    private void executeQueryAndSetupListings(DatabaseReference databaseReference) {
         mListings = new ArrayList<Listing>();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -246,7 +219,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
 
                     Log.d(TAG, "onResponse: size: " + mListings.size());
-                    setupPostsList();
+                    setupListingLists();
 
                 } catch (NullPointerException e) {
                     Log.v(TAG, "onResponse: NullPointerException: " + e.getMessage());

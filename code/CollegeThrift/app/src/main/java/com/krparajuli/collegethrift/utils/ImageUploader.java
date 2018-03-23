@@ -9,12 +9,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 
 /**
  * Created by kal on 3/22/18.
@@ -26,19 +25,19 @@ public class ImageUploader {
     private static final String FIREBASE_LISTING_IMAGES_PATH = "listing-images/";
     private static final String IMAGE_UPLOAD_FAILURE_URL = "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fti1?alt=media&token=c7c4ebc5-e017-47b2-98bf-3ec8c1c8992f";
 
-    private byte[] mImageBytes;
+    private File mImageFile;
     private String mListingId;
     private Context mContext;
     private String mImageDownloadUrl;
     private boolean mImageUploadSuccess = false;
 
-    public ImageUploader(byte[] mImageBytes, String mListingId, Context context) {
-        this.mImageBytes = mImageBytes;
+    public ImageUploader(File mImageBytes, String mListingId, Context context) {
+        this.mImageFile = mImageBytes;
         this.mListingId = mListingId;
         this.mContext = context;
     }
-    public void setmImageBytes(byte[] mImageBytes) {
-        this.mImageBytes = mImageBytes;
+    public void setmImageFile(File mImageFile) {
+        this.mImageFile = mImageFile;
     }
 
     public String getmListingId() {
@@ -55,7 +54,7 @@ public class ImageUploader {
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                 .child(path);
 
-        UploadTask uploadTask = storageReference.putBytes(mImageBytes);
+        UploadTask uploadTask = storageReference.putFile(Uri.fromFile(mImageFile));
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

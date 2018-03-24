@@ -315,15 +315,15 @@ public class CreateListingsActivity extends AppCompatActivity {
             key = mListingKey;
         }
 
-//        ImageUploader imageUploader;
-//        if (returnedPhoto != null) {
-//            imageUploader = new ImageUploader(returnedPhoto, key, this);
-//            imageUploader.uploadImageThumbnail();
+        ImageUploader imageUploader;
+        if (returnedPhoto != null) {
+            imageUploader = new ImageUploader(returnedPhoto, key, this);
+            imageUploader.uploadImageThumbnail();
 //            if (imageUploader.getmUploadTask() != null) {
 //                imageUploader.getmUploadTask().get();
 //            }
 //            thumbnailUrl = imageUploader.getmImageDownloadUrl();
-//        }
+        }
 
         Listing listing = new Listing(title, desc,
                 ListingType.values()[type], ListingCategory.values()[category],

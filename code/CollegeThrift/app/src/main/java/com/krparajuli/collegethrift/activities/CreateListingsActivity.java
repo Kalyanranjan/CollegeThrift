@@ -282,8 +282,7 @@ public class CreateListingsActivity extends AppCompatActivity {
 //                });
 
         writeListingToDb(title, desc, category, type, price,
-                "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fti1?alt=media&token=c7c4ebc5-e017-47b2-98bf-3ec8c1c8992f",
-                listerId, dateTimeEpoch, status);
+                "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fpicture-frame-with-mountain-image_318-40293.jpg?alt=media&token=b51734b8-1361-4179-8eda-6e1811fcc052"                listerId, dateTimeEpoch, status);
         setEditingEnabled(true);
         finish();
 

@@ -23,13 +23,13 @@ public class ImageUploader {
 
     private static final String TAG = "ImageUploader";
     private static final String FIREBASE_LISTING_IMAGES_PATH = "listing-images/";
-    private static final String IMAGE_UPLOAD_FAILURE_URL = "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fti1?alt=media&token=c7c4ebc5-e017-47b2-98bf-3ec8c1c8992f";
-
+    private static final String IMAGE_UPLOAD_FAILURE_URL = "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fpicture-frame-with-mountain-image_318-40293.jpg?alt=media&token=b51734b8-1361-4179-8eda-6e1811fcc052";
     private File mImageFile;
     private String mListingId;
     private Context mContext;
     private String mImageDownloadUrl;
     private boolean mImageUploadSuccess = false;
+    private UploadTask mUploadTask = null;
 
     public ImageUploader(File mImageBytes, String mListingId, Context context) {
         this.mImageFile = mImageBytes;

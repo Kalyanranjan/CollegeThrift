@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,6 +28,10 @@ public class ImageUploader {
     private static final String TAG = "ImageUploader";
     private static final String FIREBASE_LISTING_IMAGES_PATH = "listing-images/";
     private static final String IMAGE_UPLOAD_FAILURE_URL = "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fpicture-frame-with-mountain-image_318-40293.jpg?alt=media&token=b51734b8-1361-4179-8eda-6e1811fcc052";
+    private static final short LISTING_THUMBNAIL = 0;
+    private static final short LISTING_IMAGE = 1;
+    private static final short USER_PROFILE_IMAGE = 2;
+
     private File mImageFile;
     private String mListingId;
     private Context mContext;
@@ -59,7 +64,7 @@ public class ImageUploader {
         return mUploadTask;
     }
 
-    private void uploadImage(String path) {
+    private void uploadImage(String path, final short type) {
         Log.d(TAG, "uploadImage: Uploading Image");
 
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference()
@@ -74,22 +79,24 @@ public class ImageUploader {
                 // insert the downloadUri into the firebase database
                 mImageUploadSuccess = true;
                 mImageDownloadUrl = taskSnapshot.getDownloadUrl().toString();
+                if (type == LISTING_THUMBNAIL) {
+                    FirebaseDatabase.getInstance().getReference().child("listings").child(mListingId)
+                            .child("thumbnailUrl").setValue(mImageDownloadUrl);
+                }
             }
-
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(mContext, "Upload Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     public void uploadImageThumbnail() {
         Log.d(TAG, "uploadImageThumbnail: ");
         uploadImage(FIREBASE_LISTING_IMAGES_PATH
                         + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/"
-                        + mListingId + "/thumbnail/thumbnail-image");
+                        + mListingId + "/thumbnail/thumbnail-image",
+                LISTING_THUMBNAIL);
     }
 }

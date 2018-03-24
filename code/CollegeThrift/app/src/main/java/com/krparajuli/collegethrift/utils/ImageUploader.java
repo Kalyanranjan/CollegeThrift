@@ -8,12 +8,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by kal on 3/22/18.
@@ -48,17 +51,25 @@ public class ImageUploader {
         return mImageUploadSuccess ? mImageDownloadUrl : IMAGE_UPLOAD_FAILURE_URL;
     }
 
+    public boolean ismImageUploadSuccess() {
+        return mImageUploadSuccess;
+    }
+
+    public UploadTask getmUploadTask() {
+        return mUploadTask;
+    }
+
     private void uploadImage(String path) {
         Log.d(TAG, "uploadImage: Uploading Image");
 
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                 .child(path);
 
-        UploadTask uploadTask = storageReference.putFile(Uri.fromFile(mImageFile));
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        mUploadTask = storageReference.putFile(Uri.fromFile(mImageFile));
+        mUploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(mContext, "Upload Successful", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, "Upload Successful", Toast.LENGTH_SHORT).show();
 
                 // insert the downloadUri into the firebase database
                 mImageUploadSuccess = true;

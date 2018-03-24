@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +29,7 @@ import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingCategory;
 import com.krparajuli.collegethrift.models.ListingType;
+import com.krparajuli.collegethrift.utils.ImageUploader;
 
 import java.io.File;
 import java.util.HashMap;
@@ -46,6 +48,9 @@ public class CreateListingsActivity extends AppCompatActivity {
 
     private static final String PHOTO_KEY = "listing_image_photo";
     private String IMAGES_FOLDER_NAME = "CollegeThriftImages";
+    private static final String FALLBACK_IMAGE_DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fpicture-frame-with-mountain-image_318-40293.jpg?alt=media&token=b51734b8-1361-4179-8eda-6e1811fcc052";
+
+
     private File returnedPhoto = null;
 
     public static final String EXTRA_EDIT_MODE_BOOLEAN_KEY = "key_to_check_edit_mode";
@@ -71,7 +76,6 @@ public class CreateListingsActivity extends AppCompatActivity {
     private ImageView clListingImage;
 
     private FloatingActionButton clSubmitButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,7 +238,7 @@ public class CreateListingsActivity extends AppCompatActivity {
 
         // Price is required if "Sale"
         if ((type == ListingType.SALE_ONLY.getValue()) || (type == ListingType.SALE_TRADE.getValue())) {
-            final String priceText  = clPrice.getText().toString();
+            final String priceText = clPrice.getText().toString();
             if (TextUtils.isEmpty(priceText)) {
                 clPrice.setError(REQUIRED);
                 return;
@@ -281,8 +285,7 @@ public class CreateListingsActivity extends AppCompatActivity {
 //                    }
 //                });
 
-        writeListingToDb(title, desc, category, type, price,
-                "https://firebasestorage.googleapis.com/v0/b/collegethrift-base.appspot.com/o/listing-thumbnails%2Fpicture-frame-with-mountain-image_318-40293.jpg?alt=media&token=b51734b8-1361-4179-8eda-6e1811fcc052"                listerId, dateTimeEpoch, status);
+        writeListingToDb(title, desc, category, type, price, FALLBACK_IMAGE_DOWNLOAD_URL, listerId, dateTimeEpoch, status);
         setEditingEnabled(true);
         finish();
 
@@ -311,6 +314,17 @@ public class CreateListingsActivity extends AppCompatActivity {
         if (mEditMode) {
             key = mListingKey;
         }
+
+//        ImageUploader imageUploader;
+//        if (returnedPhoto != null) {
+//            imageUploader = new ImageUploader(returnedPhoto, key, this);
+//            imageUploader.uploadImageThumbnail();
+//            if (imageUploader.getmUploadTask() != null) {
+//                imageUploader.getmUploadTask().get();
+//            }
+//            thumbnailUrl = imageUploader.getmImageDownloadUrl();
+//        }
+
         Listing listing = new Listing(title, desc,
                 ListingType.values()[type], ListingCategory.values()[category],
                 price, thumbnailUrl,
@@ -353,7 +367,7 @@ public class CreateListingsActivity extends AppCompatActivity {
         });
     }
 
-    private void onPhotosReturned(List<File> returnedPhotosList){
+    private void onPhotosReturned(List<File> returnedPhotosList) {
         if (returnedPhotosList.size() < 1) {
             Snackbar photoRetrieveError = Snackbar.make(findViewById(R.id.cl_button_add_image),
                     "Photo(s) Not Retrieved. Try Again",

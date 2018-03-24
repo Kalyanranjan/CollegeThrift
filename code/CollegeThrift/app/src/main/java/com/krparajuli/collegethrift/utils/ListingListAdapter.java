@@ -100,6 +100,7 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
         } else {
             holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
         }
+
         mImageLoader.getInstance().displayImage(mListings.get(position).getThumbnailUrl(), holder.mListingThumbnail);
         holder.mListingThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override

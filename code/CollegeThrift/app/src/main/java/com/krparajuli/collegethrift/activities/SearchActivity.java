@@ -25,6 +25,7 @@ import com.krparajuli.collegethrift.models.ListingCategory;
 import com.krparajuli.collegethrift.models.ListingHitsList;
 import com.krparajuli.collegethrift.models.ListingHitsObject;
 import com.krparajuli.collegethrift.models.ListingType;
+import com.krparajuli.collegethrift.utils.ESPasswordGetter;
 import com.krparajuli.collegethrift.utils.ListingListAdapter;
 
 import java.io.IOException;
@@ -43,8 +44,6 @@ public class SearchActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     // [END define_database_reference]
 
-    private String mElasticSearchPassword;
-
     private ArrayList<Listing> mListings;
 
     private RecyclerView mRecyclerView;
@@ -61,13 +60,12 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ESPasswordGetter.retrieveElasticSearchPaswordFromDb();
         setContentView(R.layout.activity_search);
 
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END create_database_reference]
-
-        getElasticSearchPasword();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.ls_recycler_view);
         mGridLayoutManager = new GridLayoutManager(this, NUM_GRID_COLS);
@@ -128,27 +126,6 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    private void getElasticSearchPasword() {
-        Log.d(TAG, "getElasticSearchPassword: retrieving elasticSearch password");
-
-        Query query = FirebaseDatabase.getInstance().getReference()
-                .child("elasticSearch")
-                .orderByValue();
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot singleSnapshot = dataSnapshot.getChildren().iterator().next();
-                mElasticSearchPassword = singleSnapshot.getValue().toString();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, "DatabaseError: " + databaseError.getMessage());
-            }
-        });
-    }
-
     private void setupListingLists() {
         mListingAdapter = new ListingListAdapter(this, mListings);
         mRecyclerView.setAdapter(mListingAdapter);
@@ -178,7 +155,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-        ESFetch esFetchSearch = new ESFetchSearch(mElasticSearchPassword, searchKeywordString, searchCategory, searchType, priceFrom, priceTo);
+        ESFetch esFetchSearch = new ESFetchSearch(ESPasswordGetter.getmElasticSearchPassword(), searchKeywordString, searchCategory, searchType, priceFrom, priceTo);
         Call<ListingHitsObject> call = esFetchSearch.getListingQueryCall();
         call.enqueue(new Callback<ListingHitsObject>() {
             @Override

@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,11 +19,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.fragments.ViewListingsRecentFragment;
+import com.krparajuli.collegethrift.utils.ESPasswordGetter;
 
 public class DrawerViewListingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "DrawerViewListings";
+
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -30,7 +40,30 @@ public class DrawerViewListingsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ESPasswordGetter.retrieveElasticSearchPaswordFromDb();
         setContentView(R.layout.activity_drawer_view_listings);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.dash_toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_create_listings);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent createListingsIntent = new Intent(DrawerViewListingsActivity.this, CreateListingsActivity.class);
+               createListingsIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_MODE_BOOLEAN_KEY, false);
+               startActivity(createListingsIntent);
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
@@ -57,28 +90,6 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.dvl_tabs);
         tabLayout.setupWithViewPager(mViewPager, true);
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.dash_toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_create_listings);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent createListingsIntent = new Intent(DrawerViewListingsActivity.this, CreateListingsActivity.class);
-               createListingsIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_MODE_BOOLEAN_KEY, false);
-               startActivity(createListingsIntent);
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class ESFetchSearch extends ESFetch {
             query += "*";
         query += "]";
 
-        query += " status:0";
+        query += " status:0 !listerUid:" + mUserId;
 
         return query;
     }

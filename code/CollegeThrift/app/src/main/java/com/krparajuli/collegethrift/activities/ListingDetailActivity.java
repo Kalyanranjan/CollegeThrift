@@ -1,13 +1,16 @@
 package com.krparajuli.collegethrift.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +20,8 @@ import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingCategory;
 import com.krparajuli.collegethrift.models.ListingType;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class ListingDetailActivity extends AppCompatActivity {
 
@@ -24,9 +29,13 @@ public class ListingDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_LISTING_KEY = "listing_key";
 
+    private ImageLoader mImageLoader;
+
     private DatabaseReference mListingReference;
     private ValueEventListener mListingListener;
     private String mListingKey;
+
+    private Listing mListing;
 
     private ImageView mThumbnailView;
     private TextView mTitleView;
@@ -35,6 +44,7 @@ public class ListingDetailActivity extends AppCompatActivity {
     private TextView mPriceView;
     private TextView mCategoryView;
     private Button mContactLister;
+    private Button mEditDeleteListing;
 
 
     @Override
@@ -54,6 +64,10 @@ public class ListingDetailActivity extends AppCompatActivity {
         mListingReference = FirebaseDatabase.getInstance().getReference()
                 .child("listings").child(mListingKey);
 
+        mImageLoader = ImageLoader.getInstance();
+        mImageLoader.init(ImageLoaderConfiguration.createDefault(this));
+
+
         //Initialize Views
         mTitleView = (TextView) findViewById(R.id.ld_title_view);
         mThumbnailView = (ImageView) findViewById(R.id.ld_thumb_image);
@@ -62,7 +76,10 @@ public class ListingDetailActivity extends AppCompatActivity {
         mPriceView = (TextView) findViewById(R.id.ld_price_view);
         mCategoryView = (TextView) findViewById(R.id.ld_category_view);
         mContactLister = (Button) findViewById(R.id.ld_contact_button);
+        mEditDeleteListing = (Button) findViewById(R.id.ld_edit_delete_button);
+
         mContactLister.setEnabled(false);
+
     }
 
     @Override
@@ -75,13 +92,35 @@ public class ListingDetailActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Listing object and use the values to update the UI
-                Listing listing = dataSnapshot.getValue(Listing.class);
+                mListing = dataSnapshot.getValue(Listing.class);
                 // [START_EXCLUDE]
-                mTitleView.setText(listing.getTitle());
-                mDescView.setText(listing.getDesc());
-                mTypeView.setText("Type: " + getTypeText(listing.getType()));
-                mPriceView.setText("Price: $" + String.valueOf(listing.getPrice()));
-                mCategoryView.setText("Category: " + getCategoryText(listing.getCategory()));
+                mTitleView.setText(mListing.getTitle());
+                mDescView.setText(mListing.getDesc());
+                mTypeView.setText("Type: " + getTypeText(mListing.getType()));
+                mPriceView.setText("Price: $" + String.valueOf(mListing.getPrice()));
+                mCategoryView.setText("Category: " + getCategoryText(mListing.getCategory()));
+                mImageLoader.getInstance().displayImage(mListing.getThumbnailUrl(), mThumbnailView);
+
+
+                boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().equals(mListing.getListerUid());
+                if (listedByCurrentUser) {
+                    mEditDeleteListing.setVisibility(View.VISIBLE);
+                    mContactLister.setVisibility(View.GONE);
+                } else {
+                    mEditDeleteListing.setVisibility(View.GONE);
+                    mContactLister.setVisibility(View.VISIBLE);
+                }
+
+                mEditDeleteListing.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Launch EditListingActivity
+                        Intent editListingIntent = new Intent(ListingDetailActivity.this, CreateListingsActivity.class);
+                        editListingIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_MODE_BOOLEAN_KEY, true);
+                        editListingIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_LISTINGS_KEY, mListing.getUid());
+                        startActivity(editListingIntent);
+                    }
+                });
                 // [END_EXCLUDE]
             }
 

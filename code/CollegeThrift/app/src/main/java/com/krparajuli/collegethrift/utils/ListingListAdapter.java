@@ -2,7 +2,6 @@ package com.krparajuli.collegethrift.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,8 +20,6 @@ import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingType;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

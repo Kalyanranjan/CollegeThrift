@@ -56,5 +56,6 @@
     <string name="category_s_label">Category: %s</string>
     <string name="price_s_label">Price: %s</string>
     <string name="type_s_label">Type: %s</string>
+    <string name="edit_delete_listing">Edit/Delete Listing</string>
 
 </resources>

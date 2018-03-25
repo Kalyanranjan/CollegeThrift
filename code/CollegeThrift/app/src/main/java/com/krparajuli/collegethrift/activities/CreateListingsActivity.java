@@ -4,12 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -177,7 +176,7 @@ public class CreateListingsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
+                // Getting Listing failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // [START_EXCLUDE]
                 Toast.makeText(CreateListingsActivity.this, "Failed to load post.",
@@ -250,41 +249,6 @@ public class CreateListingsActivity extends AppCompatActivity {
         // Disable button so there are no multi-posts
         setEditingEnabled(false);
         Toast.makeText(this, "Posting...", Toast.LENGTH_SHORT).show();
-
-//        mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
-//                new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        // Get user value
-//                        User user = dataSnapshot.getValue(User.class);
-//
-//                        // [START_EXCLUDE]
-//                        if (user == null) {
-//                            // User is null, error out
-//                            Log.e(TAG, "User " + userId + " is unexpectedly null");
-//                            Toast.makeText(NewPostActivity.this,
-//                                    "Error: could not fetch user.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            // Write new post
-//                            writeNewPost(userId, user.username, title, body);
-//                        }
-//
-//                        // Finish this Activity, back to the stream
-//                        setEditingEnabled(true);
-//                        finish();
-//                        // [END_EXCLUDE]
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-//                        // [START_EXCLUDE]
-//                        setEditingEnabled(true);
-//                        // [END_EXCLUDE]
-//                    }
-//                });
-
         writeListingToDb(title, desc, category, type, price, FALLBACK_IMAGE_DOWNLOAD_URL, listerId, dateTimeEpoch, status);
         setEditingEnabled(true);
         finish();
@@ -308,8 +272,6 @@ public class CreateListingsActivity extends AppCompatActivity {
                                   int price, String thumbnailUrl,
                                   String listerUid, long dateTimeEpoch, int status) {
 
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
         String key = mDatabase.child("listings").push().getKey();
         if (mEditMode) {
             key = mListingKey;
@@ -319,10 +281,6 @@ public class CreateListingsActivity extends AppCompatActivity {
         if (returnedPhoto != null) {
             imageUploader = new ImageUploader(returnedPhoto, key, this);
             imageUploader.uploadImageThumbnail();
-//            if (imageUploader.getmUploadTask() != null) {
-//                imageUploader.getmUploadTask().get();
-//            }
-//            thumbnailUrl = imageUploader.getmImageDownloadUrl();
         }
 
         Listing listing = new Listing(key, title, desc,

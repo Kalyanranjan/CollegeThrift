@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.activities.CreateListingsActivity;
 import com.krparajuli.collegethrift.activities.ListingDetailActivity;
 import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingType;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
  * Created by kal on 3/21/18.
  */
 
-public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter.ListingViewHolder> {
+public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.ListingViewHolder> {
     private static final String TAG = "ListingListAdapter";
     private static int NUM_GRID_COLS = 1;
 
@@ -50,7 +52,7 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
 
             mListingThumbnail = (ImageView) listingView.findViewById(R.id.vlh_listing_thumbnail);
             int gridWidth = mContext.getResources().getDisplayMetrics().widthPixels;
-            int imageWidth = gridWidth/NUM_GRID_COLS;
+            int imageWidth = gridWidth / NUM_GRID_COLS;
             mListingTitle = (TextView) listingView.findViewById(R.id.vlh_listing_title);
             mListingDesc = (TextView) listingView.findViewById(R.id.vlh_listing_desc);
             mListingSale = (TextView) listingView.findViewById(R.id.vlh_listing_sale);
@@ -73,7 +75,7 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
 
     @Override
     public ListingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view  = LayoutInflater.from(mContext).inflate(R.layout.layout_listing_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_listing_item, parent, false);
         return new ListingViewHolder(mContext, view);
     }
 
@@ -83,7 +85,7 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
 
         holder.mListingTitle.setText(listing.getTitle());
         holder.mListingDesc.setText(listing.getDesc());
-        holder.mListingPrice.setText("$"+String.valueOf(listing.getPrice()));
+        holder.mListingPrice.setText("$" + String.valueOf(listing.getPrice()));
         holder.mListingCategory.setText(listing.getCategory().toString());
 
         if (listing.getType() == ListingType.SALE_ONLY) {
@@ -108,12 +110,6 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
 
         final Boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().toString().equals(listing.getListerUid());
 
-        if (listedByCurrentUser) {
-            holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_image_edit);
-        } else {
-            holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
-        }
-
         mImageLoader.getInstance().displayImage(mListings.get(position).getThumbnailUrl(), holder.mListingThumbnail);
         holder.mListingThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,13 +121,31 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Launch ListingDetailsActivity
+                Intent listingDetailIntent = new Intent(mContext, ListingDetailActivity.class);
+                listingDetailIntent.putExtra(ListingDetailActivity.EXTRA_LISTING_KEY, listing.getUid());
+                mContext.startActivity(listingDetailIntent);
+            }
+        });
+
+        if (listedByCurrentUser) {
+            holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_image_edit);
+        } else {
+            holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
+        }
+
+        holder.mListingFavoriteEditLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
                 if (listedByCurrentUser) {
-                    // Launch ListingDetailsActivity
-                    Intent listingDetailIntent = new Intent(mContext, ListingDetailActivity.class);
-                    listingDetailIntent.putExtra(ListingDetailActivity.EXTRA_LISTING_KEY, listing.getUid());
-//                    startActivity(listingDetailIntent);
+                    //Launch EditListing
+                    Intent editListingIntent = new Intent(mContext, CreateListingsActivity.class);
+                    editListingIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_LISTINGS_KEY, listing.getUid());
+                    editListingIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_MODE_BOOLEAN_KEY, true);
+                    mContext.startActivity(editListingIntent);
                 } else {
-                    Log.d(TAG, "onClick: Favorited");
+                    // Favorite Listing
+                    Toast.makeText(mContext, "Listing Favorited", Toast.LENGTH_SHORT).show();
                 }
             }
         });

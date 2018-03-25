@@ -35,12 +35,10 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             final Fragment[] mFragments = new Fragment[] {
-                    new ViewListingsRecentFragment(),
                     new ViewListingsRecentFragment()
             };
             private final String[] mFragmentNames = new String[] {
                     getString(R.string.heading_recent),
-                    "Favourites"
             };
 
             @Override
@@ -112,11 +110,6 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 Intent searchIntent = new Intent(DrawerViewListingsActivity.this, SearchActivity.class);
                 startActivity(searchIntent);
                 break;
-//            case R.id.action_settings:
-//                return true;
-//            case R.id.action_logout:
-//                return true;
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -142,21 +135,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
             default:
                 closeDrawer();
                 break;
-
         }
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
         return true;
     }
 

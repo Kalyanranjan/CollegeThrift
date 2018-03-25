@@ -5,4 +5,5 @@ package com.krparajuli.collegethrift.fetchers;
  */
 
 public class ESFetchMyCurrent {
+
 }

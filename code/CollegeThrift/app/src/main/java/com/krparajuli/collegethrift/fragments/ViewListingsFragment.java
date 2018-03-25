@@ -1,40 +1,24 @@
 package com.krparajuli.collegethrift.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.krparajuli.collegethrift.activities.CreateListingsActivity;
-import com.krparajuli.collegethrift.activities.ListingDetailActivity;
-import com.krparajuli.collegethrift.fetchers.ESFetch;
-import com.krparajuli.collegethrift.fetchers.ESFetchSearch;
-import com.krparajuli.collegethrift.fetchers.ESFetchViewListings;
-import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.models.ListingCategory;
+import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingHitsList;
 import com.krparajuli.collegethrift.models.ListingHitsObject;
-import com.krparajuli.collegethrift.models.ListingType;
 import com.krparajuli.collegethrift.utils.ESPasswordGetter;
 import com.krparajuli.collegethrift.utils.ListingListAdapter;
-import com.krparajuli.collegethrift.viewholders.ListingViewHolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -104,5 +88,49 @@ public abstract class ViewListingsFragment extends Fragment {
         mRecyclerView.setAdapter(mListingAdapter);
     }
 
-    protected abstract void executeQueryAndSetupListings(DatabaseReference databaseReference);
+    public void executeQueryAndSetupListings(DatabaseReference databaseReference) {
+        mListings = new ArrayList<Listing>();
+
+        Call<ListingHitsObject> call = getListingObjectsCall();
+        call.enqueue(new Callback<ListingHitsObject>() {
+            @Override
+            public void onResponse(Call<ListingHitsObject> call, Response<ListingHitsObject> response) {
+                ListingHitsList listingHitsList = new ListingHitsList();
+                String jsonResponse = "";
+
+                try {
+                    Log.d(TAG, "onResponse: server response: " + response.toString());
+                    if (response.isSuccessful()) {
+                        listingHitsList = response.body().getHits();
+                    } else {
+                        jsonResponse = response.errorBody().string();
+                    }
+
+                    Log.d(TAG, "onResponse: hits: " + listingHitsList);
+
+                    for (int i = 0; i < listingHitsList.getListingIndex().size(); i++) {
+                        mListings.add(listingHitsList.getListingIndex().get(i).getListing());
+                    }
+
+                    Log.d(TAG, "onResponse: size: " + mListings.size());
+                    setupListingLists();
+
+                } catch (NullPointerException e) {
+                    Log.v(TAG, "onResponse: NullPointerException: " + e.getMessage());
+                } catch (IndexOutOfBoundsException e) {
+                    Log.v(TAG, "onResponse: IndexOutOfBoundsException:  " + e.getMessage());
+                } catch (IOException e) {
+                    Log.v(TAG, "onResponse: IOException:  " + e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListingHitsObject> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage());
+//                Toast.makeText(getCallingActivity(), "search failed", Toast.LENGTH_SHORT).show(); //getActivity() gives error
+            }
+        });
+    }
+
+    protected abstract Call<ListingHitsObject>  getListingObjectsCall();
 }

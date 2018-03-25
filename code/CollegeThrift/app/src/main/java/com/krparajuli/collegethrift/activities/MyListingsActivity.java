@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.fragments.MyListingsCurrentFragment;
+import com.krparajuli.collegethrift.fragments.MyListingsRemovedFragment;
+import com.krparajuli.collegethrift.fragments.MyListingsSoldFragment;
 import com.krparajuli.collegethrift.fragments.ViewListingsRecentFragment;
 
 public class MyListingsActivity extends AppCompatActivity {
@@ -23,9 +26,9 @@ public class MyListingsActivity extends AppCompatActivity {
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             final Fragment[] mFragments = new Fragment[]{
-                    new ViewListingsRecentFragment(),
-                    new ViewListingsRecentFragment(),
-                    new ViewListingsRecentFragment()
+                    new MyListingsCurrentFragment(),
+                    new MyListingsSoldFragment(),
+                    new MyListingsRemovedFragment()
             };
             private final String[] mFragmentNames = new String[]{
                     "Current",

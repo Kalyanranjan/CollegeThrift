@@ -77,7 +77,7 @@ public abstract class ViewListingsFragment extends Fragment {
 
         // Set up LayoutManager, reverse layout
         mGridLayoutManager = new GridLayoutManager(getActivity(), NUM_GRID_COLS);
-        mGridLayoutManager.setReverseLayout(true);
+        mGridLayoutManager.setReverseLayout(false);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
 
         executeQueryAndSetupListings(mDatabase);

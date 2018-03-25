@@ -69,7 +69,7 @@ public class SearchActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.ls_recycler_view);
         mGridLayoutManager = new GridLayoutManager(this, NUM_GRID_COLS);
-        mGridLayoutManager.setReverseLayout(true);
+        mGridLayoutManager.setReverseLayout(false);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
 
         lsKeywordText = (EditText) findViewById(R.id.ls_keyword_edit);

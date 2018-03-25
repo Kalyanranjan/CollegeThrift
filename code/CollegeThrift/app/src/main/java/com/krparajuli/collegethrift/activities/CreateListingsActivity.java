@@ -325,7 +325,7 @@ public class CreateListingsActivity extends AppCompatActivity {
 //            thumbnailUrl = imageUploader.getmImageDownloadUrl();
         }
 
-        Listing listing = new Listing(title, desc,
+        Listing listing = new Listing(key, title, desc,
                 ListingType.values()[type], ListingCategory.values()[category],
                 price, thumbnailUrl,
                 listerUid, dateTimeEpoch, status);

@@ -13,6 +13,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Listing {
 
+    private String uid;
     private String title;
     private String desc;
     private ListingType type;
@@ -25,10 +26,11 @@ public class Listing {
 
     public Listing() {}         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
 
-    public Listing(String title, String desc,
+    public Listing(String uid, String title, String desc,
                    ListingType type, ListingCategory category,
                    int price, String thumbnailUrl,
                    String listerUid, long dateListed, int status) {
+        this.uid = uid;
         this.title = title;
         this.desc = desc;
         this.type = type;
@@ -43,6 +45,7 @@ public class Listing {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> listing = new HashMap<>();
+        listing.put("uid", uid);
         listing.put("title", title);
         listing.put("desc", desc);
         listing.put("type", type);
@@ -56,7 +59,13 @@ public class Listing {
         return listing;
     }
 
-    public String getTitle() {return title; }
+    public String getUid() {
+        return uid;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 
     public void setTitle(String title) {
         this.title = title;

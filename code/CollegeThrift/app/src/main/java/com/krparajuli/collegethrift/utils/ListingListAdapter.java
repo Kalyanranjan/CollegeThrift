@@ -1,6 +1,7 @@
 package com.krparajuli.collegethrift.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.activities.ListingDetailActivity;
 import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingType;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -41,8 +43,10 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
         private ImageView mListingThumbnail, mListingFavoriteEdit;
         private LinearLayout mListingFavoriteEditLayout;
 
-        public ListingViewHolder(View listingView) {
+        public ListingViewHolder(Context context, View listingView) {
             super(listingView);
+
+            mContext = context;
 
             mListingThumbnail = (ImageView) listingView.findViewById(R.id.vlh_listing_thumbnail);
             int gridWidth = mContext.getResources().getDisplayMetrics().widthPixels;
@@ -70,12 +74,13 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
     @Override
     public ListingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view  = LayoutInflater.from(mContext).inflate(R.layout.layout_listing_item, parent, false);
-        return new ListingViewHolder(view);
+        return new ListingViewHolder(mContext, view);
     }
 
     @Override
     public void onBindViewHolder(ListingViewHolder holder, int position) {
-        Listing listing = mListings.get(position);
+        final Listing listing = mListings.get(position);
+
         holder.mListingTitle.setText(listing.getTitle());
         holder.mListingDesc.setText(listing.getDesc());
         holder.mListingPrice.setText("$"+String.valueOf(listing.getPrice()));
@@ -85,16 +90,25 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
             holder.mListingSale.setVisibility(View.VISIBLE);
             holder.mListingPrice.setVisibility(View.VISIBLE);
         } else if (listing.getType() == ListingType.SALE_TRADE) {
-            holder.mListingPrice.setVisibility(View.VISIBLE);
+            holder.mListingSale.setVisibility(View.VISIBLE);
             holder.mListingTrade.setVisibility(View.VISIBLE);
             holder.mListingPrice.setVisibility(View.VISIBLE);
+            holder.mListingGiveaway.setVisibility(View.INVISIBLE);
         } else if (listing.getType() == ListingType.TRADE_ONLY) {
+            holder.mListingPrice.setVisibility(View.INVISIBLE);
+            holder.mListingSale.setVisibility(View.INVISIBLE);
             holder.mListingTrade.setVisibility(View.VISIBLE);
+            holder.mListingGiveaway.setVisibility(View.INVISIBLE);
         } else if (listing.getType() == ListingType.GIVEAWAY) {
+            holder.mListingPrice.setVisibility(View.INVISIBLE);
+            holder.mListingSale.setVisibility(View.INVISIBLE);
+            holder.mListingTrade.setVisibility(View.INVISIBLE);
             holder.mListingGiveaway.setVisibility(View.VISIBLE);
         }
 
-        if (FirebaseAuth.getInstance().getCurrentUser().getUid().toString().equals(listing.getListerUid())) {
+        final Boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().toString().equals(listing.getListerUid());
+
+        if (listedByCurrentUser) {
             holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_image_edit);
         } else {
             holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
@@ -105,6 +119,20 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Image Clicked");
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listedByCurrentUser) {
+                    // Launch ListingDetailsActivity
+                    Intent listingDetailIntent = new Intent(mContext, ListingDetailActivity.class);
+                    listingDetailIntent.putExtra(ListingDetailActivity.EXTRA_LISTING_KEY, listing.getUid());
+//                    startActivity(listingDetailIntent);
+                } else {
+                    Log.d(TAG, "onClick: Favorited");
+                }
             }
         });
     }

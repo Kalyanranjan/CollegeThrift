@@ -60,7 +60,6 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
         }
     }
 
-
     public ListingListAdapter(Context context, ArrayList<Listing> listings) {
         mContext = context;
         mListings = listings;
@@ -114,4 +113,6 @@ public class ListingListAdapter  extends RecyclerView.Adapter<ListingListAdapter
     public int getItemCount() {
         return mListings.size();
     }
+
+
 }

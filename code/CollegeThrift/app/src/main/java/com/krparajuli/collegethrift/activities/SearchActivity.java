@@ -1,9 +1,8 @@
 package com.krparajuli.collegethrift.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +11,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,43 +25,30 @@ import com.krparajuli.collegethrift.models.ListingCategory;
 import com.krparajuli.collegethrift.models.ListingHitsList;
 import com.krparajuli.collegethrift.models.ListingHitsObject;
 import com.krparajuli.collegethrift.models.ListingType;
-import com.krparajuli.collegethrift.utils.ElasticSearchAPI;
 import com.krparajuli.collegethrift.utils.ListingListAdapter;
-import com.krparajuli.collegethrift.viewholders.ListingViewHolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchActivity extends AppCompatActivity {
 
     private static final String TAG = "SearchActivity";
-    private static final String BASE_URL = "http://35.225.53.194//elasticsearch/";
     private static int NUM_GRID_COLS = 1;
-
 
     // [START define_database_reference]
     private DatabaseReference mDatabase;
     // [END define_database_reference]
 
-    private FirebaseAuth mAuth;
-    private Query mQuery = null;
-
     private String mElasticSearchPassword;
 
     private ArrayList<Listing> mListings;
 
-    private FirebaseRecyclerAdapter<Listing, ListingViewHolder> mAdapter;
     private RecyclerView mRecyclerView;
     private GridLayoutManager mGridLayoutManager;
-    private LinearLayoutManager mManager;
     private ListingListAdapter mListingAdapter;
 
     private EditText lsKeywordText, lsPriceFrom, lsPriceTo;
@@ -73,7 +57,6 @@ public class SearchActivity extends AppCompatActivity {
     private Button lsSubmitButton;
 
     private boolean mCategorySearch = false, mTypeSearch = false, mPriceSearch = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +70,7 @@ public class SearchActivity extends AppCompatActivity {
         getElasticSearchPasword();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.ls_recycler_view);
-        mGridLayoutManager = new GridLayoutManager(this, 1);
+        mGridLayoutManager = new GridLayoutManager(this, NUM_GRID_COLS);
         mGridLayoutManager.setReverseLayout(true);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
 
@@ -119,7 +102,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-
         lsCategoryCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,8 +123,8 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mAdapter != null) {
-            mAdapter.cleanup();
+        if (mListingAdapter != null) {
+            mListingAdapter = null;
         }
     }
 
@@ -167,12 +149,10 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-
     private void setupListingLists() {
         mListingAdapter = new ListingListAdapter(this, mListings);
         mRecyclerView.setAdapter(mListingAdapter);
     }
-
 
     private void executeQueryAndSetupListings(DatabaseReference databaseReference) {
         mListings = new ArrayList<Listing>();
@@ -245,10 +225,5 @@ public class SearchActivity extends AppCompatActivity {
         lsTypeSpinner.setEnabled(false);
         lsPriceFrom.setEnabled(false);
         lsPriceTo.setEnabled(false);
-        //lsSubmitButton.setEnabled(false);
-    }
-
-    private void validateSubmitSearch() {
-
     }
 }

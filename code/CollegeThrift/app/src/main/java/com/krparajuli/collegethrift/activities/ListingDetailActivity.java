@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.models.Listing;
+import com.krparajuli.collegethrift.models.ListingCategory;
+import com.krparajuli.collegethrift.models.ListingType;
 
 public class ListingDetailActivity extends AppCompatActivity {
 
@@ -77,9 +79,9 @@ public class ListingDetailActivity extends AppCompatActivity {
                 // [START_EXCLUDE]
                 mTitleView.setText(listing.getTitle());
                 mDescView.setText(listing.getDesc());
-                mTypeView.setText("Type: " + listing.getType().toString());
+                mTypeView.setText("Type: " + getTypeText(listing.getType()));
                 mPriceView.setText("Price: $" + String.valueOf(listing.getPrice()));
-                mCategoryView.setText("Category: " + listing.getCategory().toString());
+                mCategoryView.setText("Category: " + getCategoryText(listing.getCategory()));
                 // [END_EXCLUDE]
             }
 
@@ -112,5 +114,37 @@ public class ListingDetailActivity extends AppCompatActivity {
         }
     }
 
+    private String getTypeText(ListingType type) {
+        switch (type) {
+            case SALE_ONLY:
+                return "Sale Only";
+            case SALE_TRADE:
+                return "Sale or Trade";
+            case TRADE_ONLY:
+                return "Trade Only";
+            default:
+                return "Giveaway";
+        }
+    }
 
+    private String getCategoryText(ListingCategory category) {
+        switch (category) {
+            case BOOK:
+                return "Book";
+            case GADGET:
+                return "Gadget";
+            case KITCHEN:
+                return "Kitchen";
+            case CLOTHING:
+                return "Clothing";
+            case APPLIANCE:
+                return "Appliance";
+            case STATIONERY:
+                return "Stationery";
+            case DECORATIVE:
+                return "Decorative";
+            default:
+                return "Other";
+        }
+    }
 }

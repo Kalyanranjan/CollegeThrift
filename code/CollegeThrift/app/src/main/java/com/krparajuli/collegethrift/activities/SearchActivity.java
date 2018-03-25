@@ -21,10 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.fetchers.ESFetch;
+import com.krparajuli.collegethrift.fetchers.ESFetchSearch;
 import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingCategory;
 import com.krparajuli.collegethrift.models.ListingHitsList;
 import com.krparajuli.collegethrift.models.ListingHitsObject;
+import com.krparajuli.collegethrift.models.ListingType;
 import com.krparajuli.collegethrift.utils.ElasticSearchAPI;
 import com.krparajuli.collegethrift.utils.ListingListAdapter;
 import com.krparajuli.collegethrift.viewholders.ListingViewHolder;
@@ -70,7 +73,6 @@ public class SearchActivity extends AppCompatActivity {
     private Button lsSubmitButton;
 
     private boolean mCategorySearch = false, mTypeSearch = false, mPriceSearch = false;
-
 
 
     @Override
@@ -175,29 +177,29 @@ public class SearchActivity extends AppCompatActivity {
     private void executeQueryAndSetupListings(DatabaseReference databaseReference) {
         mListings = new ArrayList<Listing>();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        String searchKeywordString = lsKeywordText.getText().toString();
+        ListingCategory searchCategory = null;
+        ListingType searchType = null;
+        int priceFrom = 0;
+        int priceTo = 0;
 
-        ElasticSearchAPI searchAPI = retrofit.create(ElasticSearchAPI.class);
-
-        HashMap<String, String> headerMap = new HashMap<>();
-        headerMap.put("Authorization", Credentials.basic("user", mElasticSearchPassword));
-        Log.v(TAG, "Credential = "+mElasticSearchPassword);
-
-        String searchKeywordString = "";
-        if (!lsKeywordText.equals("")) {
-            searchKeywordString += lsKeywordText.getText().toString() + "*";
+        if (mCategorySearch) {
+            searchCategory = ListingCategory.values()[lsCategorySpinner.getSelectedItemPosition()];
         }
-//        if (mCategorySearch) {
-//            searchKeywordString += " category:" + ListingCategory.values()[lsCategorySpinner.getSelectedItemPosition()].toString();
-//        }
-//        if (mTypeSearch) {
-//            searchKeywordString += " type:" + ListingType.values()[lsTypeSpinner.getSelectedItemPosition()].toString();
-//        }
+        if (mTypeSearch) {
+            searchType = ListingType.values()[lsTypeSpinner.getSelectedItemPosition()];
+        }
+        if (mPriceSearch) {
+            if (!lsPriceFrom.getText().toString().equals("")) {
+                priceFrom = Integer.valueOf(lsPriceFrom.getText().toString());
+            }
+            if (!lsPriceTo.getText().toString().equals("")) {
+                priceTo = Integer.valueOf(lsPriceTo.getText().toString());
+            }
+        }
 
-        Call<ListingHitsObject> call = searchAPI.search(headerMap, "AND", searchKeywordString);
+        ESFetch esFetchSearch = new ESFetchSearch(mElasticSearchPassword, searchKeywordString, searchCategory, searchType, priceFrom, priceTo);
+        Call<ListingHitsObject> call = esFetchSearch.getListingQueryCall();
         call.enqueue(new Callback<ListingHitsObject>() {
             @Override
             public void onResponse(Call<ListingHitsObject> call, Response<ListingHitsObject> response) {
@@ -205,16 +207,16 @@ public class SearchActivity extends AppCompatActivity {
                 String jsonResponse = "";
 
                 try {
-                    Log.d(TAG,"onResponse: server response: "+response.toString());
+                    Log.d(TAG, "onResponse: server response: " + response.toString());
                     if (response.isSuccessful()) {
                         listingHitsList = response.body().getHits();
                     } else {
                         jsonResponse = response.errorBody().string();
                     }
 
-                    Log.d(TAG, "onResponse: hits: "+ listingHitsList);
+                    Log.d(TAG, "onResponse: hits: " + listingHitsList);
 
-                    for (int i=0; i<listingHitsList.getListingIndex().size(); i++) {
+                    for (int i = 0; i < listingHitsList.getListingIndex().size(); i++) {
                         mListings.add(listingHitsList.getListingIndex().get(i).getListing());
                     }
 
@@ -232,34 +234,10 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ListingHitsObject> call, Throwable t) {
-                Log.e(TAG, "onFailure: "+t.getMessage());
+                Log.e(TAG, "onFailure: " + t.getMessage());
 //                Toast.makeText(getCallingActivity(), "search failed", Toast.LENGTH_SHORT).show(); //getActivity() gives error
             }
         });
-
-
-
-
-
-        Query prepQuery = databaseReference.child("listings");
-        if (mCategorySearch) {
-            prepQuery = prepQuery.orderByChild("category").equalTo(ListingCategory.values()[lsCategorySpinner.getSelectedItemPosition()].toString());
-        }
-//        if (mTypeSearch) {
-//            prepQuery = prepQuery.orderByChild("type").equalTo(ListingType.values()[lsTypeSpinner.getSelectedItemPosition()].toString());
-//        }
-        // The integer might not be able to parsed correctly here
-//        if (mPriceSearch) {
-//            if (!lsPriceFrom.getText().toString().equals(""))
-//                prepQuery = prepQuery.orderByChild("price").startAt(lsPriceFrom.getText().toString());
-
-            //if (!lsPriceTo.getText().toString().equals(""))
-            //    prepQuery = prepQuery.orderByChild("price").endAt(lsPriceTo.getText().toString());
-//        }
-        mQuery = prepQuery;
-
-
-
     }
 
     private void disableFilterOptions() {

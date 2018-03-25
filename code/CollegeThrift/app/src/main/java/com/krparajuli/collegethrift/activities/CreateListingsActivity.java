@@ -31,6 +31,8 @@ import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingCategory;
 import com.krparajuli.collegethrift.models.ListingType;
 import com.krparajuli.collegethrift.utils.ImageUploader;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 import java.util.HashMap;
@@ -61,6 +63,7 @@ public class CreateListingsActivity extends AppCompatActivity {
 
     private DatabaseReference mListingReference;
     private ValueEventListener mListingListener = null;
+    private ImageLoader mImageLoader;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
@@ -91,6 +94,8 @@ public class CreateListingsActivity extends AppCompatActivity {
         mAuthentication = FirebaseAuth.getInstance();
         // [END declare_authentication_instance]
 
+        mImageLoader = ImageLoader.getInstance();
+        mImageLoader.init(ImageLoaderConfiguration.createDefault(this));
 
         mEditMode = getIntent().getBooleanExtra(EXTRA_EDIT_MODE_BOOLEAN_KEY, false);
         if (mEditMode) {
@@ -172,14 +177,10 @@ public class CreateListingsActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         deleteListing();
                                     }
-                                }
-                        )
+                                })
                         .setNegativeButton("No", null).show();
             }
         });
-
-
-
     }
 
     @Override
@@ -199,6 +200,7 @@ public class CreateListingsActivity extends AppCompatActivity {
                 clType.setSelection(listing.getType().getValue());
                 clCategory.setSelection(listing.getCategory().getValue());
                 clPrice.setText(String.valueOf(listing.getPrice()));
+                mImageLoader.displayImage(listing.getThumbnailUrl(), clListingImage);
                 //Get Image here
             }
 

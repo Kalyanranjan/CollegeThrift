@@ -3,27 +3,21 @@ package com.krparajuli.collegethrift.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.fragments.ViewListingsRecentFragment;
 import com.krparajuli.collegethrift.utils.ESPasswordGetter;
@@ -32,7 +26,6 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "DrawerViewListings";
-
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -50,9 +43,9 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent createListingsIntent = new Intent(DrawerViewListingsActivity.this, CreateListingsActivity.class);
-               createListingsIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_MODE_BOOLEAN_KEY, false);
-               startActivity(createListingsIntent);
+                Intent createListingsIntent = new Intent(DrawerViewListingsActivity.this, CreateListingsActivity.class);
+                createListingsIntent.putExtra(CreateListingsActivity.EXTRA_EDIT_MODE_BOOLEAN_KEY, false);
+                startActivity(createListingsIntent);
             }
         });
 
@@ -67,21 +60,27 @@ public class DrawerViewListingsActivity extends AppCompatActivity
 
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
-            final Fragment[] mFragments = new Fragment[] {
+            final Fragment[] mFragments = new Fragment[]{
                     new ViewListingsRecentFragment()
             };
-            private final String[] mFragmentNames = new String[] {
+            private final String[] mFragmentNames = new String[]{
                     getString(R.string.heading_recent),
             };
 
             @Override
-            public Fragment getItem(int position) { return mFragments[position]; }
+            public Fragment getItem(int position) {
+                return mFragments[position];
+            }
 
             @Override
-            public int getCount() { return mFragments.length; }
+            public int getCount() {
+                return mFragments.length;
+            }
 
             @Override
-            public CharSequence getPageTitle(int position) { return mFragmentNames[position]; }
+            public CharSequence getPageTitle(int position) {
+                return mFragmentNames[position];
+            }
         };
 
         // Set up the ViewPager with the selections adapter
@@ -116,7 +115,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch(id) {
+        switch (id) {
             case R.id.dvlm_action_search:
                 Intent searchIntent = new Intent(DrawerViewListingsActivity.this, SearchActivity.class);
                 startActivity(searchIntent);
@@ -131,7 +130,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case R.id.dlvd_nav_sign_out:
                 FirebaseAuth.getInstance().signOut();
                 Intent loginIntent = new Intent(DrawerViewListingsActivity.this, LoginActivity.class);

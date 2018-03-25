@@ -1,6 +1,7 @@
 package com.krparajuli.collegethrift.activities;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -71,7 +73,7 @@ public class CreateListingsActivity extends AppCompatActivity {
     // Layout Objects
     private EditText clTitle, clDesc, clPrice;
     private Spinner clType, clCategory;
-    private Button clAddImage, clRemoveImage;
+    private Button clAddImage, clRemoveImage, clDeleteListing;
     private ImageView clListingImage;
 
     private FloatingActionButton clSubmitButton;
@@ -106,8 +108,15 @@ public class CreateListingsActivity extends AppCompatActivity {
         clAddImage = (Button) findViewById(R.id.cl_button_add_image);
         clRemoveImage = (Button) findViewById(R.id.cl_button_remove_image);
         clListingImage = (ImageView) findViewById(R.id.cl_listing_thumb_image);
+        clDeleteListing = (Button) findViewById(R.id.cl_delete_button);
 
         clSubmitButton = (FloatingActionButton) findViewById(R.id.cl_fab_submit);
+
+        if (mEditMode)
+            clDeleteListing.setVisibility(View.VISIBLE);
+        else
+            clDeleteListing.setVisibility(View.GONE);
+
         clSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +160,25 @@ public class CreateListingsActivity extends AppCompatActivity {
                 clListingImage.setImageResource(R.drawable.ic_image);
             }
         });
+
+        clDeleteListing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog confirmDeletion = new AlertDialog.Builder(CreateListingsActivity.this)
+                        .setTitle("Confirm Deletion")
+                        .setMessage("Are you sure you want to delete this listing?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        deleteListing();
+                                    }
+                                }
+                        )
+                        .setNegativeButton("No", null).show();
+            }
+        });
+
+
 
     }
 
@@ -252,7 +280,6 @@ public class CreateListingsActivity extends AppCompatActivity {
         writeListingToDb(title, desc, category, type, price, FALLBACK_IMAGE_DOWNLOAD_URL, listerId, dateTimeEpoch, status);
         setEditingEnabled(true);
         finish();
-
         // [END single_value_read]
     }
 
@@ -323,6 +350,11 @@ public class CreateListingsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void deleteListing() {
+        mDatabase.child("listings").child(mListingKey).child("status").setValue(2);
+        finish();
     }
 
     private void onPhotosReturned(List<File> returnedPhotosList) {

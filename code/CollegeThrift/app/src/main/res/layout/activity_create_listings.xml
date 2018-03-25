@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.krparajuli.collegethrift.activities.CreateListingsActivity">
 
     <EditText
@@ -36,8 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cl_desc_edit"
-        android:orientation="horizontal"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/cl_category_label"
@@ -57,8 +56,7 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:entries="@array/cl_listing_categories"
-            android:prompt="@string/cl_listing_categories_label">
-        </Spinner>
+            android:prompt="@string/cl_listing_categories_label"></Spinner>
     </LinearLayout>
 
 
@@ -67,9 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cl_category_ll"
-        android:orientation="horizontal"
         android:layout_margin="8dp"
-        >
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/cl_type_label"
@@ -97,26 +94,24 @@
         android:id="@+id/cl_images_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/cl_type_ll">
+        android:layout_below="@id/cl_type_ll"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/cl_listing_thumb_image"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:layout_weight="1"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_image"
-            />
+            android:layout_weight="1"
+            android:src="@drawable/ic_image" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1"
             android:layout_marginRight="8dp"
-            >
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/cl_edit_price"
@@ -130,8 +125,7 @@
                 android:hint="Price (In USD)"
                 android:inputType="number"
 
-                android:textSize="16dp"
-                />
+                android:textSize="16dp" />
 
             <Button
                 android:id="@+id/cl_button_add_image"
@@ -140,8 +134,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Add Main Image"
-                />
+                android:text="Add Image" />
+
             <Button
                 android:id="@+id/cl_button_remove_image"
                 android:layout_width="match_parent"
@@ -149,11 +143,27 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Remove Current"
-                />
+                android:text="Remove Image" />
 
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/cl_delete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cl_images_ll"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:background="#FF2222"
+        android:text="@string/delete_listing"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/cl_fab_submit"
@@ -162,7 +172,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_navigation_check_24"/>
+        android:src="@drawable/ic_navigation_check_24" />
 
     <LinearLayout
         android:layout_width="match_parent"

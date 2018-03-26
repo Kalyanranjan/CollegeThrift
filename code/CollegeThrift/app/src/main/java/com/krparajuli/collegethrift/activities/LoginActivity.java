@@ -168,7 +168,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
         // [END create_user_with_email]
-
     }
 
     private void signOut() {
@@ -223,7 +222,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (i == R.id.email_sign_in_button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.forgotten_password) {
-//            signOut();
+            Intent verificationResetIntent = new Intent(LoginActivity.this, VerificationResetActivity.class);
+            startActivity(verificationResetIntent);
         }
     }
 

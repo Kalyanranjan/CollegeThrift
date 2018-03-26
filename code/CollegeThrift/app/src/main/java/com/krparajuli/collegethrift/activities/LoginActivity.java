@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,10 +74,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     if (creatingUser) { // If Signing Up
-                        user.sendEmailVerification();
+                        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.d(TAG, "onComplete: SEND EMAIL COMPLETED");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: SEND EMAIL FAILED");
+                            }
+                        });
                         Toast.makeText(LoginActivity.this, R.string.sign_up_verification_required, Toast.LENGTH_LONG).show();
                     } else if (!creatingUser && !user.isEmailVerified()) { // If logging in and email unverified
-                        user.sendEmailVerification();
+                        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Log.d(TAG, "onComplete: SEND EMAIL COMPLETED");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onFailure: SEND EMAIL FAILED");
+                            }
+                        });;
                         Toast.makeText(LoginActivity.this,R.string.login_verification_required,
                                 Toast.LENGTH_SHORT).show();
                         mAuth.signOut();

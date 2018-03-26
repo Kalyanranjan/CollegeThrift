@@ -31,8 +31,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @VisibleForTesting
     public ProgressDialog mProgressDialog;
 
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
 
@@ -53,10 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Views
-        mStatusTextView = (TextView) findViewById(R.id.error_message);
-//        mDetailTextView = (TextView) findViewById(R.id.warning_message);
+        
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
 

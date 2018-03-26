@@ -88,20 +88,22 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
         if (listing.getType() == ListingType.SALE_ONLY) {
             holder.mListingSale.setVisibility(View.VISIBLE);
             holder.mListingPrice.setVisibility(View.VISIBLE);
+            holder.mListingTrade.setVisibility(View.GONE);
+            holder.mListingGiveaway.setVisibility(View.GONE);
         } else if (listing.getType() == ListingType.SALE_TRADE) {
             holder.mListingSale.setVisibility(View.VISIBLE);
             holder.mListingTrade.setVisibility(View.VISIBLE);
             holder.mListingPrice.setVisibility(View.VISIBLE);
-            holder.mListingGiveaway.setVisibility(View.INVISIBLE);
+            holder.mListingGiveaway.setVisibility(View.GONE);
         } else if (listing.getType() == ListingType.TRADE_ONLY) {
-            holder.mListingPrice.setVisibility(View.INVISIBLE);
-            holder.mListingSale.setVisibility(View.INVISIBLE);
+            holder.mListingPrice.setVisibility(View.GONE);
+            holder.mListingSale.setVisibility(View.GONE);
             holder.mListingTrade.setVisibility(View.VISIBLE);
-            holder.mListingGiveaway.setVisibility(View.INVISIBLE);
+            holder.mListingGiveaway.setVisibility(View.GONE);
         } else if (listing.getType() == ListingType.GIVEAWAY) {
-            holder.mListingPrice.setVisibility(View.INVISIBLE);
-            holder.mListingSale.setVisibility(View.INVISIBLE);
-            holder.mListingTrade.setVisibility(View.INVISIBLE);
+            holder.mListingPrice.setVisibility(View.GONE);
+            holder.mListingSale.setVisibility(View.GONE);
+            holder.mListingTrade.setVisibility(View.GONE);
             holder.mListingGiveaway.setVisibility(View.VISIBLE);
         }
 

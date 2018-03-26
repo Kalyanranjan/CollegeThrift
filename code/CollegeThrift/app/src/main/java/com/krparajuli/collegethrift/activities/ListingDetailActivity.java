@@ -67,7 +67,6 @@ public class ListingDetailActivity extends AppCompatActivity {
         mImageLoader = ImageLoader.getInstance();
         mImageLoader.init(ImageLoaderConfiguration.createDefault(this));
 
-
         //Initialize Views
         mTitleView = (TextView) findViewById(R.id.ld_title_view);
         mThumbnailView = (ImageView) findViewById(R.id.ld_thumb_image);

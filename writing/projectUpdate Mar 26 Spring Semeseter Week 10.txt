@@ -1,0 +1,23 @@
+Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Spring Semester Week 10 Update - March 26
+Advisor: Prof. E. Syta
+
+Completed Task:
+1. Complete ElasticSeach Setup with Firebase Cloud Functions
+- The Elastic Search Setup is complete which allows for searching listings robustly in various ways.
+2. Firebase Cloud Messaging Infrastructure Setup and Creation of Messages Class
+- I have attached Firebase Cloud Messaging Interface to the app and created classes for this feature.
+ I also designed the messaging schema and queries. The general layout scaffolding and classes are also built. Need to add methods to send and receive messages to make it functional.
+
+Outstanding Tasks:
+None from projected work from the last meeting (Target is to complete messaging infrastructure by this week)
+
+Challenges:
+The Email sending infrastructure of the app seems to have stopped working. The code seems fine. I did tests by adding onCompleteListeners and onFailureListeners and it shows SUCCESSFUL on the app. However, the email is not being sent. Need to see if its a Firebase Issue or the code issue.
+
+Upcoming Tasks:
+1. Complete the messaging infrastructure
+2. Add Favorite feature
+
+

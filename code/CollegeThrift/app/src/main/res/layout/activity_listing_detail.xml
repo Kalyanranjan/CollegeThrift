@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.krparajuli.collegethrift.activities.ListingDetailActivity">
+
+    <TextView
+        android:id="@+id/ld_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ld_thumb_image"
+        android:layout_width="fill_parent"
+        android:layout_height="240dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/ld_title_view"
+        android:src="@drawable/ic_image" />
+
+    <TextView
+        android:id="@+id/ld_desc_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ld_thumb_image"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:maxLines="10"
+        android:scrollHorizontally="false"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/ld_type_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ld_desc_view"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/type_s_label"
+        android:textStyle="italic"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/ld_price_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ld_type_view"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/price_s_label"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/ld_category_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ld_price_view"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/category_s_label"
+        android:textStyle="italic"
+        android:textSize="16sp" />
+    
+    <Button
+        android:id="@+id/ld_contact_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/contact_lister"
+        android:layout_below="@+id/ld_category_view" />
+
+    <Button
+        android:id="@+id/ld_edit_delete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp"
+        android:background="#FF2222"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:text="@string/edit_delete_listing"
+        android:layout_below="@+id/ld_contact_button"
+        />
+
+</RelativeLayout>

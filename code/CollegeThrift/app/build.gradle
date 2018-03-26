@@ -26,6 +26,8 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.google.firebase:firebase-database:11.0.4'
     implementation 'com.google.firebase:firebase-auth:11.0.4'
+    implementation 'com.google.firebase:firebase-storage:11.0.4'
+    implementation 'com.google.firebase:firebase-messaging:11.0.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -37,7 +39,23 @@ dependencies {
     compile 'com.github.jkwiecien:EasyImage:2.0.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.tajchert:Nammu:1.2.0'
+
+    // retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    //retrofit gson
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    //universalImageLoader
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
 }
+
+
+
+
+
+
+
 
 
 

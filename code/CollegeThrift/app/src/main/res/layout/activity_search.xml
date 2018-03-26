@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.krparajuli.collegethrift.activity.SearchActivity">
+    tools:context="com.krparajuli.collegethrift.activities.SearchActivity">
 
     <EditText
         android:id="@+id/ls_keyword_edit"
@@ -144,7 +144,7 @@
         android:padding="5dp"
         android:layout_below="@+id/ls_spinners"
         android:scrollbars="vertical"
-        tools:listitem="@layout/listing_item" >
+        tools:listitem="@layout/layout_listing_item" >
 
     </android.support.v7.widget.RecyclerView>
 

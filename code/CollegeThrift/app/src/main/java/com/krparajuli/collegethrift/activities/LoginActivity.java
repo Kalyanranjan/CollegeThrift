@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = mAuth.getCurrentUser();
 
                 if (user != null) {
                     // User is signed in
@@ -183,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             String userEmail = user.getEmail();
                             Map<String, Object> map = new User(uidKey, userEmail).toMap();
                             mDatabase.getInstance().getReference("/users").child(uidKey).setValue(map);
-                            mAuth.signOut();
+                            //mAuth.signOut();
                         }
                         // [START_EXCLUDE]
                         hideProgressDialog();

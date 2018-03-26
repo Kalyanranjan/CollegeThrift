@@ -2,10 +2,10 @@ package com.krparajuli.collegethrift.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +24,7 @@ import com.krparajuli.collegethrift.models.User;
 
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivity:";
 
@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        
+
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
 
@@ -97,8 +97,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             public void onFailure(@NonNull Exception e) {
                                 Log.d(TAG, "onFailure: SEND EMAIL FAILED");
                             }
-                        });;
-                        Toast.makeText(LoginActivity.this,R.string.login_verification_required,
+                        });
+                        ;
+                        Toast.makeText(LoginActivity.this, R.string.login_verification_required,
                                 Toast.LENGTH_SHORT).show();
                         mAuth.signOut();
                     }
@@ -163,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // signed in user can be handled in the listener.
 
                         if (!task.isSuccessful()) {
-                            Exception ex =  task.getException();
+                            Exception ex = task.getException();
 //                            if (ex.equals((Exception)FirebaseAuthUserCollisionException)) {
 //                                Toast.makeText(LoginActivity.this, R.string.user_already_exists,
 //                                        Toast.LENGTH_SHORT).show();
@@ -171,11 +172,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                                Toast.makeText(LoginActivity.this, R.string.weak_password,
 //                                        Toast.LENGTH_SHORT).show();
 //                            } else {
-                                Toast.makeText(LoginActivity.this, R.string.auth_failed,
-                                        Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, R.string.auth_failed,
+                                    Toast.LENGTH_SHORT).show();
 //                            }
                             Log.w(TAG, "auth_failed", ex);
-                        } else{
+                        } else {
                             FirebaseUser user = mAuth.getCurrentUser();
                             String uidKey = user.getUid();
                             String userEmail = user.getEmail();
@@ -203,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (TextUtils.isEmpty(email)) {
             mEmailField.setError("Required.");
             valid = false;
-        } else if (!email.endsWith("@trincoll.edu")){
+        } else if (!email.endsWith("@trincoll.edu")) {
             mEmailField.setError("Not a valid trincoll.edu email");
             valid = false;
         } else {

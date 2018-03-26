@@ -76,7 +76,7 @@ public class CreateListingsActivity extends AppCompatActivity {
     // Layout Objects
     private EditText clTitle, clDesc, clPrice;
     private Spinner clType, clCategory;
-    private Button clAddImage, clRemoveImage, clDeleteListing;
+    private Button clAddImage, clRemoveImage, clMarkAsSold, clDeleteListing;
     private ImageView clListingImage;
 
     private FloatingActionButton clSubmitButton;
@@ -113,14 +113,18 @@ public class CreateListingsActivity extends AppCompatActivity {
         clAddImage = (Button) findViewById(R.id.cl_button_add_image);
         clRemoveImage = (Button) findViewById(R.id.cl_button_remove_image);
         clListingImage = (ImageView) findViewById(R.id.cl_listing_thumb_image);
+        clMarkAsSold = (Button) findViewById(R.id.cl_mark_sold_button);
         clDeleteListing = (Button) findViewById(R.id.cl_delete_button);
 
         clSubmitButton = (FloatingActionButton) findViewById(R.id.cl_fab_submit);
 
-        if (mEditMode)
+        if (mEditMode) {
             clDeleteListing.setVisibility(View.VISIBLE);
-        else
+            clMarkAsSold.setVisibility(View.VISIBLE);
+        } else {
             clDeleteListing.setVisibility(View.GONE);
+            clMarkAsSold.setVisibility(View.GONE);
+        }
 
         clSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,11 +177,27 @@ public class CreateListingsActivity extends AppCompatActivity {
                         .setTitle("Confirm Deletion")
                         .setMessage("Are you sure you want to delete this listing?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        deleteListing();
-                                    }
-                                })
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteListing();
+                            }
+                        })
+                        .setNegativeButton("No", null).show();
+            }
+        });
+
+        clMarkAsSold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog confirmDeletion = new AlertDialog.Builder(CreateListingsActivity.this)
+                        .setTitle("Confirm Marking")
+                        .setMessage("Are you sure you want to mark this listing as sold?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                markAsSoldListing();
+                            }
+                        })
                         .setNegativeButton("No", null).show();
             }
         });
@@ -356,6 +376,11 @@ public class CreateListingsActivity extends AppCompatActivity {
 
     private void deleteListing() {
         mDatabase.child("listings").child(mListingKey).child("status").setValue(2);
+        finish();
+    }
+
+    private void markAsSoldListing() {
+        mDatabase.child("listings").child(mListingKey).child("status").setValue(1);
         finish();
     }
 

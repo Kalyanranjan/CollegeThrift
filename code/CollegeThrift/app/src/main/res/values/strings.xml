@@ -58,5 +58,6 @@
     <string name="type_s_label">Type: %s</string>
     <string name="edit_delete_listing">Edit/Delete Listing</string>
     <string name="delete_listing">Delete Listing</string>
+    <string name="mark_as_sold_listing">Mark as Sold</string>
 
 </resources>

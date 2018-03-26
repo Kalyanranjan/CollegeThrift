@@ -101,22 +101,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         ;
                         Toast.makeText(LoginActivity.this, R.string.login_verification_required,
                                 Toast.LENGTH_SHORT).show();
-                        mAuth.signOut();
+                        // mAuth.signOut();
                     }
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
 
-                if (creatingUser) { // Do not login if new user
-                    updateUI(null);
-                } else {
-                    updateUI(firebaseAuth.getCurrentUser());
-                }
-                creatingUser = false;
+//                if (creatingUser) { // Do not login if new user
+//                    updateUI(null);
+//                } else {
+                updateUI(firebaseAuth.getCurrentUser());
+//                }
+//                creatingUser = false;
+//            }
             }
+            // [END auth_state_listener]
         };
-        // [END auth_state_listener]
     }
 
     private void signIn(String email, String password) {

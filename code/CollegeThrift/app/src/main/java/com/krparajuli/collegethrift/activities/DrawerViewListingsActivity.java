@@ -13,14 +13,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.fragments.ViewListingsRecentFragment;
 import com.krparajuli.collegethrift.utils.ESPasswordGetter;
+
+import java.util.Iterator;
 
 public class DrawerViewListingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +38,9 @@ public class DrawerViewListingsActivity extends AppCompatActivity
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+
+    private String mUserEmail;
+    private String mUserFullName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +66,29 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Query query = FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .child(uid);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
+                mUserEmail = iter.next().getValue().toString();
+                mUserFullName = iter.next().getValue().toString();
+
+                ((TextView) findViewById(R.id.drawer_user_name_text)).setText(mUserFullName);
+                ((TextView) findViewById(R.id.drawer_user_email_text)).setText(mUserEmail);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "DatabaseError: " + databaseError.getMessage());
+            }
+        });
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

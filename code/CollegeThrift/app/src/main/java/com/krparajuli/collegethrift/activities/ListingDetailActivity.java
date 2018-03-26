@@ -46,7 +46,6 @@ public class ListingDetailActivity extends AppCompatActivity {
     private Button mContactLister;
     private Button mEditDeleteListing;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,7 @@ public class ListingDetailActivity extends AppCompatActivity {
         mListingKey = getIntent().getStringExtra(EXTRA_LISTING_KEY);
         if (mListingKey == null) {
             finish();
-            Toast.makeText(this, "Could View the listing in detail due to an error", Toast.LENGTH_SHORT);
+            Toast.makeText(this, "Could View the listing in detail due to an error", Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("Must pass EXTRA_LISTING_KEY");
         }
 
@@ -78,7 +77,6 @@ public class ListingDetailActivity extends AppCompatActivity {
         mEditDeleteListing = (Button) findViewById(R.id.ld_edit_delete_button);
 
         mContactLister.setEnabled(false);
-
     }
 
     @Override
@@ -100,11 +98,10 @@ public class ListingDetailActivity extends AppCompatActivity {
                 mCategoryView.setText("Category: " + getCategoryText(mListing.getCategory()));
                 mImageLoader.getInstance().displayImage(mListing.getThumbnailUrl(), mThumbnailView);
 
-
                 boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().equals(mListing.getListerUid());
                 if (listedByCurrentUser) {
                     mContactLister.setVisibility(View.GONE);
-                    if (mListing.getStatus() == 0){
+                    if (mListing.getStatus() == 0) {
                         mEditDeleteListing.setVisibility(View.VISIBLE);
                     } else {
                         mEditDeleteListing.setVisibility(View.GONE);

@@ -137,7 +137,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 startActivity(loginIntent);
                 finish();
                 break;
-            case R.id.dlvd_nav_dashboard:
+            case R.id.dlvd_my_listings:
                 Intent dashboardIntent = new Intent(DrawerViewListingsActivity.this, MyListingsActivity.class);
                 startActivity(dashboardIntent);
                 closeDrawer();

@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.VerificationResetActivity"
+            android:name=".activities.ResetPasswordActivity"
             android:parentActivityName=".activities.LoginActivity" />
         <activity android:name=".activities.ListingDetailActivity" />
         <activity

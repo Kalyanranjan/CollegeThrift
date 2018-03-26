@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -92,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     updateUI(firebaseAuth.getCurrentUser());
                 }
+                creatingUser = false;
             }
         };
         // [END auth_state_listener]
@@ -222,7 +222,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else if (i == R.id.email_sign_in_button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.forgotten_password) {
-            Intent verificationResetIntent = new Intent(LoginActivity.this, VerificationResetActivity.class);
+            Intent verificationResetIntent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
             startActivity(verificationResetIntent);
         }
     }

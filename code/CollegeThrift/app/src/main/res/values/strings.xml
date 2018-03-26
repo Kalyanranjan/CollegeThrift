@@ -7,8 +7,8 @@
     <string name="heading_recent">Recent</string>
 
     <!-- Login Page Messages -->
-    <string name="login_verification_required">Email Address is not verified. Check your email inbox or resend email verification below.</string>
-    <string name="sign_up_verification_required"> Signed Up Successful! Verification email has been sent to your inbox.</string>
+    <string name="login_verification_required">Email Address is not verified. Verification Email has been sent to your inbox.</string>
+    <string name="sign_up_verification_required"> Sign Up Successful! Verification email has been sent to your inbox.</string>
     <string name="auth_failed">Incorrect email or password! Try Again</string>
     <string name="user_already_exists">User with the email address already exists</string>
     <string name="verification_email_sent">Verification email sent! Check your email inbox.</string>
@@ -50,12 +50,12 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="forgotten_password_resend_verification_email">Forgotten Password / Resend Verification Email</string>
+    <string name="forgotten_password">Forgotten Password</string>
     <string name="weak_password">Weak Pasword. Try another password</string>
     <string name="contact_lister">Contact Lister</string>
-    <string name="category_s_label">Category: %s</string>
-    <string name="price_s_label">Price: %s</string>
-    <string name="type_s_label">Type: %s</string>
+    <string name="category_s_label">Category:</string>
+    <string name="price_s_label">Price: </string>
+    <string name="type_s_label">Type: </string>
     <string name="edit_delete_listing">Edit/Delete Listing</string>
     <string name="delete_listing">Delete Listing</string>
     <string name="mark_as_sold_listing">Mark as Sold</string>

@@ -88,7 +88,6 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.dvl_tabs);
         tabLayout.setupWithViewPager(mViewPager, true);
-
     }
 
     @Override
@@ -141,6 +140,13 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 Intent dashboardIntent = new Intent(DrawerViewListingsActivity.this, MyListingsActivity.class);
                 startActivity(dashboardIntent);
                 closeDrawer();
+                break;
+            case R.id.dlvd_nav_messages:
+                Intent conversationIntent = new Intent(DrawerViewListingsActivity.this, MyConversationsActivity.class);
+                startActivity(conversationIntent);
+                closeDrawer();
+                break;
+            case R.id.dlvd_nav_my_favorites:
                 break;
             default:
                 closeDrawer();

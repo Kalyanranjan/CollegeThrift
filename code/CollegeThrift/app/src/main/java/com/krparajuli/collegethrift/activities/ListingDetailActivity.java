@@ -103,8 +103,12 @@ public class ListingDetailActivity extends AppCompatActivity {
 
                 boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().equals(mListing.getListerUid());
                 if (listedByCurrentUser) {
-                    mEditDeleteListing.setVisibility(View.VISIBLE);
                     mContactLister.setVisibility(View.GONE);
+                    if (mListing.getStatus() == 0){
+                        mEditDeleteListing.setVisibility(View.VISIBLE);
+                    } else {
+                        mEditDeleteListing.setVisibility(View.GONE);
+                    }
                 } else {
                     mEditDeleteListing.setVisibility(View.GONE);
                     mContactLister.setVisibility(View.VISIBLE);

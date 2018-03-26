@@ -48,8 +48,6 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
             mContext = context;
 
             mListingThumbnail = (ImageView) listingView.findViewById(R.id.vlh_listing_thumbnail);
-            int gridWidth = mContext.getResources().getDisplayMetrics().widthPixels;
-            int imageWidth = gridWidth / NUM_GRID_COLS;
             mListingTitle = (TextView) listingView.findViewById(R.id.vlh_listing_title);
             mListingDesc = (TextView) listingView.findViewById(R.id.vlh_listing_desc);
             mListingSale = (TextView) listingView.findViewById(R.id.vlh_listing_sale);
@@ -105,6 +103,10 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
             holder.mListingSale.setVisibility(View.GONE);
             holder.mListingTrade.setVisibility(View.GONE);
             holder.mListingGiveaway.setVisibility(View.VISIBLE);
+        }
+
+        if (listing.getStatus() != 0) {
+            holder.mListingFavoriteEditLayout.setVisibility(View.GONE);
         }
 
         final Boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().toString().equals(listing.getListerUid());

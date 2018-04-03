@@ -16,18 +16,18 @@ public class MyConversationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_conversations);
 
-        Intent messageWindowIntent = new Intent(MyConversationsActivity.this, MessageWindowActivity.class);
-        startActivity(messageWindowIntent);
-        finish();
-
-        RecyclerView mcRecyclerView = (RecyclerView) findViewById(R.id.mc_recycler_view);
-        mcRecyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("MyConversationsActivity", "onClick: asdsa");
-                Intent messageWindowIntent = new Intent(MyConversationsActivity.this, MessageWindowActivity.class);
-                startActivity(messageWindowIntent);
-            }
-        });
+//        Intent messageWindowIntent = new Intent(MyConversationsActivity.this, MessageWindowActivity.class);
+//        startActivity(messageWindowIntent);
+//        finish();
+//
+//        RecyclerView mcRecyclerView = (RecyclerView) findViewById(R.id.mc_recycler_view);
+//        mcRecyclerView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d("MyConversationsActivity", "onClick: asdsa");
+//                Intent messageWindowIntent = new Intent(MyConversationsActivity.this, MessageWindowActivity.class);
+//                startActivity(messageWindowIntent);
+//            }
+//        });
     }
 }

@@ -14,18 +14,23 @@ public class User {
     private String uid;
     private String email;
     private String fullname = "User";
+    private String profileImageUrl = "";
 
     public User() {}
-
-    public User(String uid, String email, String fullname) {
-        this.uid = uid;
-        this.email = email;
-        this.fullname = fullname;
-    }
 
     public User(String uid, String email) {
         this.uid = uid;
         this.email = email;
+    }
+
+    public User(String uid, String email, String fullname) {
+        this(uid, email);
+        this.fullname = fullname;
+    }
+
+    public User(String uid, String email, String fullname, String profileImageUrl) {
+        this(uid, email, fullname);
+        this.profileImageUrl = profileImageUrl;
     }
 
     public Map<String, Object> toMap() {
@@ -33,6 +38,7 @@ public class User {
         userMap.put("uid", uid);
         userMap.put("email", email);
         userMap.put("fullname", fullname);
+        userMap.put("profileImageUrl", profileImageUrl);
         return userMap;
     }
 
@@ -58,5 +64,13 @@ public class User {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

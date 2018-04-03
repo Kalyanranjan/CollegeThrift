@@ -84,7 +84,8 @@
         </service>
 
         <activity android:name=".activities.MyConversationsActivity" />
-        <activity android:name=".activities.MessageWindowActivity"></activity>
+        <activity android:name=".activities.MessageWindowActivity" />
+        <activity android:name=".activities.MessengerActivity"></activity>
     </application>
 
 </manifest>

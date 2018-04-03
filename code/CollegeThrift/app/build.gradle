@@ -36,17 +36,20 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:2.3.0'
 
     // All needed dependencies for EasyImage to Work
-    compile 'com.github.jkwiecien:EasyImage:2.0.4'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.tajchert:Nammu:1.2.0'
+    implementation 'com.github.jkwiecien:EasyImage:2.0.4'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.github.tajchert:Nammu:1.2.0'
 
     // retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     //retrofit gson
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     //universalImageLoader
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    //chatMessageView
+    implementation 'com.github.bassaer:chatmessageview:1.10.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

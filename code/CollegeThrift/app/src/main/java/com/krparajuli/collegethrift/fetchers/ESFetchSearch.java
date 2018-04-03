@@ -36,11 +36,11 @@ public class ESFetchSearch extends ESFetch {
         String query = mKeyword.trim() + "*";
 
         if (mCategory != null) {
-            query += "+category:" + mCategory.toString().trim();
+            query += " category:" + mCategory.toString().trim();
         }
 
         if (mType != null) {
-            query += "+type:" + mType.toString().trim();
+            query += " type:" + mType.toString().trim();
         }
 
         query += " price:[" + String.valueOf(mPriceFrom).trim();

@@ -76,7 +76,7 @@ public class ListingDetailActivity extends AppCompatActivity {
         mContactLister = (Button) findViewById(R.id.ld_contact_button);
         mEditDeleteListing = (Button) findViewById(R.id.ld_edit_delete_button);
 
-        mContactLister.setEnabled(false);
+//        mContactLister.setEnabled(false);
     }
 
     @Override
@@ -90,6 +90,7 @@ public class ListingDetailActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Listing object and use the values to update the UI
                 mListing = dataSnapshot.getValue(Listing.class);
+
                 // [START_EXCLUDE]
                 mTitleView.setText(mListing.getTitle());
                 mDescView.setText(mListing.getDesc());
@@ -110,6 +111,14 @@ public class ListingDetailActivity extends AppCompatActivity {
                     mEditDeleteListing.setVisibility(View.GONE);
                     mContactLister.setVisibility(View.VISIBLE);
                 }
+
+                mContactLister.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent messageListerIntent = new Intent(ListingDetailActivity.this, MessengerActivity.class);
+                        startActivity(messageListerIntent);
+                    }
+                });
 
                 mEditDeleteListing.setOnClickListener(new View.OnClickListener() {
                     @Override

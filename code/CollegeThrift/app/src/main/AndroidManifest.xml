@@ -54,7 +54,9 @@
         <activity
             android:name=".activities.ResetPasswordActivity"
             android:parentActivityName=".activities.LoginActivity" />
-        <activity android:name=".activities.ListingDetailActivity" />
+        <activity android:name=".activities.ListingDetailActivity"
+            android:label="Listing Detail"
+            android:parentActivityName=".activities.DrawerViewListingsActivity" />
         <activity
             android:name=".activities.MyListingsActivity"
             android:label="My Listings"

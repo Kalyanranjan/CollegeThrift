@@ -6,13 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.fragments.MyListingsCurrentFragment;
 import com.krparajuli.collegethrift.fragments.MyListingsRemovedFragment;
 import com.krparajuli.collegethrift.fragments.MyListingsSoldFragment;
-import com.krparajuli.collegethrift.fragments.ViewListingsRecentFragment;
 
 public class MyListingsActivity extends AppCompatActivity {
     private FragmentPagerAdapter mPagerAdapter;
@@ -21,7 +19,7 @@ public class MyListingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_my_listings);
 
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
@@ -57,10 +55,5 @@ public class MyListingsActivity extends AppCompatActivity {
         mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.dash_tabs);
         tabLayout.setupWithViewPager(mViewPager, true);
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.dash_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

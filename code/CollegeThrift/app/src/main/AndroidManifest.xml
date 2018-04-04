@@ -58,8 +58,7 @@
         <activity
             android:name=".activities.MyListingsActivity"
             android:label="My Listings"
-            android:parentActivityName=".activities.DrawerViewListingsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".activities.DrawerViewListingsActivity" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

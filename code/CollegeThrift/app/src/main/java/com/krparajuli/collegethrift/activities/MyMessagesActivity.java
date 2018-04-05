@@ -14,8 +14,7 @@ import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.fragments.MyBuyingConversationsFragment;
 import com.krparajuli.collegethrift.fragments.MySellingConversationsFragment;
 
-public class MyMessagesActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener {
+public class MyMessagesActivity extends AppCompatActivity {
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -59,11 +58,5 @@ public class MyMessagesActivity extends AppCompatActivity implements
         mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.mm_tabs);
         tabLayout.setupWithViewPager(mViewPager, true);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
     }
 }

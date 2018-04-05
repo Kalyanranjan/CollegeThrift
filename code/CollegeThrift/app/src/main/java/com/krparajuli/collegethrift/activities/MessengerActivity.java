@@ -14,22 +14,50 @@ import com.github.bassaer.chatmessageview.model.Message;
 import com.github.bassaer.chatmessageview.util.ChatBot;
 import com.github.bassaer.chatmessageview.model.IChatUser;
 import com.github.bassaer.chatmessageview.view.ChatView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.krparajuli.collegethrift.R;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.Random;
 
 
 public class MessengerActivity extends AppCompatActivity {
 
+    private static final String TAG = "MessengerActivity";
+
+    public static String EXTRA_NEW_CONVERSATION_BOOLEAN_KEY = "false";
+    public static String EXTRA_OTHER_USER_UID_KEY = "";
+    // private static String mListerName = "User";
+    // private static String mListerEmail = "generic.user@trincoll.edu";
+    public static String EXTRA_LISTING_UID_KEY = "";
+    //private static String mListingTitle = "Listing";
+    //Also add listing price, type, category
+
+    private boolean mNewConversation = false;
+    private String mOtherUserUid = "RandomUserUid";
+    private String mListingUid = "ListingUid";
+    private String mConversationId = "";
+
+    // add other fields also
+
+
     private ChatView mChatView;
+
+    private String yourName = "You";
+    private String otherName = "Recipient";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messenger);
+
+        processDetails();
+
 
         //User id
         int myId = 0;
@@ -66,6 +94,35 @@ public class MessengerActivity extends AppCompatActivity {
         mChatView.setOnClickSendButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversations");
+                String messageText = mChatView.getInputText().toString();
+                String messageTimestamp = String.valueOf(System.currentTimeMillis());
+                String thisUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                if (mNewConversation) {
+                    // Create a new Conversation for the buyer
+                    DatabaseReference buyerConvNodeReference = reference.child(thisUserUid)
+                            .child("buying");
+                    String buyerConvKey = buyerConvNodeReference.push().getKey();
+                    HashMap<String, String> buyerConvMap = new HashMap<>();
+                    buyerConvMap.put("otherUserUid", mOtherUserUid);
+                    buyerConvMap.put("itemUid", mListingUid);
+                    buyerConvMap.put("lastMessage", messageText);
+                    buyerConvMap.put("lastMessageTime", messageTimestamp);
+                    buyerConvNodeReference.child(buyerConvKey).setValue(buyerConvMap);
+
+                    //Create a New Conversation for the lister
+                    DatabaseReference listerConvNodeReference = reference.child(mOtherUserUid)
+                            .child("selling");
+                    String listerConvKey = buyerConvNodeReference.push().getKey();
+                    HashMap<String, String> listerConvMap = new HashMap<>();
+                    buyerConvMap.put("otherUserUid", thisUserUid);
+                    buyerConvMap.put("itemUid", mListingUid);
+                    buyerConvMap.put("lastMessage", messageText);
+                    buyerConvMap.put("lastMessageTime", messageTimestamp);
+                    buyerConvNodeReference.child(listerConvKey).setValue(listerConvMap);
+                }
+
 
                 //new message
                 Message message = new Message.Builder()
@@ -98,6 +155,14 @@ public class MessengerActivity extends AppCompatActivity {
             }
 
         });
+    }
 
+    private void processDetails() {
+        if (mNewConversation = getIntent().getBooleanExtra(EXTRA_NEW_CONVERSATION_BOOLEAN_KEY, false)) {
+            mListingUid = getIntent().getStringExtra(EXTRA_LISTING_UID_KEY);
+            mOtherUserUid = getIntent().getStringExtra(EXTRA_OTHER_USER_UID_KEY);
+        } else {
+            // Non-new conversation action filler
+        }
     }
 }

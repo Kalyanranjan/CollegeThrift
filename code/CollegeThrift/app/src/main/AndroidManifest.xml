@@ -84,7 +84,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.MyConversationsActivity" />
+        <activity android:name=".activities.MyMessagesActivity" />
         <activity android:name=".activities.MessengerActivity"></activity>
         <activity android:name=".activities.UserProfileEdit"></activity>
     </application>

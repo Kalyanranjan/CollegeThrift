@@ -179,7 +179,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 closeDrawer();
                 break;
             case R.id.dlvd_nav_messages:
-                Intent conversationIntent = new Intent(DrawerViewListingsActivity.this, MyConversationsActivity.class);
+                Intent conversationIntent = new Intent(DrawerViewListingsActivity.this, MyMessagesActivity.class);
                 startActivity(conversationIntent);
                 closeDrawer();
                 break;

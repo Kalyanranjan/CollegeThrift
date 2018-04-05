@@ -46,7 +46,6 @@ public abstract class MyConversationsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_my_messages, container, false);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.conversations_recycler_view);
-        Log.d(TAG, "onCreateView: HELLO");
         return rootView;
     }
 
@@ -56,6 +55,7 @@ public abstract class MyConversationsFragment extends Fragment {
 
         //Setup LayoutManager
         mManager = new LinearLayoutManager(getActivity());
+        mManager.setReverseLayout(true);
         mManager.setStackFromEnd(false);
         mRecycler.setLayoutManager(mManager);
 
@@ -67,7 +67,6 @@ public abstract class MyConversationsFragment extends Fragment {
             protected void populateViewHolder(ConversationViewHolder viewHolder, final Conversation conversation, int position) {
                 final DatabaseReference conversationRef = getRef(position);
 
-                Log.d(TAG, "populateViewHolder: HELLO");
                 viewHolder.bindToConversation(conversation);
             }
         };

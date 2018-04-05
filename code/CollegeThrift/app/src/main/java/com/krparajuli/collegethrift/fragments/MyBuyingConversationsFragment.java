@@ -14,6 +14,6 @@ public class MyBuyingConversationsFragment extends MyConversationsFragment {
         return databaseRef.child("conversations")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("buying")
-                .limitToFirst(100);
+                .orderByChild("lastMessageTime");
     }
 }

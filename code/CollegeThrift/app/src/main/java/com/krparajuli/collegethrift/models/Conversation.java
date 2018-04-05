@@ -11,33 +11,36 @@ import java.util.HashMap;
 @IgnoreExtraProperties
 public class Conversation {
 
-    private String otherPersonUid;
-    private HashMap<String, String> messages;
+
+    private String listingUid;
+    private String otherUserUid;
     private String lastMessage;
+    private String lastMessageTime;
 
     public Conversation() {
     }
 
-    public Conversation(String otherPersonUid, HashMap<String, String> messages, String lastMessage) {
-        this.otherPersonUid = otherPersonUid;
-        this.messages = messages;
+    public Conversation(String listingUid, String otherUserUid, String lastMessage, String lastMessageTime) {
+        this.listingUid = listingUid;
+        this.otherUserUid = otherUserUid;
         this.lastMessage = lastMessage;
+        this.lastMessageTime = lastMessageTime;
     }
 
-    public String getOtherPersonUid() {
-        return otherPersonUid;
+    public String getListingUid() {
+        return listingUid;
     }
 
-    public void setOtherPersonUid(String otherPersonUid) {
-        this.otherPersonUid = otherPersonUid;
+    public void setListingUid(String listingUid) {
+        this.listingUid = listingUid;
     }
 
-    public HashMap<String, String> getMessages() {
-        return messages;
+    public String getOtherUserUid() {
+        return otherUserUid;
     }
 
-    public void setMessages(HashMap<String, String> messages) {
-        this.messages = messages;
+    public void setOtherUserUid(String otherUserUid) {
+        this.otherUserUid = otherUserUid;
     }
 
     public String getLastMessage() {
@@ -46,5 +49,13 @@ public class Conversation {
 
     public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
+    }
+
+    public String getLastMessageTime() {
+        return lastMessageTime;
+    }
+
+    public void setLastMessageTime(String lastMessageTime) {
+        this.lastMessageTime = lastMessageTime;
     }
 }

@@ -106,7 +106,7 @@ public class MessengerActivity extends AppCompatActivity {
                     String buyerConvKey = buyerConvNodeReference.push().getKey();
                     HashMap<String, String> buyerConvMap = new HashMap<>();
                     buyerConvMap.put("otherUserUid", mOtherUserUid);
-                    buyerConvMap.put("itemUid", mListingUid);
+                    buyerConvMap.put("listingUid", mListingUid);
                     buyerConvMap.put("lastMessage", messageText);
                     buyerConvMap.put("lastMessageTime", messageTimestamp);
                     buyerConvNodeReference.child(buyerConvKey).setValue(buyerConvMap);
@@ -117,7 +117,7 @@ public class MessengerActivity extends AppCompatActivity {
                     String listerConvKey = buyerConvNodeReference.push().getKey();
                     HashMap<String, String> listerConvMap = new HashMap<>();
                     buyerConvMap.put("otherUserUid", thisUserUid);
-                    buyerConvMap.put("itemUid", mListingUid);
+                    buyerConvMap.put("listingUid", mListingUid);
                     buyerConvMap.put("lastMessage", messageText);
                     buyerConvMap.put("lastMessageTime", messageTimestamp);
                     buyerConvNodeReference.child(listerConvKey).setValue(listerConvMap);

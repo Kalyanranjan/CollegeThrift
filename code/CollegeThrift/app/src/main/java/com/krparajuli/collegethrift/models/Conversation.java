@@ -11,7 +11,6 @@ import java.util.HashMap;
 @IgnoreExtraProperties
 public class Conversation {
 
-
     private String listingUid;
     private String otherUserUid;
     private String lastMessage;

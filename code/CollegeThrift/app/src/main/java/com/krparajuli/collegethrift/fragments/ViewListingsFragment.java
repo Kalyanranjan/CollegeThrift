@@ -32,7 +32,7 @@ import retrofit2.Response;
  */
 public abstract class ViewListingsFragment extends Fragment {
 
-    private static final String TAG = "ViewListingsFragment";
+    private static final String TAG = "MyConversationsFragment";
     private static int NUM_GRID_COLS = 1;
 
     // [START define_database_reference]

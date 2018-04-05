@@ -67,10 +67,9 @@ public abstract class MyConversationsFragment extends Fragment {
             protected void populateViewHolder(ConversationViewHolder viewHolder, final Conversation conversation, int position) {
                 final DatabaseReference conversationRef = getRef(position);
 
-                viewHolder.bindToConversation(conversation);
+                viewHolder.bindToConversation(conversation, getContext());
             }
         };
-
         mRecycler.setAdapter(mAdapter);
     }
 

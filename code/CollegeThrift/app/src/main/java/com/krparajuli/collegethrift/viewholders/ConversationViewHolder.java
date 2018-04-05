@@ -1,14 +1,18 @@
 package com.krparajuli.collegethrift.viewholders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.activities.ListingDetailActivity;
+import com.krparajuli.collegethrift.activities.MessengerActivity;
 import com.krparajuli.collegethrift.models.Conversation;
 
 public class ConversationViewHolder extends RecyclerView.ViewHolder {
+
     private TextView mOtherUserNameView, mListingTitleView, mLastMessageView;
 
     public ConversationViewHolder(View itemView) {
@@ -19,9 +23,19 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
         mLastMessageView = (TextView) itemView.findViewById(R.id.lc_last_message);
     }
 
-    public void bindToConversation(Conversation conversation) {
+    public void bindToConversation(final Conversation conversation, final Context context) {
         mOtherUserNameView.setText(conversation.getOtherUserUid());
         mListingTitleView.setText(conversation.getListingUid());
         mLastMessageView.setText(conversation.getLastMessage());
+
+        this.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Launch ListingDetailsActivity
+                Intent messengerIntent = new Intent(context, MessengerActivity.class);
+                //messengerIntent.putExtra(ListingDetailActivity.EXTRA_LISTING_KEY, conversation.getUid());
+                context.startActivity(messengerIntent);
+            }
+        });
     }
 }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 @IgnoreExtraProperties
 public class Conversation {
-
+    private String convUid;
     private String listingUid;
     private String otherUserUid;
     private String lastMessage;
@@ -19,11 +19,20 @@ public class Conversation {
     public Conversation() {
     }
 
-    public Conversation(String listingUid, String otherUserUid, String lastMessage, String lastMessageTime) {
+    public Conversation(String convUid, String listingUid, String otherUserUid, String lastMessage, String lastMessageTime) {
+        this.convUid = convUid;
         this.listingUid = listingUid;
         this.otherUserUid = otherUserUid;
         this.lastMessage = lastMessage;
         this.lastMessageTime = lastMessageTime;
+    }
+
+    public String getConvUid() {
+        return convUid;
+    }
+
+    public void setConvUid(String convUid) {
+        this.convUid = convUid;
     }
 
     public String getListingUid() {

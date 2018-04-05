@@ -18,7 +18,7 @@ import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingHitsList;
 import com.krparajuli.collegethrift.models.ListingHitsObject;
 import com.krparajuli.collegethrift.utils.ESPasswordGetter;
-import com.krparajuli.collegethrift.utils.ListingListAdapter;
+import com.krparajuli.collegethrift.adapters.ListingListAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;

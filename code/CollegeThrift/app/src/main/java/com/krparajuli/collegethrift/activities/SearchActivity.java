@@ -7,19 +7,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.fetchers.ESFetch;
 import com.krparajuli.collegethrift.fetchers.ESFetchSearch;
@@ -29,7 +24,7 @@ import com.krparajuli.collegethrift.models.ListingHitsList;
 import com.krparajuli.collegethrift.models.ListingHitsObject;
 import com.krparajuli.collegethrift.models.ListingType;
 import com.krparajuli.collegethrift.utils.ESPasswordGetter;
-import com.krparajuli.collegethrift.utils.ListingListAdapter;
+import com.krparajuli.collegethrift.adapters.ListingListAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;

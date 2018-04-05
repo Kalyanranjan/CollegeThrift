@@ -103,24 +103,26 @@ public class MessengerActivity extends AppCompatActivity {
                     // Create a new Conversation for the buyer
                     DatabaseReference buyerConvNodeReference = reference.child(thisUserUid)
                             .child("buying");
-                    String buyerConvKey = buyerConvNodeReference.push().getKey();
+                    String convKey = buyerConvNodeReference.push().getKey();
+
                     HashMap<String, String> buyerConvMap = new HashMap<>();
+                    buyerConvMap.put("convUid", convKey);
                     buyerConvMap.put("otherUserUid", mOtherUserUid);
                     buyerConvMap.put("listingUid", mListingUid);
                     buyerConvMap.put("lastMessage", messageText);
                     buyerConvMap.put("lastMessageTime", messageTimestamp);
-                    buyerConvNodeReference.child(buyerConvKey).setValue(buyerConvMap);
+                    buyerConvNodeReference.child(convKey).setValue(buyerConvMap);
 
                     //Create a New Conversation for the lister
                     DatabaseReference listerConvNodeReference = reference.child(mOtherUserUid)
                             .child("selling");
-                    String listerConvKey = listerConvNodeReference.push().getKey();
                     HashMap<String, String> listerConvMap = new HashMap<>();
+                    listerConvMap.put("convUid", convKey);
                     listerConvMap.put("otherUserUid", thisUserUid);
                     listerConvMap.put("listingUid", mListingUid);
                     listerConvMap.put("lastMessage", messageText);
                     listerConvMap.put("lastMessageTime", messageTimestamp);
-                    listerConvNodeReference.child(listerConvKey).setValue(listerConvMap);
+                    listerConvNodeReference.child(convKey).setValue(listerConvMap);
                 }
 
                 //new message

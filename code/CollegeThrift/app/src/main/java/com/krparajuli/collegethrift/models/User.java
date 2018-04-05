@@ -15,6 +15,7 @@ public class User {
     private String email;
     private String fullname = "User";
     private String profileImageUrl = "";
+    private String userFCMToken = "";
 
     public User() {}
 
@@ -39,6 +40,7 @@ public class User {
         userMap.put("email", email);
         userMap.put("fullname", fullname);
         userMap.put("profileImageUrl", profileImageUrl);
+        userMap.put("userFCMToken", userFCMToken);
         return userMap;
     }
 
@@ -72,5 +74,13 @@ public class User {
 
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getUserFCMToken() {
+        return userFCMToken;
+    }
+
+    public void setUserFCMToken(String userFCMToken) {
+        this.userFCMToken = userFCMToken;
     }
 }

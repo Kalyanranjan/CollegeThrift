@@ -11,7 +11,9 @@ public class MyBuyingConversationsFragment extends MyConversationsFragment {
 
     @Override
     public Query getQuery(DatabaseReference databaseRef) {
-        return databaseRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString())
-                .child("buying");
+        return databaseRef.child("conversations")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("buying")
+                .limitToFirst(100);
     }
 }

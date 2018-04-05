@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public abstract class MyConversationsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_my_messages, container, false);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.conversations_recycler_view);
+        Log.d(TAG, "onCreateView: HELLO");
         return rootView;
     }
 
@@ -54,7 +56,7 @@ public abstract class MyConversationsFragment extends Fragment {
 
         //Setup LayoutManager
         mManager = new LinearLayoutManager(getActivity());
-        mManager.setStackFromEnd(true);
+        mManager.setStackFromEnd(false);
         mRecycler.setLayoutManager(mManager);
 
         //Set up FirebaseRecyclerAdapter with the Query
@@ -62,14 +64,16 @@ public abstract class MyConversationsFragment extends Fragment {
         mAdapter = new FirebaseRecyclerAdapter<Conversation, ConversationViewHolder>(Conversation.class, R.layout.layout_conversation_item,
                 ConversationViewHolder.class, conversationsQuery) {
             @Override
-            protected void populateViewHolder(ConversationViewHolder viewHolder, Conversation conversation, int position) {
+            protected void populateViewHolder(ConversationViewHolder viewHolder, final Conversation conversation, int position) {
+                final DatabaseReference conversationRef = getRef(position);
+
+                Log.d(TAG, "populateViewHolder: HELLO");
                 viewHolder.bindToConversation(conversation);
             }
-
-
         };
+
+        mRecycler.setAdapter(mAdapter);
     }
 
     public abstract Query getQuery(DatabaseReference databaseRef);
-
 }

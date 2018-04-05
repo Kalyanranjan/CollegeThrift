@@ -114,15 +114,14 @@ public class MessengerActivity extends AppCompatActivity {
                     //Create a New Conversation for the lister
                     DatabaseReference listerConvNodeReference = reference.child(mOtherUserUid)
                             .child("selling");
-                    String listerConvKey = buyerConvNodeReference.push().getKey();
+                    String listerConvKey = listerConvNodeReference.push().getKey();
                     HashMap<String, String> listerConvMap = new HashMap<>();
-                    buyerConvMap.put("otherUserUid", thisUserUid);
-                    buyerConvMap.put("listingUid", mListingUid);
-                    buyerConvMap.put("lastMessage", messageText);
-                    buyerConvMap.put("lastMessageTime", messageTimestamp);
-                    buyerConvNodeReference.child(listerConvKey).setValue(listerConvMap);
+                    listerConvMap.put("otherUserUid", thisUserUid);
+                    listerConvMap.put("listingUid", mListingUid);
+                    listerConvMap.put("lastMessage", messageText);
+                    listerConvMap.put("lastMessageTime", messageTimestamp);
+                    listerConvNodeReference.child(listerConvKey).setValue(listerConvMap);
                 }
-
 
                 //new message
                 Message message = new Message.Builder()

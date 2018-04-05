@@ -54,24 +54,11 @@ public class MyMessagesActivity extends AppCompatActivity implements
             }
         };
 
-// Set up the ViewPager with the selections adapter
+        // Set up the ViewPager with the selections adapter
         mViewPager = (ViewPager) findViewById(R.id.mm_container);
         mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.mm_tabs);
         tabLayout.setupWithViewPager(mViewPager, true);
-//        Intent messageWindowIntent = new Intent(MyMessagesActivity.this, MessageWindowActivity.class);
-//        startActivity(messageWindowIntent);
-//        finish();
-//
-//        RecyclerView mcRecyclerView = (RecyclerView) findViewById(R.id.mc_recycler_view);
-//        mcRecyclerView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("MyMessagesActivity", "onClick: asdsa");
-//                Intent messageWindowIntent = new Intent(MyMessagesActivity.this, MessageWindowActivity.class);
-//                startActivity(messageWindowIntent);
-//            }
-//        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

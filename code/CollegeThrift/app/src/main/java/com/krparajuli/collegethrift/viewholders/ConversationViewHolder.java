@@ -11,7 +11,7 @@ import com.krparajuli.collegethrift.models.Conversation;
 public class ConversationViewHolder extends RecyclerView.ViewHolder {
     private TextView mOtherUserNameView, mListingTitleView, mLastMessageView;
 
-    public ConversationViewHolder(Context context, View itemView) {
+    public ConversationViewHolder(View itemView) {
         super(itemView);
 
         mOtherUserNameView = (TextView) itemView.findViewById(R.id.lc_other_user);

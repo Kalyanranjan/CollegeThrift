@@ -116,7 +116,7 @@ public class ListingDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent messageListerIntent = new Intent(ListingDetailActivity.this, MessengerActivity.class);
-                        messageListerIntent.putExtra(MessengerActivity.EXTRA_NEW_CONVERSATION_BOOLEAN_KEY, true);
+                        messageListerIntent.putExtra(MessengerActivity.EXTRA_ARRIVED_FROM_LISTING_DETAIL, true);
                         messageListerIntent.putExtra(MessengerActivity.EXTRA_LISTING_UID_KEY, mListing.getUid());
                         messageListerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_UID_KEY, mListing.getListerUid());
                         startActivity(messageListerIntent);

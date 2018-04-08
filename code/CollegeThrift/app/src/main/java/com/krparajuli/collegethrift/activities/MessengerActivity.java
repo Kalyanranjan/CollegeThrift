@@ -3,26 +3,28 @@ package com.krparajuli.collegethrift.activities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.github.bassaer.chatmessageview.model.ChatUser;
 import com.github.bassaer.chatmessageview.model.Message;
 import com.github.bassaer.chatmessageview.util.ChatBot;
-import com.github.bassaer.chatmessageview.model.IChatUser;
 import com.github.bassaer.chatmessageview.view.ChatView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 
 
@@ -30,16 +32,17 @@ public class MessengerActivity extends AppCompatActivity {
 
     private static final String TAG = "MessengerActivity";
 
-    public static String EXTRA_NEW_CONVERSATION_BOOLEAN_KEY = "false";
-    public static String EXTRA_OTHER_USER_UID_KEY = "";
+    public static String EXTRA_ARRIVED_FROM_LISTING_DETAIL = "true";
+    public static String EXTRA_OTHER_USER_UID_KEY = "OTHER USER KEY";
     // private static String mListerName = "User";
     // private static String mListerEmail = "generic.user@trincoll.edu";
-    public static String EXTRA_LISTING_UID_KEY = "";
+    public static String EXTRA_LISTING_UID_KEY = "LISTING KEY";
     //private static String mListingTitle = "Listing";
     //Also add listing price, type, category
     public static String EXTRA_CONVERSATION_ID = "";
 
-    private boolean mNewConversation = false;
+
+    private boolean mNewConversation = true;
     private String mOtherUserUid = "RandomUserUid";
     private String mListingUid = "ListingUid";
     private String mConversationId = "";
@@ -73,7 +76,7 @@ public class MessengerActivity extends AppCompatActivity {
         final ChatUser me = new ChatUser(myId, myName, myIcon);
         final ChatUser you = new ChatUser(yourId, yourName, yourIcon);
 
-        mChatView = (ChatView)findViewById(R.id.chat_view);
+        mChatView = (ChatView) findViewById(R.id.chat_view);
 
 //        //Set UI parameters if you need
         mChatView.setRightBubbleColor(ContextCompat.getColor(this, R.color.green500));
@@ -137,18 +140,44 @@ public class MessengerActivity extends AppCompatActivity {
     private void processDetails() {
         mListingUid = getIntent().getStringExtra(EXTRA_LISTING_UID_KEY);
         mOtherUserUid = getIntent().getStringExtra(EXTRA_OTHER_USER_UID_KEY);
-        if (!(mNewConversation = getIntent().getBooleanExtra(EXTRA_NEW_CONVERSATION_BOOLEAN_KEY, false))) {
-            mConversationId = getIntent().getStringExtra(EXTRA_CONVERSATION_ID);
+
+        if (getIntent().getBooleanExtra(EXTRA_ARRIVED_FROM_LISTING_DETAIL, true)) { // If arrived from Listing Detail Check if previous conversation exists
+            DatabaseReference convRef = FirebaseDatabase.getInstance().getReference()
+                    .child("conversationsByListing")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString())
+                    .child("buying")
+                    .child(mListingUid);
+            convRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() == null) {
+                        Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
+                        mNewConversation = true;
+                        Toast.makeText(getBaseContext(), "==============================================================", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Log.d(TAG, "onDataChange: " + dataSnapshot.getValue().toString());
+
+                        Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
+                        //Toast.makeText(getBaseContext(), dataSnapshot.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
     private void createConversationAndSendToServer(String messageText) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversations");
+        DatabaseReference convUserRef = FirebaseDatabase.getInstance().getReference().child("conversations");
         String messageTimestamp = String.valueOf(System.currentTimeMillis());
         String thisUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // Create a new Conversation for the buyer
-        DatabaseReference buyerConvNodeReference = reference.child(thisUserUid)
+        DatabaseReference buyerConvNodeReference = convUserRef.child(thisUserUid)
                 .child("buying");
         String convKey = buyerConvNodeReference.push().getKey();
 
@@ -161,7 +190,7 @@ public class MessengerActivity extends AppCompatActivity {
         buyerConvNodeReference.child(convKey).setValue(buyerConvMap);
 
         //Create a New Conversation for the lister
-        DatabaseReference listerConvNodeReference = reference.child(mOtherUserUid)
+        DatabaseReference listerConvNodeReference = convUserRef.child(mOtherUserUid)
                 .child("selling");
         HashMap<String, String> listerConvMap = new HashMap<>();
         listerConvMap.put("convUid", convKey);
@@ -170,6 +199,13 @@ public class MessengerActivity extends AppCompatActivity {
         listerConvMap.put("lastMessage", messageText);
         listerConvMap.put("lastMessageTime", messageTimestamp);
         listerConvNodeReference.child(convKey).setValue(listerConvMap);
+
+        DatabaseReference convByListingRef = FirebaseDatabase.getInstance().getReference().child("conversationsByListing");
+        convByListingRef.child(thisUserUid).child("buying").child(mListingUid).setValue(buyerConvMap);
+        convByListingRef.child(mOtherUserUid).child("selling").child(mListingUid).child(convKey).setValue(listerConvMap);
+
+        mConversationId = convKey;
+        mNewConversation = false;
     }
 
     private void updateConversation(String messageText) {
@@ -187,5 +223,8 @@ public class MessengerActivity extends AppCompatActivity {
                 .child("selling").child(mConversationId);
         listerConvNodeReference.child("lastMessage").setValue(messageText);
         listerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
+
+        //Need to update conversation by Listings too??
+
     }
 }

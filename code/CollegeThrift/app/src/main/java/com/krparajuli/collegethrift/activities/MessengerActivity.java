@@ -37,6 +37,7 @@ public class MessengerActivity extends AppCompatActivity {
     public static String EXTRA_LISTING_UID_KEY = "";
     //private static String mListingTitle = "Listing";
     //Also add listing price, type, category
+    public static String EXTRA_CONVERSATION_ID = "";
 
     private boolean mNewConversation = false;
     private String mOtherUserUid = "RandomUserUid";
@@ -57,7 +58,6 @@ public class MessengerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_messenger);
 
         processDetails();
-
 
         //User id
         int myId = 0;
@@ -94,35 +94,11 @@ public class MessengerActivity extends AppCompatActivity {
         mChatView.setOnClickSendButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversations");
                 String messageText = mChatView.getInputText().toString();
-                String messageTimestamp = String.valueOf(System.currentTimeMillis());
-                String thisUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
                 if (mNewConversation) {
-                    // Create a new Conversation for the buyer
-                    DatabaseReference buyerConvNodeReference = reference.child(thisUserUid)
-                            .child("buying");
-                    String convKey = buyerConvNodeReference.push().getKey();
-
-                    HashMap<String, String> buyerConvMap = new HashMap<>();
-                    buyerConvMap.put("convUid", convKey);
-                    buyerConvMap.put("otherUserUid", mOtherUserUid);
-                    buyerConvMap.put("listingUid", mListingUid);
-                    buyerConvMap.put("lastMessage", messageText);
-                    buyerConvMap.put("lastMessageTime", messageTimestamp);
-                    buyerConvNodeReference.child(convKey).setValue(buyerConvMap);
-
-                    //Create a New Conversation for the lister
-                    DatabaseReference listerConvNodeReference = reference.child(mOtherUserUid)
-                            .child("selling");
-                    HashMap<String, String> listerConvMap = new HashMap<>();
-                    listerConvMap.put("convUid", convKey);
-                    listerConvMap.put("otherUserUid", thisUserUid);
-                    listerConvMap.put("listingUid", mListingUid);
-                    listerConvMap.put("lastMessage", messageText);
-                    listerConvMap.put("lastMessageTime", messageTimestamp);
-                    listerConvNodeReference.child(convKey).setValue(listerConvMap);
+                    createConversationAndSendToServer(messageText);
+                } else {
+                    updateConversation(messageText);
                 }
 
                 //new message
@@ -159,11 +135,57 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
     private void processDetails() {
-        if (mNewConversation = getIntent().getBooleanExtra(EXTRA_NEW_CONVERSATION_BOOLEAN_KEY, false)) {
-            mListingUid = getIntent().getStringExtra(EXTRA_LISTING_UID_KEY);
-            mOtherUserUid = getIntent().getStringExtra(EXTRA_OTHER_USER_UID_KEY);
-        } else {
-            // Non-new conversation action filler
+        mListingUid = getIntent().getStringExtra(EXTRA_LISTING_UID_KEY);
+        mOtherUserUid = getIntent().getStringExtra(EXTRA_OTHER_USER_UID_KEY);
+        if (!(mNewConversation = getIntent().getBooleanExtra(EXTRA_NEW_CONVERSATION_BOOLEAN_KEY, false))) {
+            mConversationId = getIntent().getStringExtra(EXTRA_CONVERSATION_ID);
         }
+    }
+
+    private void createConversationAndSendToServer(String messageText) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversations");
+        String messageTimestamp = String.valueOf(System.currentTimeMillis());
+        String thisUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Create a new Conversation for the buyer
+        DatabaseReference buyerConvNodeReference = reference.child(thisUserUid)
+                .child("buying");
+        String convKey = buyerConvNodeReference.push().getKey();
+
+        HashMap<String, String> buyerConvMap = new HashMap<>();
+        buyerConvMap.put("convUid", convKey);
+        buyerConvMap.put("otherUserUid", mOtherUserUid);
+        buyerConvMap.put("listingUid", mListingUid);
+        buyerConvMap.put("lastMessage", messageText);
+        buyerConvMap.put("lastMessageTime", messageTimestamp);
+        buyerConvNodeReference.child(convKey).setValue(buyerConvMap);
+
+        //Create a New Conversation for the lister
+        DatabaseReference listerConvNodeReference = reference.child(mOtherUserUid)
+                .child("selling");
+        HashMap<String, String> listerConvMap = new HashMap<>();
+        listerConvMap.put("convUid", convKey);
+        listerConvMap.put("otherUserUid", thisUserUid);
+        listerConvMap.put("listingUid", mListingUid);
+        listerConvMap.put("lastMessage", messageText);
+        listerConvMap.put("lastMessageTime", messageTimestamp);
+        listerConvNodeReference.child(convKey).setValue(listerConvMap);
+    }
+
+    private void updateConversation(String messageText) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversations");
+        String messageTimestamp = String.valueOf(System.currentTimeMillis());
+        String thisUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference buyerConvNodeReference = reference.child(thisUserUid)
+                .child("buying").child(mConversationId);
+        buyerConvNodeReference.child("lastMessage").setValue(messageText);
+        buyerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
+
+
+        DatabaseReference listerConvNodeReference = reference.child(mOtherUserUid)
+                .child("selling").child(mConversationId);
+        listerConvNodeReference.child("lastMessage").setValue(messageText);
+        listerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
     }
 }

@@ -86,7 +86,7 @@ public class MessengerActivity extends AppCompatActivity {
         mChatView.setUsernameTextColor(Color.WHITE);
         mChatView.setSendTimeTextColor(Color.WHITE);
         mChatView.setDateSeparatorColor(Color.WHITE);
-        mChatView.setInputTextHint("new message...");
+        mChatView.setInputTextHint("New Message...");
         mChatView.setMessageMarginTop(5);
         mChatView.setMessageMarginBottom(5);
 
@@ -145,8 +145,7 @@ public class MessengerActivity extends AppCompatActivity {
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString())
                     .child("buying").child(mListingUid).child("convUid");
             convRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override//import com.krparajuli.collegethrift.models.Message;
-
+                @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() == null) {
                         mNewConversation = true;
@@ -164,6 +163,7 @@ public class MessengerActivity extends AppCompatActivity {
                 }
             });
         } else {
+            mConversationId = getIntent().getStringExtra(EXTRA_CONVERSATION_ID);
             displayPreviousMessages(mConversationId);
         }
     }

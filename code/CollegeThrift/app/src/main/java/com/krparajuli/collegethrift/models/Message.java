@@ -9,45 +9,25 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Message {
 
-    public String sender1Uid;
-    public String sender2Uid;
-    public String sentByUid;
+    public String messageSenderUid;
     public String messageText;
-    public long MessageTime;
+    public long messageTime;
 
     public Message() {
     }
 
-    public Message(String sender1Uid, String sender2Uid, String sentByUid, String messageText, long messageTime) {
-        this.sender1Uid = sender1Uid;
-        this.sender2Uid = sender2Uid;
-        this.sentByUid = sentByUid;
+    public Message(String senderUid, String messageText, long messageTime) {
+        this.messageSenderUid = senderUid;
         this.messageText = messageText;
-        MessageTime = messageTime;
+        this.messageTime = messageTime;
     }
 
-    public String getSender1Uid() {
-        return sender1Uid;
+    public String getSenderUid() {
+        return messageSenderUid;
     }
 
-    public void setSender1Uid(String sender1Uid) {
-        this.sender1Uid = sender1Uid;
-    }
-
-    public String getSender2Uid() {
-        return sender2Uid;
-    }
-
-    public void setSender2Uid(String sender2Uid) {
-        this.sender2Uid = sender2Uid;
-    }
-
-    public String getSentByUid() {
-        return sentByUid;
-    }
-
-    public void setSentByUid(String sentByUid) {
-        this.sentByUid = sentByUid;
+    public void setSenderUid(String sender1Uid) {
+        this.messageSenderUid = sender1Uid;
     }
 
     public String getMessageText() {
@@ -59,10 +39,10 @@ public class Message {
     }
 
     public long getMessageTime() {
-        return MessageTime;
+        return messageTime;
     }
 
     public void setMessageTime(long messageTime) {
-        MessageTime = messageTime;
+        this.messageTime = messageTime;
     }
 }

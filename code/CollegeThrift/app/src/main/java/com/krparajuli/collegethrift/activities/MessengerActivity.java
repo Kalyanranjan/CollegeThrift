@@ -65,11 +65,11 @@ public class MessengerActivity extends AppCompatActivity {
         //User icon
         Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         //User name
-        String myName = "Michael";
+        String myName = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
 
         int yourId = 1;
         Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_1);
-        String yourName = "Emily";
+        String yourName = mOtherUserUid;
 
         final ChatUser me = new ChatUser(myId, myName, myIcon);
         final ChatUser you = new ChatUser(yourId, yourName, yourIcon);
@@ -225,5 +225,13 @@ public class MessengerActivity extends AppCompatActivity {
 
     private void displayPreviousMessages(String mConversationId) {
 
+    }
+
+    private long negateTimeForDatabaseSortingPurposes(long time) {
+        return -1 * time;
+    }
+
+    private long denegateTimeForUI(long time) {
+        return -1 * time;
     }
 }

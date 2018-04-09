@@ -226,12 +226,4 @@ public class MessengerActivity extends AppCompatActivity {
     private void displayPreviousMessages(String mConversationId) {
 
     }
-
-    private long negateTimeForDatabaseSortingPurposes(long time) {
-        return -1 * time;
-    }
-
-    private long denegateTimeForUI(long time) {
-        return -1 * time;
-    }
 }

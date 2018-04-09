@@ -26,8 +26,8 @@ public class Message {
         return messageSenderUid;
     }
 
-    public void setSenderUid(String sender1Uid) {
-        this.messageSenderUid = sender1Uid;
+    public void setSenderUid(String senderUid) {
+        this.messageSenderUid = senderUid;
     }
 
     public String getMessageText() {

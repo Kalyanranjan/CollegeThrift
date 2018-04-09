@@ -4,15 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.github.bassaer.chatmessageview.model.ChatUser;
-import com.github.bassaer.chatmessageview.model.Message;
-import com.github.bassaer.chatmessageview.util.ChatBot;
 import com.github.bassaer.chatmessageview.view.ChatView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,9 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.models.Message;
 
 import java.util.HashMap;
-import java.util.Random;
+import java.util.Iterator;
 
 
 public class MessengerActivity extends AppCompatActivity {
@@ -58,6 +56,7 @@ public class MessengerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messenger);
 
+        // Find If this is a new conversation, put details and messages in place
         processDetails();
 
         //User id
@@ -103,33 +102,34 @@ public class MessengerActivity extends AppCompatActivity {
                 }
 
                 //new message
-                Message message = new Message.Builder()
-                        .setUser(me)
-                        .setRight(true)
-                        .setText(mChatView.getInputText())
-                        .hideIcon(true)
-                        .build();
+                com.github.bassaer.chatmessageview.model.Message message =
+                        new com.github.bassaer.chatmessageview.model.Message.Builder()
+                                .setUser(me)
+                                .setRight(true)
+                                .setText(mChatView.getInputText())
+                                .hideIcon(true)
+                                .build();
                 //Set to chat view
                 mChatView.send(message);
 //                //Reset edit text
                 mChatView.setInputText("");
 
-                //Receive message
-                final Message receivedMessage = new Message.Builder()
-                        .setUser(you)
-                        .setRight(false)
-                        .setText(ChatBot.INSTANCE.talk(me.getName(), message.getText()))
-                        .build();
-
-//                // This is a demo bot
-//                // Return within 3 seconds
-                int sendDelay = (new Random().nextInt(4) + 1) * 1000;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mChatView.receive(receivedMessage);
-                    }
-                }, sendDelay);
+//                //Receive message
+//                final Message receivedMessage = new Message.Builder()
+//                        .setUser(you)
+//                        .setRight(false)
+//                        .setText(ChatBot.INSTANCE.talk(me.getName(), message.getText()))
+//                        .build();
+//
+////                // This is a demo bot
+////                // Return within 3 seconds
+//                int sendDelay = (new Random().nextInt(4) + 1) * 1000;
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mChatView.receive(receivedMessage);
+//                    }
+//                }, sendDelay);
             }
 
         });
@@ -145,7 +145,8 @@ public class MessengerActivity extends AppCompatActivity {
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString())
                     .child("buying").child(mListingUid).child("convUid");
             convRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
+                @Override//import com.krparajuli.collegethrift.models.Message;
+
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() == null) {
                         mNewConversation = true;
@@ -169,7 +170,7 @@ public class MessengerActivity extends AppCompatActivity {
 
     private void createConversationAndSendToServer(String messageText) {
         DatabaseReference convUserRef = FirebaseDatabase.getInstance().getReference().child("conversations");
-        String messageTimestamp = String.valueOf(System.currentTimeMillis());
+        long messageTimestamp = System.currentTimeMillis();
         String thisUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         // Create a new Conversation for the buyer
@@ -177,7 +178,7 @@ public class MessengerActivity extends AppCompatActivity {
                 .child("buying");
         String convKey = buyerConvNodeReference.push().getKey();
 
-        HashMap<String, String> buyerConvMap = new HashMap<>();
+        HashMap<String, Object> buyerConvMap = new HashMap<>();
         buyerConvMap.put("convUid", convKey);
         buyerConvMap.put("otherUserUid", mOtherUserUid);
         buyerConvMap.put("listingUid", mListingUid);
@@ -188,7 +189,7 @@ public class MessengerActivity extends AppCompatActivity {
         //Create a New Conversation for the lister
         DatabaseReference listerConvNodeReference = convUserRef.child(mOtherUserUid)
                 .child("selling");
-        HashMap<String, String> listerConvMap = new HashMap<>();
+        HashMap<String, Object> listerConvMap = new HashMap<>();
         listerConvMap.put("convUid", convKey);
         listerConvMap.put("otherUserUid", thisUserUid);
         listerConvMap.put("listingUid", mListingUid);
@@ -202,11 +203,12 @@ public class MessengerActivity extends AppCompatActivity {
 
         mConversationId = convKey;
         mNewConversation = false;
+        insertMessage(convKey, thisUserUid, messageText, messageTimestamp);
     }
 
     private void updateConversation(String messageText) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversations");
-        String messageTimestamp = String.valueOf(System.currentTimeMillis());
+        long messageTimestamp = System.currentTimeMillis();
         String thisUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         DatabaseReference buyerConvNodeReference = reference.child(thisUserUid)
@@ -220,10 +222,66 @@ public class MessengerActivity extends AppCompatActivity {
         listerConvNodeReference.child("lastMessage").setValue(messageText);
         listerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
 
+        insertMessage(mConversationId, thisUserUid, messageText, messageTimestamp);
         //Need to update conversation by Listings too??
     }
 
-    private void displayPreviousMessages(String mConversationId) {
+    private void insertMessage(String convUid, String senderUid, String messageText, long messageTime) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child("messages").child(convUid);
+        HashMap<String, Object> messageMap = new HashMap<>();
+        messageMap.put("messageSenderUid", senderUid);
+        messageMap.put("messageText", messageText);
+        messageMap.put("messageTime", messageTime);
+        reference.push().setValue(messageMap);
+    }
+
+    private void displayPreviousMessages(String convUid) {
+
+        int myId = 0;
+        //User icon
+        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
+        //User name
+        final String myName = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+
+        int yourId = 1;
+        Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_1);
+        String yourName = mOtherUserUid;
+
+        final ChatUser me = new ChatUser(myId, myName, myIcon);
+        final ChatUser you = new ChatUser(yourId, yourName, yourIcon);
+
+
+        DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference()
+                .child("messages").child(convUid);
+        messagesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange:MESSAGE SNAPSHOT " + dataSnapshot.getValue().toString());
+                Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
+
+                Message message;
+                DataSnapshot ds;
+                while (iter.hasNext()) {
+                    message = iter.next().getValue(Message.class);
+                    Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
+                    Log.d(TAG, "onDataChange:MESSAGE" + message.getMessageText());
+                    com.github.bassaer.chatmessageview.model.Message dispMessage =
+                            new com.github.bassaer.chatmessageview.model.Message.Builder()
+                                    .setUser(me)
+                                    .setRight(myName.equals(message.getSenderUid()))
+                                    .setText(message.getMessageText())
+                                    .hideIcon(myName.equals(message.getSenderUid()))
+                                    .build();
+                    mChatView.send(dispMessage);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 }

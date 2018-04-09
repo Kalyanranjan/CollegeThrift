@@ -33,6 +33,7 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 // Launch ListingDetailsActivity
                 Intent messengerIntent = new Intent(context, MessengerActivity.class);
+                messengerIntent.putExtra(MessengerActivity.EXTRA_ARRIVED_FROM_LISTING_DETAIL, false);
                 messengerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_UID_KEY, conversation.getOtherUserUid());
                 messengerIntent.putExtra(MessengerActivity.EXTRA_LISTING_UID_KEY, conversation.getListingUid());
                 messengerIntent.putExtra(MessengerActivity.EXTRA_CONVERSATION_ID, conversation.getConvUid());

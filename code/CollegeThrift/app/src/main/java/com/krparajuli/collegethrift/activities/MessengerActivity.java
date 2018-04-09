@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.github.bassaer.chatmessageview.model.ChatUser;
 import com.github.bassaer.chatmessageview.model.Message;
@@ -24,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
 
 
@@ -32,7 +30,7 @@ public class MessengerActivity extends AppCompatActivity {
 
     private static final String TAG = "MessengerActivity";
 
-    public static String EXTRA_ARRIVED_FROM_LISTING_DETAIL = "true";
+    public static String EXTRA_ARRIVED_FROM_LISTING_DETAIL = "false";
     public static String EXTRA_OTHER_USER_UID_KEY = "OTHER USER KEY";
     // private static String mListerName = "User";
     // private static String mListerEmail = "generic.user@trincoll.edu";
@@ -145,21 +143,17 @@ public class MessengerActivity extends AppCompatActivity {
             DatabaseReference convRef = FirebaseDatabase.getInstance().getReference()
                     .child("conversationsByListing")
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString())
-                    .child("buying")
-                    .child(mListingUid);
+                    .child("buying").child(mListingUid).child("convUid");
             convRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() == null) {
-                        Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
                         mNewConversation = true;
-                        Toast.makeText(getBaseContext(), "==============================================================", Toast.LENGTH_LONG).show();
-
+                        Log.d(TAG, "onDataChange: No Previous Conversation Found" + dataSnapshot.toString());
                     } else {
-                        Log.d(TAG, "onDataChange: " + dataSnapshot.getValue().toString());
-
-                        Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
-                        //Toast.makeText(getBaseContext(), dataSnapshot.toString(), Toast.LENGTH_LONG).show();
+                        mConversationId = dataSnapshot.getValue().toString();
+                        Log.d(TAG, "onDataChange: No Previous Conversation Found" + mConversationId);
+                        displayPreviousMessages(mConversationId);
                     }
                 }
 
@@ -168,6 +162,8 @@ public class MessengerActivity extends AppCompatActivity {
 
                 }
             });
+        } else {
+            displayPreviousMessages(mConversationId);
         }
     }
 
@@ -225,6 +221,9 @@ public class MessengerActivity extends AppCompatActivity {
         listerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
 
         //Need to update conversation by Listings too??
+    }
+
+    private void displayPreviousMessages(String mConversationId) {
 
     }
 }

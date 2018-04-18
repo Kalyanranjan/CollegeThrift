@@ -84,6 +84,14 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 ((TextView) findViewById(R.id.drawer_user_name_text)).setText(mUserFullName);
                 ((TextView) findViewById(R.id.drawer_user_email_text)).setText(mUserEmail);
 
+                findViewById(R.id.drawer_edit_profile_text).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent editProfileIntent = new Intent(DrawerViewListingsActivity.this, EditProfileActivity.class);
+                        startActivity(editProfileIntent);
+                    }
+                });
+
             }
 
             @Override
@@ -125,14 +133,6 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.dvl_tabs);
         tabLayout.setupWithViewPager(mViewPager, true);
-
-        findViewById(R.id.drawer_edit_profile).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent editProfileIntent = new Intent(DrawerViewListingsActivity.this, EditProfileActivity.class);
-                startActivity(editProfileIntent);
-            }
-        });
     }
 
     @Override

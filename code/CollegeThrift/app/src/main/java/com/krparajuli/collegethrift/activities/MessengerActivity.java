@@ -18,7 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.Message;
+import com.krparajuli.collegethrift.models.User;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,8 +40,9 @@ public class MessengerActivity extends AppCompatActivity {
     private String mListingUid = "ListingUid";
     private String mConversationId = "";
 
-    private String mListerName = "User";
-    private String mListerEmail = "generic.user@trincoll.edu";
+    private String mMyName = "Me";
+    private String mOtherUserName = "User";
+    private String mOtherUserEmail = "generic.user@trincoll.edu";
     private String mListingTitle = "Listing";
     private int mListingPrice = 0;
 
@@ -61,11 +64,11 @@ public class MessengerActivity extends AppCompatActivity {
         //User icon
         Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         //User name
-        String myName = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        String myName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
         int yourId = 1;
         Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_1);
-        String yourName = mOtherUserUid;
+        String yourName = mOtherUserName;
 
         final ChatUser me = new ChatUser(myId, myName, myIcon);
         final ChatUser you = new ChatUser(yourId, yourName, yourIcon);
@@ -163,6 +166,41 @@ public class MessengerActivity extends AppCompatActivity {
             mConversationId = getIntent().getStringExtra(EXTRA_CONVERSATION_ID);
             displayPreviousMessages(mConversationId);
         }
+        getAdditionalDetails();
+    }
+
+    private void getAdditionalDetails() {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.child("users").child(mOtherUserUid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User otherUser = dataSnapshot.getValue(User.class);
+                        mOtherUserName = otherUser.getFullname();
+                        mOtherUserEmail = otherUser.getEmail();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+        dbRef.child("listings").child(mListingUid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Listing listing = dataSnapshot.getValue(Listing.class);
+                        mListingTitle = listing.getTitle();
+                        mListingPrice = listing.getPrice();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
     }
 
     private void createConversationAndSendToServer(String messageText) {

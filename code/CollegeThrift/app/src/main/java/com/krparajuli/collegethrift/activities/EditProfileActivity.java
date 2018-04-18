@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,7 +61,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onDataChange: USER GOTTN");
                  User currentUser = dataSnapshot.getValue(User.class);
-                mFullNameView.setText(currentUser.getFullname());
+                mFullNameView.setText(currentUser.getFullname().trim());
             }
 
             @Override
@@ -83,6 +84,9 @@ public class EditProfileActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(enteredFullname)) {
             DatabaseReference userRef = mDatabase.getReference().child("users").child(mAuth.getCurrentUser().getUid().toString());
             userRef.child("fullname").setValue(enteredFullname);
+            UserProfileChangeRequest userProfileUpdate = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(enteredFullname).build();
+            mAuth.getCurrentUser().updateProfile(userProfileUpdate);
         }
         finish();
     }

@@ -30,21 +30,18 @@ public class MessengerActivity extends AppCompatActivity {
 
     public static String EXTRA_ARRIVED_FROM_LISTING_DETAIL = "false";
     public static String EXTRA_OTHER_USER_UID_KEY = "OTHER USER KEY";
-    // private static String mListerName = "User";
-    // private static String mListerEmail = "generic.user@trincoll.edu";
     public static String EXTRA_LISTING_UID_KEY = "LISTING KEY";
-    //private static String mListingTitle = "Listing";
-    //Also add listing price, type, category
     public static String EXTRA_CONVERSATION_ID = "";
-
 
     private boolean mNewConversation = true;
     private String mOtherUserUid = "RandomUserUid";
     private String mListingUid = "ListingUid";
     private String mConversationId = "";
 
-    // add other fields also
-
+    private String mListerName = "User";
+    private String mListerEmail = "generic.user@trincoll.edu";
+    private String mListingTitle = "Listing";
+    private int mListingPrice = 0;
 
     private ChatView mChatView;
 

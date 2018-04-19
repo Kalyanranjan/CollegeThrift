@@ -51,6 +51,8 @@ public class MessengerActivity extends AppCompatActivity {
     private String yourName = "You";
     private String otherName = "Recipient";
 
+    private int mNumDisplayedMessages = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,8 +112,6 @@ public class MessengerActivity extends AppCompatActivity {
                                 .setText(mChatView.getInputText())
                                 .hideIcon(true)
                                 .build();
-                //Set to chat view
-                mChatView.send(message);
 //                //Reset edit text
                 mChatView.setInputText("");
             }
@@ -290,20 +290,27 @@ public class MessengerActivity extends AppCompatActivity {
                 Log.d(TAG, "onDataChange:MESSAGE SNAPSHOT " + dataSnapshot.getValue().toString());
                 Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
 
+                int numMessages = 0;
+
                 Message message;
                 DataSnapshot ds;
                 while (iter.hasNext()) {
-                    message = iter.next().getValue(Message.class);
-                    Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
-                    Log.d(TAG, "onDataChange:MESSAGE" + message.getMessageText());
-                    com.github.bassaer.chatmessageview.model.Message dispMessage =
-                            new com.github.bassaer.chatmessageview.model.Message.Builder()
-                                    .setUser(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(message.getSenderUid()) ? me : you)
-                                    .setRight(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(message.getSenderUid()))
-                                    .setText(message.getMessageText())
-                                    .hideIcon(true)
-                                    .build();
-                    mChatView.send(dispMessage);
+                    ds = iter.next();
+                    numMessages++;
+                    if (numMessages > mNumDisplayedMessages) {
+                        message = ds.getValue(Message.class);
+                        Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
+                        Log.d(TAG, "onDataChange:MESSAGE" + message.getMessageText());
+                        com.github.bassaer.chatmessageview.model.Message dispMessage =
+                                new com.github.bassaer.chatmessageview.model.Message.Builder()
+                                        .setUser(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(message.getSenderUid()) ? me : you)
+                                        .setRight(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(message.getSenderUid()))
+                                        .setText(message.getMessageText())
+                                        .hideIcon(true)
+                                        .build();
+                        mChatView.send(dispMessage);
+                        mNumDisplayedMessages++;
+                    }
                 }
             }
 
@@ -318,6 +325,6 @@ public class MessengerActivity extends AppCompatActivity {
         if (me) {
             return "You";
         }
-        return mOtherUserName + " \n<" + mOtherUserEmail + ">";
+        return mOtherUserName + " <" + mOtherUserEmail + ">";
     }
 }

@@ -257,7 +257,7 @@ public class MessengerActivity extends AppCompatActivity {
         listerConvNodeReference.child("lastMessage").setValue(messageText);
         listerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
 
-        insertMessage(mConversationId, thisUserUid, messageText, messageTimestamp);
+        insertMessage(mConversationId, formatUserNameAndEmail(true), messageText, messageTimestamp);
         //Need to update conversation by Listings too??
     }
 
@@ -277,11 +277,11 @@ public class MessengerActivity extends AppCompatActivity {
         //User icon
         Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         //User name
-        final String myName = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        final String myName = formatUserNameAndEmail(true);
 
         int yourId = 1;
         Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_1);
-        String yourName = mOtherUserUid;
+        String yourName = formatUserNameAndEmail(false);
 
         final ChatUser me = new ChatUser(myId, myName, myIcon);
         final ChatUser you = new ChatUser(yourId, yourName, yourIcon);
@@ -304,9 +304,9 @@ public class MessengerActivity extends AppCompatActivity {
                     com.github.bassaer.chatmessageview.model.Message dispMessage =
                             new com.github.bassaer.chatmessageview.model.Message.Builder()
                                     .setUser(me)
-                                    .setRight(myName.equals(message.getSenderUid()))
+                                    .setRight(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(message.getSenderUid()))
                                     .setText(message.getMessageText())
-                                    .hideIcon(myName.equals(message.getSenderUid()))
+                                    .hideIcon(true)
                                     .build();
                     mChatView.send(dispMessage);
                 }
@@ -317,6 +317,12 @@ public class MessengerActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    private String formatUserNameAndEmail(boolean me) {
+        if (me) {
+            return "You";
+        }
+        return mOtherUserName + "<" + mOtherUserEmail + ">";
     }
 }

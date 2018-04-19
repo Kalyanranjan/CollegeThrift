@@ -134,6 +134,7 @@ public class MessengerActivity extends AppCompatActivity {
                         mNewConversation = true;
                         Log.d(TAG, "onDataChange: No Previous Conversation Found" + dataSnapshot.toString());
                     } else {
+                        mNewConversation = false;
                         mConversationId = dataSnapshot.getValue().toString();
                         Log.d(TAG, "onDataChange: Previous Conversation Found" + mConversationId);
                         displayPreviousMessages(mConversationId);
@@ -216,10 +217,10 @@ public class MessengerActivity extends AppCompatActivity {
         listerConvMap.put("convUid", convKey);
         listerConvMap.put("otherUserUid", thisUserUid);
         listerConvMap.put("otherUserName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-        buyerConvMap.put("otherUserEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        listerConvMap.put("otherUserEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail());
         listerConvMap.put("listingUid", mListingUid);
-        buyerConvMap.put("listingTitle", mListingTitle);
-        buyerConvMap.put("listingPrice", mListingPrice);
+        listerConvMap.put("listingTitle", mListingTitle);
+        listerConvMap.put("listingPrice", mListingPrice);
         listerConvMap.put("lastMessage", messageText);
         listerConvMap.put("lastMessageTime", messageTimestamp);
         listerConvNodeReference.child(convKey).setValue(listerConvMap);

@@ -88,7 +88,8 @@
             android:label="Messages"
             android:parentActivityName=".activities.DrawerViewListingsActivity"/>
 
-        <activity android:name=".activities.MessengerActivity"></activity>
+        <activity android:name=".activities.MessengerActivity"
+            android:label="Message"></activity>
         <activity android:name=".activities.EditProfileActivity"
             android:parentActivityName=".activities.DrawerViewListingsActivity"
             android:label="Edit Profile"></activity>

@@ -64,7 +64,8 @@ public class MessengerActivity extends AppCompatActivity {
         //User icon
         Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         //User name
-        String myName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String myName = "";
+        myName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
         int yourId = 1;
         Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_1);
@@ -317,6 +318,6 @@ public class MessengerActivity extends AppCompatActivity {
         if (me) {
             return "You";
         }
-        return mOtherUserName + "<" + mOtherUserEmail + ">";
+        return mOtherUserName + " \n<" + mOtherUserEmail + ">";
     }
 }

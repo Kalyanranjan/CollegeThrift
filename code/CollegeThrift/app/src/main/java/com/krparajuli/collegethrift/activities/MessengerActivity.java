@@ -40,7 +40,6 @@ public class MessengerActivity extends AppCompatActivity {
     private String mListingUid = "ListingUid";
     private String mConversationId = "";
 
-    private String mMyName = "Me";
     private String mOtherUserName = "User";
     private String mOtherUserEmail = "generic.user@trincoll.edu";
     private String mListingTitle = "Listing";
@@ -201,7 +200,11 @@ public class MessengerActivity extends AppCompatActivity {
         HashMap<String, Object> buyerConvMap = new HashMap<>();
         buyerConvMap.put("convUid", convKey);
         buyerConvMap.put("otherUserUid", mOtherUserUid);
+        buyerConvMap.put("otherUserName", mOtherUserName);
+        buyerConvMap.put("otherUserEmail", mOtherUserEmail);
         buyerConvMap.put("listingUid", mListingUid);
+        buyerConvMap.put("listingTitle", mListingTitle);
+        buyerConvMap.put("listingPrice", mListingPrice);
         buyerConvMap.put("lastMessage", messageText);
         buyerConvMap.put("lastMessageTime", messageTimestamp);
         buyerConvNodeReference.child(convKey).setValue(buyerConvMap);
@@ -212,7 +215,11 @@ public class MessengerActivity extends AppCompatActivity {
         HashMap<String, Object> listerConvMap = new HashMap<>();
         listerConvMap.put("convUid", convKey);
         listerConvMap.put("otherUserUid", thisUserUid);
+        listerConvMap.put("otherUserName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        buyerConvMap.put("otherUserEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail());
         listerConvMap.put("listingUid", mListingUid);
+        buyerConvMap.put("listingTitle", mListingTitle);
+        buyerConvMap.put("listingPrice", mListingPrice);
         listerConvMap.put("lastMessage", messageText);
         listerConvMap.put("lastMessageTime", messageTimestamp);
         listerConvNodeReference.child(convKey).setValue(listerConvMap);

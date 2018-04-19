@@ -226,7 +226,7 @@ public class MessengerActivity extends AppCompatActivity {
         listerConvNodeReference.child(convKey).setValue(listerConvMap);
 
         DatabaseReference convByListingRef = FirebaseDatabase.getInstance().getReference().child("conversationsByListing");
-        convByListingRef.child(thisUserUid).child("buying").child(mListingUid).child(convKey).setValue(buyerConvMap);
+        convByListingRef.child(thisUserUid).child("buying").child(mListingUid).setValue(buyerConvMap);
         convByListingRef.child(mOtherUserUid).child("selling").child(mListingUid).child(convKey).setValue(listerConvMap);
 
         mConversationId = convKey;

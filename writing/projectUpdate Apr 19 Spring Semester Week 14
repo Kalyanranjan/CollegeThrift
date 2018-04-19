@@ -1,0 +1,20 @@
+Kalyan Parajuli
+CS Senior Project - CollegeThrift
+Spring Semester Week 14 Update
+Advisor: Prof. Dr. E. Syta
+
+Completed Tasks:
+1. Messaging - Users can now send live messages through the app to one another. The messages
+are also unique to the listings as well.
+2. Favoriting Listings - Users can not favorite the listings they like. The listing they favorite are visible
+on the main viewing page in addition to the dedicated Favorites page.
+
+Challenges:
+N/A
+
+Outstanding Tasks:
+N/A
+
+Upcoming Tasks:
+1. Payment API Integration: The app needs to have paypal api integrated in itself where users can connect their
+Paypal Account to the app, in order to pay the seller.

@@ -138,11 +138,15 @@ public class ListingDetailActivity extends AppCompatActivity {
                 mContactLister.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent messageListerIntent = new Intent(ListingDetailActivity.this, MessengerActivity.class);
-                        messageListerIntent.putExtra(MessengerActivity.EXTRA_ARRIVED_FROM_LISTING_DETAIL, true);
-                        messageListerIntent.putExtra(MessengerActivity.EXTRA_LISTING_UID_KEY, mListing.getUid());
-                        messageListerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_UID_KEY, mListing.getListerUid());
-                        startActivity(messageListerIntent);
+                        Intent messengerIntent = new Intent(ListingDetailActivity.this, MessengerActivity.class);
+                        messengerIntent.putExtra(MessengerActivity.EXTRA_ARRIVED_FROM_LISTING_DETAIL, true);
+                        messengerIntent.putExtra(MessengerActivity.EXTRA_LISTING_UID_KEY, mListing.getUid());
+                        messengerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_UID_KEY, mListing.getListerUid());
+                        messengerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_NAME_KEY, mListerName);
+                        messengerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_EMAIL_KEY, mListerEmail);
+                        messengerIntent.putExtra(MessengerActivity.EXTRA_LISTING_TITLE_KEY, mListing.getTitle());
+                        messengerIntent.putExtra(MessengerActivity.EXTRA_LISTING_PRICE_KEY,mListing.getPrice());
+                        startActivity(messengerIntent);
                     }
                 });
 

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.krparajuli.collegethrift.R;
-import com.krparajuli.collegethrift.activities.ListingDetailActivity;
 import com.krparajuli.collegethrift.activities.MessengerActivity;
 import com.krparajuli.collegethrift.models.Conversation;
 
@@ -24,19 +23,23 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToConversation(final Conversation conversation, final Context context) {
-        mOtherUserNameView.setText(conversation.getOtherUserName() + " <"+conversation.getOtherUserEmail()+">");
+        mOtherUserNameView.setText(conversation.getOtherUserName() + " <" + conversation.getOtherUserEmail() + ">");
         mListingTitleView.setText(conversation.getListingTitle() + " - $" + conversation.getListingPrice());
         mLastMessageView.setText(conversation.getLastMessage());
 
         this.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Launch ListingDetailsActivity
+                // Launch MessengerActivity
                 Intent messengerIntent = new Intent(context, MessengerActivity.class);
                 messengerIntent.putExtra(MessengerActivity.EXTRA_ARRIVED_FROM_LISTING_DETAIL, false);
                 messengerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_UID_KEY, conversation.getOtherUserUid());
                 messengerIntent.putExtra(MessengerActivity.EXTRA_LISTING_UID_KEY, conversation.getListingUid());
                 messengerIntent.putExtra(MessengerActivity.EXTRA_CONVERSATION_ID, conversation.getConvUid());
+                messengerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_NAME_KEY, conversation.getOtherUserName());
+                messengerIntent.putExtra(MessengerActivity.EXTRA_OTHER_USER_EMAIL_KEY, conversation.getOtherUserEmail());
+                messengerIntent.putExtra(MessengerActivity.EXTRA_LISTING_TITLE_KEY, conversation.getListingTitle());
+                messengerIntent.putExtra(MessengerActivity.EXTRA_LISTING_PRICE_KEY, conversation.getListingPrice());
                 context.startActivity(messengerIntent);
             }
         });

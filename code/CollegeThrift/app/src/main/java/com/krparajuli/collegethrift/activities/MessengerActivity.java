@@ -1,5 +1,6 @@
 package com.krparajuli.collegethrift.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -32,7 +33,11 @@ public class MessengerActivity extends AppCompatActivity {
 
     public static String EXTRA_ARRIVED_FROM_LISTING_DETAIL = "false";
     public static String EXTRA_OTHER_USER_UID_KEY = "OTHER USER KEY";
+    public static String EXTRA_OTHER_USER_EMAIL_KEY = "OTHER USER EMAIL KEY";
+    public static String EXTRA_OTHER_USER_NAME_KEY = "OTHER USER NAME KEY";
     public static String EXTRA_LISTING_UID_KEY = "LISTING KEY";
+    public static String EXTRA_LISTING_TITLE_KEY = "LISTING TITLE KEY";
+    public static String EXTRA_LISTING_PRICE_KEY = "LISTING_PRICE_KEY";
     public static String EXTRA_CONVERSATION_ID = "";
 
     private boolean mNewConversation = true;
@@ -114,6 +119,8 @@ public class MessengerActivity extends AppCompatActivity {
                                 .build();
 
                 mChatView.send(message);
+                mNumDisplayedMessages++;
+
 //                //Reset edit text
                 mChatView.setInputText("");
             }
@@ -121,8 +128,14 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
     private void processDetails() {
-        mListingUid = getIntent().getStringExtra(EXTRA_LISTING_UID_KEY);
-        mOtherUserUid = getIntent().getStringExtra(EXTRA_OTHER_USER_UID_KEY);
+        Intent intent = getIntent();
+        mListingUid = intent.getStringExtra(EXTRA_LISTING_UID_KEY);
+        mOtherUserUid = intent.getStringExtra(EXTRA_OTHER_USER_UID_KEY);
+        mListingPrice = intent.getIntExtra(EXTRA_LISTING_PRICE_KEY, 0);
+        mListingTitle = intent.getStringExtra(EXTRA_LISTING_TITLE_KEY);
+        mOtherUserName = intent.getStringExtra(EXTRA_OTHER_USER_NAME_KEY);
+        mOtherUserEmail = intent.getStringExtra(EXTRA_OTHER_USER_EMAIL_KEY);
+
         getAdditionalDetails();
 
         if (getIntent().getBooleanExtra(EXTRA_ARRIVED_FROM_LISTING_DETAIL, true)) { // If arrived from Listing Detail Check if previous conversation exists
@@ -310,8 +323,7 @@ public class MessengerActivity extends AppCompatActivity {
                                         .setText(message.getMessageText())
                                         .hideIcon(true)
                                         .build();
-                        if (!message.getSenderUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-                            mChatView.send(dispMessage);
+                        mChatView.send(dispMessage);
                         mNumDisplayedMessages++;
                     }
                 }

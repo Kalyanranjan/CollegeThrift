@@ -97,7 +97,7 @@
              android:label="Edit Profile"
             android:parentActivityName=".activities.DrawerViewListingsActivity"/>
         <activity android:name=".activities.FavoritesActivity"
-            android:label="Favorites"
+            android:label="My Favorites"
             android:parentActivityName=".activities.DrawerViewListingsActivity"></activity>
     </application>
 

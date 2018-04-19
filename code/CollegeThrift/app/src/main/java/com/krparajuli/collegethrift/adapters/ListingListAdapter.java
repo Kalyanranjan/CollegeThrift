@@ -117,7 +117,7 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
         if (listing.getStatus() != 0) {
             holder.mListingFavoriteEditLayout.setVisibility(View.GONE);
         }
-        
+
         final Boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().toString().equals(listing.getListerUid());
 
         mImageLoader.getInstance().displayImage(mListings.get(position).getThumbnailUrl(), holder.mListingThumbnail);

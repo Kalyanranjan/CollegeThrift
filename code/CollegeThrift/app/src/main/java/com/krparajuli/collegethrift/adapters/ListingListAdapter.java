@@ -13,6 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.activities.CreateListingsActivity;
 import com.krparajuli.collegethrift.activities.ListingDetailActivity;
@@ -42,6 +47,8 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
         private ImageView mListingThumbnail, mListingFavoriteEdit;
         private LinearLayout mListingFavoriteEditLayout;
 
+        private boolean mIsFavorite;
+
         public ListingViewHolder(Context context, View listingView) {
             super(listingView);
 
@@ -58,6 +65,8 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
             mListingThumbnail = (ImageView) listingView.findViewById(R.id.vlh_listing_thumbnail);
             mListingFavoriteEdit = (ImageView) listingView.findViewById(R.id.vlh_edit_favorite_image);
             mListingFavoriteEditLayout = (LinearLayout) listingView.findViewById(R.id.vlh_edit_favorite);
+
+            mIsFavorite = false;
         }
     }
 
@@ -75,7 +84,7 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ListingViewHolder holder, int position) {
+    public void onBindViewHolder(final ListingViewHolder holder, int position) {
         final Listing listing = mListings.get(position);
 
         holder.mListingTitle.setText(listing.getTitle());
@@ -108,7 +117,7 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
         if (listing.getStatus() != 0) {
             holder.mListingFavoriteEditLayout.setVisibility(View.GONE);
         }
-
+        
         final Boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().toString().equals(listing.getListerUid());
 
         mImageLoader.getInstance().displayImage(mListings.get(position).getThumbnailUrl(), holder.mListingThumbnail);
@@ -132,10 +141,34 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
         if (listedByCurrentUser) {
             holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_image_edit);
         } else {
-            holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
+            if (!holder.mIsFavorite) {
+                holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
+            } else {
+                holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_24);
+            }
+
+            final String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("favorites").child(userUid);
+
+            dbRef.child(listing.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
+                    if (dataSnapshot.getValue() != null) {
+                        holder.mIsFavorite = true;
+                        holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_24);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
         }
 
-        holder.mListingFavoriteEditLayout.setOnClickListener(new View.OnClickListener(){
+        holder.mListingFavoriteEditLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listedByCurrentUser) {
@@ -146,7 +179,7 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
                     mContext.startActivity(editListingIntent);
                 } else {
                     // Favorite Listing
-                    Toast.makeText(mContext, "Listing Favorited", Toast.LENGTH_SHORT).show();
+                    switchFavorites(holder, listing);
                 }
             }
         });
@@ -157,5 +190,32 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
         return mListings.size();
     }
 
+    public void switchFavorites(final ListingViewHolder holder, final Listing listing) {
+        final String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("favorites").child(userUid);
 
+        dbRef.child(listing.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
+                if (dataSnapshot.getValue() == null) {
+                    Toast.makeText(mContext, "Listing Favorited", Toast.LENGTH_SHORT).show();
+                    holder.mIsFavorite = true;
+                    dbRef.child(listing.getUid()).setValue(listing.toMap());
+                    holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_24);
+
+                } else {
+                    Toast.makeText(mContext, "Listing Unfavorited", Toast.LENGTH_SHORT).show();
+                    holder.mIsFavorite = false;
+                    dbRef.child(listing.getUid()).removeValue();
+                    holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }

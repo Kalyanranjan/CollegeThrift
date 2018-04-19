@@ -54,13 +54,14 @@
         <activity
             android:name=".activities.ResetPasswordActivity"
             android:parentActivityName=".activities.LoginActivity" />
-        <activity android:name=".activities.ListingDetailActivity"
+        <activity
+            android:name=".activities.ListingDetailActivity"
             android:label="Listing Detail"
             android:parentActivityName=".activities.DrawerViewListingsActivity" />
         <activity
             android:name=".activities.MyListingsActivity"
             android:label="My Listings"
-            android:parentActivityName=".activities.DrawerViewListingsActivity" >
+            android:parentActivityName=".activities.DrawerViewListingsActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -84,15 +85,20 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.MyMessagesActivity"
+        <activity
+            android:name=".activities.MyMessagesActivity"
             android:label="Messages"
+            android:parentActivityName=".activities.DrawerViewListingsActivity" />
+        <activity
+            android:name=".activities.MessengerActivity"
+            android:label="Message" />
+        <activity
+            android:name=".activities.EditProfileActivity"
+             android:label="Edit Profile"
             android:parentActivityName=".activities.DrawerViewListingsActivity"/>
-
-        <activity android:name=".activities.MessengerActivity"
-            android:label="Message"></activity>
-        <activity android:name=".activities.EditProfileActivity"
-            android:parentActivityName=".activities.DrawerViewListingsActivity"
-            android:label="Edit Profile"></activity>
+        <activity android:name=".activities.FavoritesActivity"
+            android:label="Favorites"
+            android:parentActivityName=".activities.DrawerViewListingsActivity"></activity>
     </application>
 
 </manifest>

@@ -192,6 +192,9 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 closeDrawer();
                 break;
             case R.id.dlvd_nav_my_favorites:
+                Intent favoritesIntent = new Intent(DrawerViewListingsActivity.this, FavoritesActivity.class);
+                startActivity(favoritesIntent);
+                closeDrawer();
                 break;
             default:
                 closeDrawer();

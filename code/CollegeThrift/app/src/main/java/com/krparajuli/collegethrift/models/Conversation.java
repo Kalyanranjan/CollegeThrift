@@ -12,17 +12,25 @@ import java.util.HashMap;
 public class Conversation {
     private String convUid;
     private String listingUid;
+    private String listingTitle;
+    private int listingPrice;
     private String otherUserUid;
+    private String otherUserName;
+    private String otherUserEmail;
     private String lastMessage;
     private long lastMessageTime;
 
     public Conversation() {
     }
 
-    public Conversation(String convUid, String listingUid, String otherUserUid, String lastMessage, long lastMessageTime) {
+    public Conversation(String convUid, String listingUid, String listingTitle, int listingPrice, String otherUserUid, String otherUserName, String otherUserEmail, String lastMessage, long lastMessageTime) {
         this.convUid = convUid;
         this.listingUid = listingUid;
+        this.listingTitle = listingTitle;
+        this.listingPrice = listingPrice;
         this.otherUserUid = otherUserUid;
+        this.otherUserName = otherUserName;
+        this.otherUserEmail = otherUserEmail;
         this.lastMessage = lastMessage;
         this.lastMessageTime = lastMessageTime;
     }
@@ -43,12 +51,44 @@ public class Conversation {
         this.listingUid = listingUid;
     }
 
+    public String getListingTitle() {
+        return listingTitle;
+    }
+
+    public void setListingTitle(String listingTitle) {
+        this.listingTitle = listingTitle;
+    }
+
+    public int getListingPrice() {
+        return listingPrice;
+    }
+
+    public void setListingPrice(int listingPrice) {
+        this.listingPrice = listingPrice;
+    }
+
     public String getOtherUserUid() {
         return otherUserUid;
     }
 
     public void setOtherUserUid(String otherUserUid) {
         this.otherUserUid = otherUserUid;
+    }
+
+    public String getOtherUserName() {
+        return otherUserName;
+    }
+
+    public void setOtherUserName(String otherUserName) {
+        this.otherUserName = otherUserName;
+    }
+
+    public String getOtherUserEmail() {
+        return otherUserEmail;
+    }
+
+    public void setOtherUserEmail(String otherUserEmail) {
+        this.otherUserEmail = otherUserEmail;
     }
 
     public String getLastMessage() {

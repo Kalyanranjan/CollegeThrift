@@ -20,6 +20,7 @@ import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.ListingCategory;
 import com.krparajuli.collegethrift.models.ListingType;
+import com.krparajuli.collegethrift.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -37,12 +38,16 @@ public class ListingDetailActivity extends AppCompatActivity {
 
     private Listing mListing;
 
+    private String mListerName = "User";
+    private String mListerEmail = "useremail@trincoll.edu";
+
     private ImageView mThumbnailView;
     private TextView mTitleView;
     private TextView mDescView;
     private TextView mTypeView;
     private TextView mPriceView;
     private TextView mCategoryView;
+    private TextView mListerDetailView;
     private Button mContactLister;
     private Button mEditDeleteListing;
 
@@ -73,6 +78,7 @@ public class ListingDetailActivity extends AppCompatActivity {
         mTypeView = (TextView) findViewById(R.id.ld_type_view);
         mPriceView = (TextView) findViewById(R.id.ld_price_view);
         mCategoryView = (TextView) findViewById(R.id.ld_category_view);
+        mListerDetailView = (TextView) findViewById(R.id.ld_lister_detail_view);
         mContactLister = (Button) findViewById(R.id.ld_contact_button);
         mEditDeleteListing = (Button) findViewById(R.id.ld_edit_delete_button);
 
@@ -98,6 +104,23 @@ public class ListingDetailActivity extends AppCompatActivity {
                 mPriceView.setText("Price: $" + String.valueOf(mListing.getPrice()));
                 mCategoryView.setText("Category: " + getCategoryText(mListing.getCategory()));
                 mImageLoader.getInstance().displayImage(mListing.getThumbnailUrl(), mThumbnailView);
+
+                FirebaseDatabase.getInstance().getReference()
+                        .child("users")
+                        .child(mListing.getListerUid())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                User lister = dataSnapshot.getValue(User.class);
+                                mListerDetailView.setText("Lister: " + lister.getFullname() + " <" + lister.getEmail() + ">");
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
 
                 boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().equals(mListing.getListerUid());
                 if (listedByCurrentUser) {

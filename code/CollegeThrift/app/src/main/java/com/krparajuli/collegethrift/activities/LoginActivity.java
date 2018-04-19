@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.models.User;
@@ -183,6 +185,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             String userEmail = user.getEmail();
                             Map<String, Object> map = new User(uidKey, userEmail).toMap();
                             mDatabase.getInstance().getReference("/users").child(uidKey).setValue(map);
+                            UserProfileChangeRequest userProfileUpdate = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName("User").build();
+                            user.updateProfile(userProfileUpdate);
                             //mAuth.signOut();
                         }
                         // [START_EXCLUDE]

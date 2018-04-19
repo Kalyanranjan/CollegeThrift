@@ -112,6 +112,8 @@ public class MessengerActivity extends AppCompatActivity {
                                 .setText(mChatView.getInputText())
                                 .hideIcon(true)
                                 .build();
+
+                mChatView.send(message);
 //                //Reset edit text
                 mChatView.setInputText("");
             }
@@ -308,7 +310,8 @@ public class MessengerActivity extends AppCompatActivity {
                                         .setText(message.getMessageText())
                                         .hideIcon(true)
                                         .build();
-                        mChatView.send(dispMessage);
+                        if (!message.getSenderUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                            mChatView.send(dispMessage);
                         mNumDisplayedMessages++;
                     }
                 }

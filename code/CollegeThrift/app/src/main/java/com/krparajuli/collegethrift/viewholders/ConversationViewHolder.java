@@ -24,8 +24,8 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToConversation(final Conversation conversation, final Context context) {
-        mOtherUserNameView.setText(conversation.getOtherUserUid());
-        mListingTitleView.setText(conversation.getListingUid());
+        mOtherUserNameView.setText(conversation.getOtherUserName() + " <"+conversation.getOtherUserEmail()+">");
+        mListingTitleView.setText(conversation.getListingTitle() + " - $" + conversation.getListingPrice());
         mLastMessageView.setText(conversation.getLastMessage());
 
         this.itemView.setOnClickListener(new View.OnClickListener() {

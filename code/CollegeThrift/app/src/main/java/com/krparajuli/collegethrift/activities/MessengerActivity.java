@@ -45,6 +45,7 @@ public class MessengerActivity extends AppCompatActivity {
     private String mOtherUserEmail = "generic.user@trincoll.edu";
     private String mListingTitle = "Listing";
     private int mListingPrice = 0;
+    private String mListingSellerUid;
 
     private ChatView mChatView;
 
@@ -113,36 +114,19 @@ public class MessengerActivity extends AppCompatActivity {
                 mChatView.send(message);
 //                //Reset edit text
                 mChatView.setInputText("");
-
-//                //Receive message
-//                final Message receivedMessage = new Message.Builder()
-//                        .setUser(you)
-//                        .setRight(false)
-//                        .setText(ChatBot.INSTANCE.talk(me.getName(), message.getText()))
-//                        .build();
-//
-////                // This is a demo bot
-////                // Return within 3 seconds
-//                int sendDelay = (new Random().nextInt(4) + 1) * 1000;
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mChatView.receive(receivedMessage);
-//                    }
-//                }, sendDelay);
             }
-
         });
     }
 
     private void processDetails() {
         mListingUid = getIntent().getStringExtra(EXTRA_LISTING_UID_KEY);
         mOtherUserUid = getIntent().getStringExtra(EXTRA_OTHER_USER_UID_KEY);
+        getAdditionalDetails();
 
         if (getIntent().getBooleanExtra(EXTRA_ARRIVED_FROM_LISTING_DETAIL, true)) { // If arrived from Listing Detail Check if previous conversation exists
             DatabaseReference convRef = FirebaseDatabase.getInstance().getReference()
                     .child("conversationsByListing")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString())
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("buying").child(mListingUid).child("convUid");
             convRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -152,7 +136,7 @@ public class MessengerActivity extends AppCompatActivity {
                         Log.d(TAG, "onDataChange: No Previous Conversation Found" + dataSnapshot.toString());
                     } else {
                         mConversationId = dataSnapshot.getValue().toString();
-                        Log.d(TAG, "onDataChange: No Previous Conversation Found" + mConversationId);
+                        Log.d(TAG, "onDataChange: Previous Conversation Found" + mConversationId);
                         displayPreviousMessages(mConversationId);
                     }
                 }
@@ -163,10 +147,10 @@ public class MessengerActivity extends AppCompatActivity {
                 }
             });
         } else {
+            mNewConversation = false;
             mConversationId = getIntent().getStringExtra(EXTRA_CONVERSATION_ID);
             displayPreviousMessages(mConversationId);
         }
-        getAdditionalDetails();
     }
 
     private void getAdditionalDetails() {
@@ -193,6 +177,7 @@ public class MessengerActivity extends AppCompatActivity {
                         Listing listing = dataSnapshot.getValue(Listing.class);
                         mListingTitle = listing.getTitle();
                         mListingPrice = listing.getPrice();
+                        mListingSellerUid = listing.getListerUid();
                     }
 
                     @Override
@@ -238,26 +223,27 @@ public class MessengerActivity extends AppCompatActivity {
 
         mConversationId = convKey;
         mNewConversation = false;
-        insertMessage(convKey, thisUserUid, messageText, messageTimestamp);
+        insertMessage(mConversationId, thisUserUid, messageText, messageTimestamp);
     }
 
     private void updateConversation(String messageText) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("conversations");
         long messageTimestamp = System.currentTimeMillis();
         String thisUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        boolean selling = mListingSellerUid.equals(thisUserUid);
 
         DatabaseReference buyerConvNodeReference = reference.child(thisUserUid)
-                .child("buying").child(mConversationId);
+                .child(selling ? "selling" : "buying").child(mConversationId);
         buyerConvNodeReference.child("lastMessage").setValue(messageText);
         buyerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
 
 
         DatabaseReference listerConvNodeReference = reference.child(mOtherUserUid)
-                .child("selling").child(mConversationId);
+                .child(!selling ? "selling" : "buying").child(mConversationId);
         listerConvNodeReference.child("lastMessage").setValue(messageText);
         listerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
 
-        insertMessage(mConversationId, formatUserNameAndEmail(true), messageText, messageTimestamp);
+        insertMessage(mConversationId, thisUserUid, messageText, messageTimestamp);
         //Need to update conversation by Listings too??
     }
 
@@ -303,7 +289,7 @@ public class MessengerActivity extends AppCompatActivity {
                     Log.d(TAG, "onDataChange:MESSAGE" + message.getMessageText());
                     com.github.bassaer.chatmessageview.model.Message dispMessage =
                             new com.github.bassaer.chatmessageview.model.Message.Builder()
-                                    .setUser(me)
+                                    .setUser(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(message.getSenderUid()) ? me : you)
                                     .setRight(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(message.getSenderUid()))
                                     .setText(message.getMessageText())
                                     .hideIcon(true)

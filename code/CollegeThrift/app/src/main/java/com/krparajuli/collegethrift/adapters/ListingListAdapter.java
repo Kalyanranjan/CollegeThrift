@@ -40,6 +40,10 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
     private ArrayList<Listing> mListings;
     private ImageLoader mImageLoader;
 
+    private ValueEventListener mSwitchFavoritesListener = null;
+    private ValueEventListener mFetchFavoritesListener = null;
+    private DatabaseReference mFetchFavoritesDatabaseReference;
+    private DatabaseReference mSwitchFavoritesDatabaseReference;
 
     public class ListingViewHolder extends RecyclerView.ViewHolder {
 
@@ -148,9 +152,9 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
             }
 
             final String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("favorites").child(userUid);
+            mFetchFavoritesDatabaseReference = FirebaseDatabase.getInstance().getReference().child("favorites").child(userUid).child(listing.getUid());
 
-            dbRef.child(listing.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            mFetchFavoritesListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
@@ -164,8 +168,9 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
-            });
+            };
 
+            mFetchFavoritesDatabaseReference.addListenerForSingleValueEvent(mFetchFavoritesListener);
         }
 
         holder.mListingFavoriteEditLayout.setOnClickListener(new View.OnClickListener() {
@@ -192,22 +197,23 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
 
     public void switchFavorites(final ListingViewHolder holder, final Listing listing) {
         final String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("favorites").child(userUid);
 
-        dbRef.child(listing.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mSwitchFavoritesDatabaseReference = FirebaseDatabase.getInstance().getReference().child("favorites").child(userUid).child(listing.getUid());
+
+        mSwitchFavoritesListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onDataChange: " + dataSnapshot.toString());
                 if (dataSnapshot.getValue() == null) {
                     Toast.makeText(mContext, "Listing Favorited", Toast.LENGTH_SHORT).show();
                     holder.mIsFavorite = true;
-                    dbRef.child(listing.getUid()).setValue(listing.toMap());
+                    mSwitchFavoritesDatabaseReference.setValue(listing.toMap());
                     holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_24);
 
                 } else {
                     Toast.makeText(mContext, "Listing Unfavorited", Toast.LENGTH_SHORT).show();
                     holder.mIsFavorite = false;
-                    dbRef.child(listing.getUid()).removeValue();
+                    mSwitchFavoritesDatabaseReference.removeValue();
                     holder.mListingFavoriteEdit.setImageResource(R.drawable.ic_toggle_star_outline_24);
                 }
             }
@@ -216,6 +222,18 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+        mSwitchFavoritesDatabaseReference.addValueEventListener(mSwitchFavoritesListener);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if (mSwitchFavoritesListener != null) {
+            mSwitchFavoritesDatabaseReference.removeEventListener(mSwitchFavoritesListener);
+        }
+        if (mFetchFavoritesListener != null){
+            mFetchFavoritesDatabaseReference.removeEventListener(mFetchFavoritesListener);
+        }
     }
 }

@@ -43,6 +43,8 @@ public class DrawerViewListingsActivity extends AppCompatActivity
 
     private String mUserEmail;
     private String mUserFullName;
+    private ValueEventListener mUserDetailValueEventListener = null;
+    private Query mUserDetailQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +73,11 @@ public class DrawerViewListingsActivity extends AppCompatActivity
         toggle.syncState();
 
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Query query = FirebaseDatabase.getInstance().getReference()
+        mUserDetailQuery = FirebaseDatabase.getInstance().getReference()
                 .child("users")
                 .child(uid);
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        mUserDetailValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
@@ -99,7 +101,9 @@ public class DrawerViewListingsActivity extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {
                 Log.d(TAG, "DatabaseError: " + databaseError.getMessage());
             }
-        });
+        };
+
+        mUserDetailQuery.addListenerForSingleValueEvent(mUserDetailValueEventListener);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -210,7 +214,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
     }
 
 
-    private void initFCM(){
+    private void initFCM() {
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "initFCM: token: " + token);
         sendRegistrationToServer(token);
@@ -223,5 +227,13 @@ public class DrawerViewListingsActivity extends AppCompatActivity
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child("userFCMToken")
                 .setValue(token);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mUserDetailValueEventListener != null) {
+            mUserDetailQuery.removeEventListener(mUserDetailValueEventListener);
+        }
     }
 }

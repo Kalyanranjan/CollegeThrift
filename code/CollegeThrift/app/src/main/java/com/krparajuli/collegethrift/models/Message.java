@@ -10,16 +10,16 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class Message {
 
     public String messageSenderUid;
-    public String messageRecieverUid;
+    public String messageReceiverUid;
     public String messageText;
     public long messageTime;
 
     public Message() {
     }
 
-    public Message(String messageSenderUid, String messageRecieverUid, String messageText, long messageTime) {
+    public Message(String messageSenderUid, String messageReceiverUid, String messageText, long messageTime) {
         this.messageSenderUid = messageSenderUid;
-        this.messageRecieverUid = messageRecieverUid;
+        this.messageReceiverUid = messageReceiverUid;
         this.messageText = messageText;
         this.messageTime = messageTime;
     }
@@ -48,11 +48,11 @@ public class Message {
         this.messageTime = messageTime;
     }
 
-    public String getMessageRecieverUid() {
-        return messageRecieverUid;
+    public String getMessageReceiverUid() {
+        return messageReceiverUid;
     }
 
-    public void setMessageRecieverUid(String messageRecieverUid) {
-        this.messageRecieverUid = messageRecieverUid;
+    public void setMessageReceiverUid(String messageReceiverUid) {
+        this.messageReceiverUid = messageReceiverUid;
     }
 }

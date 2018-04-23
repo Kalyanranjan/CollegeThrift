@@ -48,6 +48,7 @@ public class DrawerViewListingsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ESPasswordGetter.retrieveElasticSearchPaswordFromDb();
+        initFCM();
         setContentView(R.layout.activity_drawer_view_listings);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.dash_toolbar);

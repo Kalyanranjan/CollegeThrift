@@ -276,7 +276,7 @@ public class MessengerActivity extends AppCompatActivity {
                 .child("messages").child(convUid);
         HashMap<String, Object> messageMap = new HashMap<>();
         messageMap.put("messageSenderUid", senderUid);
-        messageMap.put("messageRecieverUid", recieverUid);
+        messageMap.put("messageReceiverUid", recieverUid);
         messageMap.put("messageText", messageText);
         messageMap.put("messageTime", messageTime);
         reference.push().setValue(messageMap);

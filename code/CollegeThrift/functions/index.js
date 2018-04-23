@@ -67,7 +67,7 @@ exports.sendNotification = functions.database.ref('/messages/{convId}/{messageId
 		
 		//get the token of the user receiving the message
 		return admin.database().ref("/users/" + receiverId).once('value').then(snap => {
-			const token = snap.child("messaging_token").val();
+			const token = snap.child("userFCMToken").val();
 			console.log("token: ", token);
 			
 			//we have everything we need

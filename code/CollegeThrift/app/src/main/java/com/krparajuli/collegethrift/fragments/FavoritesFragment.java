@@ -46,6 +46,7 @@ public class FavoritesFragment extends Fragment {
     private ListingListAdapter mListingAdapter;
 
     private DatabaseReference mFavoritesReference;
+    private ValueEventListener mFavoritesValueEventListener = null;
 
     public FavoritesFragment() {
     }
@@ -92,7 +93,8 @@ public class FavoritesFragment extends Fragment {
 
         mFavoritesReference = FirebaseDatabase.getInstance().getReference().child("favorites")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        mFavoritesReference.addValueEventListener(new ValueEventListener() {
+
+        mFavoritesValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mListings.clear();
@@ -102,13 +104,23 @@ public class FavoritesFragment extends Fragment {
                         mListings.add(iter.next().getValue(Listing.class));
                     }
                 }
+                setupListingLists();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
-        setupListingLists();
+        };
+        mFavoritesReference.addValueEventListener(mFavoritesValueEventListener);
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mFavoritesValueEventListener != null) {
+            mFavoritesReference.removeEventListener(mFavoritesValueEventListener);
+        }
     }
 }

@@ -4,6 +4,11 @@ const request = require('request-promise');
 
 let admin = require('firebase-admin');
 
+admin.initializeApp({
+	credential: admin.credential.applicationDefault(),
+	databaseURL: "https://collegethrift-base.firebaseio.com"
+});
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -63,7 +68,7 @@ exports.sendNotification = functions.database.ref('/messages/{convId}/{messageId
 		console.log("senderName: ", senderName);
 
 		const senderEmail = snap.child("email").val();
-		console.log("senderEmail: ", senderName);
+		console.log("senderEmail: ", senderEmail);
 		
 		//get the token of the user receiving the message
 		return admin.database().ref("/users/" + receiverId).once('value').then(snap => {

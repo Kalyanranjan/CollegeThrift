@@ -1,18 +1,23 @@
 package com.krparajuli.collegethrift.services;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.activities.MessengerActivity;
 import com.krparajuli.collegethrift.activities.MyMessagesActivity;
+import com.krparajuli.collegethrift.models.Conversation;
 
 /**
  * Created by kal on 3/25/18.
@@ -20,7 +25,7 @@ import com.krparajuli.collegethrift.activities.MyMessagesActivity;
 
 public class CTFirebaseMessagingService extends FirebaseMessagingService {
 
-    private static final String TAG = "MyFirebaseMsgService";
+    private static final String TAG = "CTFirebaseMsgService";
     private static final int BROADCAST_NOTIFICATION_ID = 1;
 
     @Override
@@ -51,14 +56,14 @@ public class CTFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "onMessageReceived: notification title: " + notificationTitle);
 
 
-        String dataType = remoteMessage.getData().get("sad");
-        //if (dataType.equals("Message")) {
+        String dataType = remoteMessage.getData().get("data_type");
+        if (dataType.equals("direct_message")) {
             Log.d(TAG, "onMessageReceived: new incoming message.");
-            String title = remoteMessage.getData().get("Title");
-            String message = remoteMessage.getData().get("Message");
-            String messageId = remoteMessage.getData().get("MessageID");
+            String title = remoteMessage.getData().get("title");
+            String message = remoteMessage.getData().get("message");
+            String messageId = remoteMessage.getData().get("message_id");
             sendMessageNotification(title, message, messageId);
-        //}
+        }
     }
 
     /**
@@ -70,41 +75,75 @@ public class CTFirebaseMessagingService extends FirebaseMessagingService {
     private void sendMessageNotification(String title, String message, String messageId) {
         Log.d(TAG, "sendChatmessageNotification: building a chatmessage notification");
 
+        NotificationManager notifManager = null;
+
         //get the notification id
         int notificationId = buildNotificationId(messageId);
 
-        // Instantiate a Builder object.
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
-                "1");
-        // Creates an Intent for the Activity
-        Intent pendingIntent = new Intent(this, MyMessagesActivity.class);
-        // Sets the Activity to start in a new, empty task
-        pendingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        // Creates the PendingIntent
-        PendingIntent notifyPendingIntent =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        pendingIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
+        final int NOTIFY_ID = 1002;
 
-        //add properties to the builder
-        builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentTitle(title)
-                .setAutoCancel(true)
-                //.setSubText(message)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setOnlyAlertOnce(true);
+        // There are hardcoding only for show it's just strings
+        String name = "my_package_channel";
+        String id = "my_package_channel_1"; // The user-visible name of the channel.
+        String description = "my_package_first_channel"; // The user-visible description of the channel.
 
-        builder.setContentIntent(notifyPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent intent;
+        PendingIntent pendingIntent;
+        NotificationCompat.Builder builder;
 
-        mNotificationManager.notify(notificationId, builder.build());
+        if (notifManager == null) {
+            notifManager =
+                    (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
+            if (mChannel == null) {
+                mChannel = new NotificationChannel(id, name, importance);
+                mChannel.setDescription(description);
+                mChannel.enableVibration(true);
+                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                notifManager.createNotificationChannel(mChannel);
+            }
+            builder = new NotificationCompat.Builder(this, id);
+
+            intent = new Intent(this, MyMessagesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+            builder.setContentTitle(title)  // required
+                    .setSubText("New Message")
+                    .setSmallIcon(R.drawable.ic_message) // required
+                    .setContentText(message)  // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(title)
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+        } else {
+
+            builder = new NotificationCompat.Builder(this);
+
+            intent = new Intent(this, MyMessagesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+            builder.setContentTitle(title)
+                    .setSubText("New Message")// required
+                    .setSmallIcon(R.drawable.ic_message) // required
+                    .setContentText(message)  // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(title)
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
+                    .setPriority(Notification.PRIORITY_HIGH);
+        } // else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+        Notification notification = builder.build();
+        notifManager.notify(NOTIFY_ID, notification);
     }
-
 
     private int buildNotificationId(String id) {
         Log.d(TAG, "buildNotificationId: building a notification id.");

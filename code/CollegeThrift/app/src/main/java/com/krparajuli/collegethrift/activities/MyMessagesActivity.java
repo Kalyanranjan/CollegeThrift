@@ -28,13 +28,13 @@ public class MyMessagesActivity extends AppCompatActivity {
 
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             final Fragment[] mFragments = new Fragment[]{
-                    new MyBuyingConversationsFragment(),
-                    new MySellingConversationsFragment()
+                    new MySellingConversationsFragment(),
+                    new MyBuyingConversationsFragment()
             };
 
             private final String[] mFragmentNames = new String[]{
-                    "Buying",
-                    "Selling"
+                    "Selling",
+                    "Buying"
             };
 
             @Override

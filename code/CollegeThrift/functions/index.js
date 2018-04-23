@@ -81,7 +81,7 @@ exports.sendNotification = functions.database.ref('/messages/{convId}/{messageId
 			const payload = {
 				data: {
 					data_type: "direct_message",
-					title: "New Message from " + senderName + " <"+senderEmail+">",
+					title: "From " + senderName + " <"+senderEmail+">",
 					message: message,
 					message_id: messageId,
 				}	

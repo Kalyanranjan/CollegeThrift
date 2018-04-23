@@ -12,12 +12,13 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.krparajuli.collegethrift.R;
+import com.krparajuli.collegethrift.activities.MyMessagesActivity;
 
 /**
  * Created by kal on 3/25/18.
  */
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public class CTFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     private static final int BROADCAST_NOTIFICATION_ID = 1;
@@ -38,34 +39,35 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String notificationBody = "";
         String notificationTitle = "";
         String notificationData = "";
-        try{
+        try {
             notificationData = remoteMessage.getData().toString();
             notificationTitle = remoteMessage.getNotification().getTitle();
             notificationBody = remoteMessage.getNotification().getBody();
-        }catch (NullPointerException e){
-            Log.e(TAG, "onMessageReceived: NullPointerException: " + e.getMessage() );
+        } catch (NullPointerException e) {
+            Log.e(TAG, "onMessageReceived: NullPointerException: " + e.getMessage());
         }
         Log.d(TAG, "onMessageReceived: data: " + notificationData);
         Log.d(TAG, "onMessageReceived: notification body: " + notificationBody);
         Log.d(TAG, "onMessageReceived: notification title: " + notificationTitle);
 
 
-        String dataType = remoteMessage.getData().get(getString(R.string.data_type));
-        if(dataType.equals(getString(R.string.direct_message))){
+        String dataType = remoteMessage.getData().get("sad");
+        //if (dataType.equals("Message")) {
             Log.d(TAG, "onMessageReceived: new incoming message.");
-            String title = remoteMessage.getData().get(getString(R.string.data_title));
-            String message = remoteMessage.getData().get(getString(R.string.data_message));
-            String messageId = remoteMessage.getData().get(getString(R.string.data_message_id));
+            String title = remoteMessage.getData().get("Title");
+            String message = remoteMessage.getData().get("Message");
+            String messageId = remoteMessage.getData().get("MessageID");
             sendMessageNotification(title, message, messageId);
-        }
+        //}
     }
 
     /**
      * Build a push notification for a chat message
+     *
      * @param title
      * @param message
      */
-    private void sendMessageNotification(String title, String message, String messageId){
+    private void sendMessageNotification(String title, String message, String messageId) {
         Log.d(TAG, "sendChatmessageNotification: building a chatmessage notification");
 
         //get the notification id
@@ -73,9 +75,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Instantiate a Builder object.
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
-                getString(R.string.default_notification_channel_id));
+                "1");
         // Creates an Intent for the Activity
-        Intent pendingIntent = new Intent(this, UserListActivity.class);
+        Intent pendingIntent = new Intent(this, MyMessagesActivity.class);
         // Sets the Activity to start in a new, empty task
         pendingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         // Creates the PendingIntent
@@ -88,12 +90,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 );
 
         //add properties to the builder
-        builder.setSmallIcon(R.drawable.ic_android_blue)
-                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                        R.drawable.ic_android_blue))
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+        builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentTitle(title)
-                .setColor(getColor(R.color.blue1))
                 .setAutoCancel(true)
                 //.setSubText(message)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
@@ -108,11 +106,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    private int buildNotificationId(String id){
+    private int buildNotificationId(String id) {
         Log.d(TAG, "buildNotificationId: building a notification id.");
 
         int notificationId = 0;
-        for(int i = 0; i < 9; i++){
+        for (int i = 0; i < 9; i++) {
             notificationId = notificationId + id.charAt(0);
         }
         Log.d(TAG, "buildNotificationId: id: " + id);

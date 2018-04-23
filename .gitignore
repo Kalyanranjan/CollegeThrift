@@ -6,3 +6,5 @@ code/CollegeThrift/\.idea/
 *.gradle
 
 code/CollegeThrift/gradle/wrapper/gradle-wrapper\.properties
+
+code/CollegeThrift/functions/node_modules/

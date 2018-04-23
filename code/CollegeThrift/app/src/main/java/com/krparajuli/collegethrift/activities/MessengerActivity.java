@@ -247,7 +247,7 @@ public class MessengerActivity extends AppCompatActivity {
 
         mConversationId = convKey;
         mNewConversation = false;
-        insertMessage(mConversationId, thisUserUid, messageText, messageTimestamp);
+        insertMessage(mConversationId, thisUserUid, mOtherUserUid, messageText, messageTimestamp);
     }
 
     private void updateConversation(String messageText) {
@@ -267,15 +267,16 @@ public class MessengerActivity extends AppCompatActivity {
         listerConvNodeReference.child("lastMessage").setValue(messageText);
         listerConvNodeReference.child("lastMessageTime").setValue(messageTimestamp);
 
-        insertMessage(mConversationId, thisUserUid, messageText, messageTimestamp);
+        insertMessage(mConversationId, thisUserUid, mOtherUserUid, messageText, messageTimestamp);
         //Need to update conversation by Listings too??
     }
 
-    private void insertMessage(String convUid, String senderUid, String messageText, long messageTime) {
+    private void insertMessage(String convUid, String senderUid, String recieverUid, String messageText, long messageTime) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child("messages").child(convUid);
         HashMap<String, Object> messageMap = new HashMap<>();
         messageMap.put("messageSenderUid", senderUid);
+        messageMap.put("messageRecieverUid", recieverUid);
         messageMap.put("messageText", messageText);
         messageMap.put("messageTime", messageTime);
         reference.push().setValue(messageMap);

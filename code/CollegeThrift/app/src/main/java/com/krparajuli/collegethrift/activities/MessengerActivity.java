@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.bassaer.chatmessageview.model.ChatUser;
@@ -49,6 +48,7 @@ public class MessengerActivity extends AppCompatActivity {
     private String mListingUid = "ListingUid";
     private String mConversationId = "";
 
+    private String mThisUserName = "User";
     private String mOtherUserName = "User";
     private String mOtherUserEmail = "generic.user@trincoll.edu";
     private String mListingTitle = "Listing";
@@ -79,7 +79,7 @@ public class MessengerActivity extends AppCompatActivity {
         //User icon
         Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         //User name
-        String myName = "";
+        String myName = "You";
         myName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
         int yourId = 1;
@@ -134,13 +134,13 @@ public class MessengerActivity extends AppCompatActivity {
             }
         });
 
-        ((TextView)findViewById(R.id.messenger_toolbar_user_name_view)).setText(formatUserNameAndEmail(false));
-        ((TextView)findViewById(R.id.messenger_toolbar_listing_name_view)).setText(mListingTitle + " - $" + mListingPrice);
+        ((TextView) findViewById(R.id.messenger_toolbar_user_name_view)).setText(formatUserNameAndEmail(false));
+        ((TextView) findViewById(R.id.messenger_toolbar_listing_name_view)).setText(mListingTitle + " - $" + mListingPrice);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -157,6 +157,7 @@ public class MessengerActivity extends AppCompatActivity {
         mListingTitle = intent.getStringExtra(EXTRA_LISTING_TITLE_KEY);
         mOtherUserName = intent.getStringExtra(EXTRA_OTHER_USER_NAME_KEY);
         mOtherUserEmail = intent.getStringExtra(EXTRA_OTHER_USER_EMAIL_KEY);
+
 
         getAdditionalDetails();
 
@@ -223,7 +224,6 @@ public class MessengerActivity extends AppCompatActivity {
 
                     }
                 });
-
     }
 
     private void createConversationAndSendToServer(String messageText) {

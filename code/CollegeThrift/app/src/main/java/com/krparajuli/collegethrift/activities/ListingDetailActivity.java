@@ -35,6 +35,8 @@ public class ListingDetailActivity extends AppCompatActivity {
     private DatabaseReference mListingReference;
     private ValueEventListener mListingListener;
     private String mListingKey;
+    private DatabaseReference mListerReference;
+    private ValueEventListener mListerListener = null;
 
     private Listing mListing;
 
@@ -105,22 +107,26 @@ public class ListingDetailActivity extends AppCompatActivity {
                 mCategoryView.setText("Category: " + getCategoryText(mListing.getCategory()));
                 mImageLoader.getInstance().displayImage(mListing.getThumbnailUrl(), mThumbnailView);
 
-                FirebaseDatabase.getInstance().getReference()
+                mListerReference = FirebaseDatabase.getInstance().getReference()
                         .child("users")
-                        .child(mListing.getListerUid())
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                User lister = dataSnapshot.getValue(User.class);
-                                mListerDetailView.setText("Lister: " + lister.getFullname() + " <" + lister.getEmail() + ">");
-                            }
+                        .child(mListing.getListerUid());
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                mListerListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User lister = dataSnapshot.getValue(User.class);
+                        mListerDetailView.setText("Lister: " + lister.getFullname() + " <" + lister.getEmail() + ">");
+                        mListerName = lister.getFullname();
+                        mListerEmail = lister.getEmail();
+                    }
 
-                            }
-                        });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
+                    }
+                };
+
+                mListerReference.addListenerForSingleValueEvent(mListerListener);
 
                 boolean listedByCurrentUser = FirebaseAuth.getInstance().getCurrentUser().getUid().equals(mListing.getListerUid());
                 if (listedByCurrentUser) {
@@ -189,6 +195,9 @@ public class ListingDetailActivity extends AppCompatActivity {
         // Remove post value event listener
         if (mListingListener != null) {
             mListingReference.removeEventListener(mListingListener);
+        }
+        if (mListerListener != null) {
+            mListerReference.removeEventListener(mListerListener);
         }
     }
 

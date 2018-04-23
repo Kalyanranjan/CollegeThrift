@@ -77,12 +77,15 @@
             android:parentActivityName=".activities.DrawerViewListingsActivity" />
         <activity
             android:name=".activities.MessengerActivity"
-            android:label="Message" />
+            android:label="Message"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".activities.EditProfileActivity"
-             android:label="Edit Profile"
-            android:parentActivityName=".activities.DrawerViewListingsActivity"/>
-        <activity android:name=".activities.FavoritesActivity"
+            android:label="Edit Profile"
+            android:parentActivityName=".activities.DrawerViewListingsActivity" />
+        <activity
+            android:name=".activities.FavoritesActivity"
             android:label="My Favorites"
             android:parentActivityName=".activities.DrawerViewListingsActivity"></activity>
 

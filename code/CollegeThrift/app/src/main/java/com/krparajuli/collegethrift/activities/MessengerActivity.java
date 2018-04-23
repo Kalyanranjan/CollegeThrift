@@ -7,8 +7,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.bassaer.chatmessageview.model.ChatUser;
 import com.github.bassaer.chatmessageview.view.ChatView;
@@ -62,6 +66,10 @@ public class MessengerActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messenger);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.messenger_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Find If this is a new conversation, put details and messages in place
         processDetails();
@@ -125,7 +133,21 @@ public class MessengerActivity extends AppCompatActivity {
                 mChatView.setInputText("");
             }
         });
+
+        ((TextView)findViewById(R.id.messenger_toolbar_user_name_view)).setText(formatUserNameAndEmail(false));
+        ((TextView)findViewById(R.id.messenger_toolbar_listing_name_view)).setText(mListingTitle + " - $" + mListingPrice);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void processDetails() {
         Intent intent = getIntent();

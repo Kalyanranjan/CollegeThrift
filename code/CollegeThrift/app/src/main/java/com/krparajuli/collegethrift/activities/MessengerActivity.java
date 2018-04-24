@@ -414,7 +414,7 @@ public class MessengerActivity extends AppCompatActivity {
 
     private void goToVenmo() {
         if (VenmoLibrary.isVenmoInstalled(this)) {
-            Intent venmoIntent = VenmoLibrary.openVenmoPayment("sd", "Venmo", "asdsad", "10", "Hello", "asd");
+            Intent venmoIntent = VenmoLibrary.openVenmoPayment("SD", "CollegeThrift", mOtherUserEmail, String.valueOf(mListingPrice), "CollegeThrift: Payment for <"+ mListingTitle+">", "Pay");
             startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
         } else {
             displayVenmoNotInstalledDialogue();

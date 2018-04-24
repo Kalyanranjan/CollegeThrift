@@ -1,16 +1,19 @@
 package com.krparajuli.collegethrift.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.bassaer.chatmessageview.model.ChatUser;
@@ -25,6 +28,7 @@ import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.Message;
 import com.krparajuli.collegethrift.models.User;
+import com.krparajuli.collegethrift.venmo.VenmoLibrary;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,6 +37,8 @@ import java.util.Iterator;
 public class MessengerActivity extends AppCompatActivity {
 
     private static final String TAG = "MessengerActivity";
+
+    public static final int REQUEST_CODE_VENMO_APP_SWITCH = 10000;
 
     public static String EXTRA_ARRIVED_FROM_LISTING_DETAIL = "false";
     public static String EXTRA_OTHER_USER_UID_KEY = "OTHER USER KEY";
@@ -49,6 +55,7 @@ public class MessengerActivity extends AppCompatActivity {
     private String mConversationId = "";
 
     private String mThisUserName = "User";
+    private String mThisUserEmail = "generic.user@trincoll.edu";
     private String mOtherUserName = "User";
     private String mOtherUserEmail = "generic.user@trincoll.edu";
     private String mListingTitle = "Listing";
@@ -56,9 +63,6 @@ public class MessengerActivity extends AppCompatActivity {
     private String mListingSellerUid;
 
     private ChatView mChatView;
-
-    private String yourName = "You";
-    private String otherName = "Recipient";
 
     private int mNumDisplayedMessages = 0;
 
@@ -77,18 +81,11 @@ public class MessengerActivity extends AppCompatActivity {
         //User id
         int myId = 0;
         //User icon
-        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
+        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle);
         //User name
         String myName = "You";
-        myName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-
-        int yourId = 1;
-        Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_1);
-        String yourName = mOtherUserName;
 
         final ChatUser me = new ChatUser(myId, myName, myIcon);
-        final ChatUser you = new ChatUser(yourId, yourName, yourIcon);
-
         mChatView = (ChatView) findViewById(R.id.chat_view);
 
 //        //Set UI parameters if you need
@@ -136,6 +133,13 @@ public class MessengerActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.messenger_toolbar_user_name_view)).setText(formatUserNameAndEmail(false));
         ((TextView) findViewById(R.id.messenger_toolbar_listing_name_view)).setText(mListingTitle + " - $" + mListingPrice);
+
+        ((Button) findViewById(R.id.messenger_pay_using_venmo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayTakingToVenmoDialogue();
+            }
+        });
     }
 
     @Override
@@ -224,6 +228,21 @@ public class MessengerActivity extends AppCompatActivity {
 
                     }
                 });
+
+        dbRef.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User otherUser = dataSnapshot.getValue(User.class);
+                        mThisUserName = otherUser.getFullname();
+                        mThisUserEmail = otherUser.getEmail();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void createConversationAndSendToServer(String messageText) {
@@ -254,8 +273,8 @@ public class MessengerActivity extends AppCompatActivity {
         HashMap<String, Object> listerConvMap = new HashMap<>();
         listerConvMap.put("convUid", convKey);
         listerConvMap.put("otherUserUid", thisUserUid);
-        listerConvMap.put("otherUserName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-        listerConvMap.put("otherUserEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        listerConvMap.put("otherUserName", mThisUserName);
+        listerConvMap.put("otherUserEmail", mThisUserEmail);
         listerConvMap.put("listingUid", mListingUid);
         listerConvMap.put("listingTitle", mListingTitle);
         listerConvMap.put("listingPrice", mListingPrice);
@@ -365,4 +384,41 @@ public class MessengerActivity extends AppCompatActivity {
         }
         return mOtherUserName + " <" + mOtherUserEmail + ">";
     }
+
+    private void displayVenmoNotInstalledDialogue() {
+        new AlertDialog.Builder(this)
+                .setTitle("Venmo Not installed")
+                .setMessage("Cannot Proceed with the payment since Venmo is not installed. Please pay using other methods.")
+                .setNegativeButton("OK", null).show();
+    }
+
+    private void displayListerVenmoNotConnectedDialogue() {
+        new AlertDialog.Builder(this)
+                .setTitle("Lister's Venmo Not Connected")
+                .setMessage("Cannot Proceed with the payment since the lister's venmo is not connected to the account")
+                .setNegativeButton("OK", null).show();
+    }
+
+    private void displayTakingToVenmoDialogue() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm to exit to Venmo")
+                .setMessage("Are you sure you want to continue with this payment through Venmo App?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        goToVenmo();
+                    }
+                })
+                .setNegativeButton("No", null).show();
+    }
+
+    private void goToVenmo() {
+        if (VenmoLibrary.isVenmoInstalled(this)) {
+            Intent venmoIntent = VenmoLibrary.openVenmoPayment("SD", "CollegeThrift", mOtherUserEmail, String.valueOf(mListingPrice), "CollegeThrift: Payment for <"+ mListingTitle+">", "Pay");
+            startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+        } else {
+            displayVenmoNotInstalledDialogue();
+        }
+    }
+
 }

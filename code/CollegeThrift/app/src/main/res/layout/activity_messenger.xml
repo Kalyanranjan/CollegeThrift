@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:text="User"
                     android:textColor="@color/total_white"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
                     android:maxLines="2"/>
 
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="Listing"
                     android:textColor="@color/total_white"
-                    android:textSize="14dp"
+                    android:textSize="13dp"
                     android:maxLines="1"/>
 
             </LinearLayout>
@@ -48,6 +48,15 @@
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
+
+    <Button
+        android:id="@+id/messenger_pay_using_venmo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/venmo_color"
+        android:textColor="@color/total_white"
+        android:text="Pay for this item using Venmo"
+        android:layout_margin="2dp"/>
 
     <com.github.bassaer.chatmessageview.view.ChatView
         android:id="@+id/chat_view"

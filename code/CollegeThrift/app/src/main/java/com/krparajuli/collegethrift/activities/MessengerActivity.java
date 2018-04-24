@@ -28,6 +28,7 @@ import com.krparajuli.collegethrift.R;
 import com.krparajuli.collegethrift.models.Listing;
 import com.krparajuli.collegethrift.models.Message;
 import com.krparajuli.collegethrift.models.User;
+import com.krparajuli.collegethrift.venmo.VenmoLibrary;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,6 +37,8 @@ import java.util.Iterator;
 public class MessengerActivity extends AppCompatActivity {
 
     private static final String TAG = "MessengerActivity";
+
+    public static final int REQUEST_CODE_VENMO_APP_SWITCH = 10000;
 
     public static String EXTRA_ARRIVED_FROM_LISTING_DETAIL = "false";
     public static String EXTRA_OTHER_USER_UID_KEY = "OTHER USER KEY";
@@ -410,7 +413,12 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
     private void goToVenmo() {
-
+        if (VenmoLibrary.isVenmoInstalled(this)) {
+            Intent venmoIntent = VenmoLibrary.openVenmoPayment("sd", "Venmo", "asdsad", "10", "Hello", "asd");
+            startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
+        } else {
+            displayVenmoNotInstalledDialogue();
+        }
     }
 
 }

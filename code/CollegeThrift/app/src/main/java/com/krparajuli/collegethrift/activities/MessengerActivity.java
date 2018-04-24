@@ -58,7 +58,6 @@ public class MessengerActivity extends AppCompatActivity {
 
     private ChatView mChatView;
 
-
     private int mNumDisplayedMessages = 0;
 
     @Override

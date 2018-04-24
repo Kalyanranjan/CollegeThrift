@@ -49,6 +49,7 @@ public class MessengerActivity extends AppCompatActivity {
     private String mConversationId = "";
 
     private String mThisUserName = "User";
+    private String mThisUserEmail = "generic.user@trincoll.edu";
     private String mOtherUserName = "User";
     private String mOtherUserEmail = "generic.user@trincoll.edu";
     private String mListingTitle = "Listing";
@@ -215,6 +216,21 @@ public class MessengerActivity extends AppCompatActivity {
 
                     }
                 });
+
+        dbRef.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User otherUser = dataSnapshot.getValue(User.class);
+                        mThisUserName = otherUser.getFullname();
+                        mThisUserEmail = otherUser.getEmail();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void createConversationAndSendToServer(String messageText) {
@@ -245,8 +261,8 @@ public class MessengerActivity extends AppCompatActivity {
         HashMap<String, Object> listerConvMap = new HashMap<>();
         listerConvMap.put("convUid", convKey);
         listerConvMap.put("otherUserUid", thisUserUid);
-        listerConvMap.put("otherUserName", mOtherUserName);
-        listerConvMap.put("otherUserEmail", mOtherUserEmail);
+        listerConvMap.put("otherUserName", mThisUserName);
+        listerConvMap.put("otherUserEmail", mThisUserEmail);
         listerConvMap.put("listingUid", mListingUid);
         listerConvMap.put("listingTitle", mListingTitle);
         listerConvMap.put("listingPrice", mListingPrice);

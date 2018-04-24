@@ -32,7 +32,7 @@
                     android:textColor="@color/total_white"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    android:maxLines="1"/>
+                    android:maxLines="2"/>
 
                 <TextView
                     android:id="@+id/messenger_toolbar_listing_name_view"

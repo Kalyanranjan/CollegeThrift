@@ -57,8 +57,6 @@ public class MessengerActivity extends AppCompatActivity {
 
     private ChatView mChatView;
 
-    private String yourName = "You";
-    private String otherName = "Recipient";
 
     private int mNumDisplayedMessages = 0;
 
@@ -81,13 +79,7 @@ public class MessengerActivity extends AppCompatActivity {
         //User name
         String myName = "You";
 
-        int yourId = 1;
-        Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle);
-        String yourName = mOtherUserName;
-
         final ChatUser me = new ChatUser(myId, myName, myIcon);
-        final ChatUser you = new ChatUser(yourId, yourName, yourIcon);
-
         mChatView = (ChatView) findViewById(R.id.chat_view);
 
 //        //Set UI parameters if you need

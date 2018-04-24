@@ -77,13 +77,12 @@ public class MessengerActivity extends AppCompatActivity {
         //User id
         int myId = 0;
         //User icon
-        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
+        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle);
         //User name
         String myName = "You";
-        myName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
         int yourId = 1;
-        Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_1);
+        Bitmap yourIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle);
         String yourName = mOtherUserName;
 
         final ChatUser me = new ChatUser(myId, myName, myIcon);
@@ -254,8 +253,8 @@ public class MessengerActivity extends AppCompatActivity {
         HashMap<String, Object> listerConvMap = new HashMap<>();
         listerConvMap.put("convUid", convKey);
         listerConvMap.put("otherUserUid", thisUserUid);
-        listerConvMap.put("otherUserName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-        listerConvMap.put("otherUserEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        listerConvMap.put("otherUserName", mOtherUserName);
+        listerConvMap.put("otherUserEmail", mOtherUserEmail);
         listerConvMap.put("listingUid", mListingUid);
         listerConvMap.put("listingTitle", mListingTitle);
         listerConvMap.put("listingPrice", mListingPrice);

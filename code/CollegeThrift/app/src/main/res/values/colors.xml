@@ -8,5 +8,6 @@
     <color name="grey_300">#E0E0E0</color>
     <color name="edit_listing_background">#cabf9c</color>
 
+    <color name="venmo_color">#3d95ce</color>
     <color name="total_white">#FFFFFF</color>
 </resources>

@@ -49,6 +49,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <Button
+        android:id="@+id/messenger_pay_using_venmo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/venmo_color"
+        android:textColor="@color/total_white"
+        android:text="Pay for this item using Venmo"
+        android:layout_margin="2dp"/>
+
     <com.github.bassaer.chatmessageview.view.ChatView
         android:id="@+id/chat_view"
         android:layout_width="match_parent"

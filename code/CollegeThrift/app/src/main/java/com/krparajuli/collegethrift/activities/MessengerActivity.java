@@ -1,16 +1,19 @@
 package com.krparajuli.collegethrift.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.bassaer.chatmessageview.model.ChatUser;
@@ -127,6 +130,13 @@ public class MessengerActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.messenger_toolbar_user_name_view)).setText(formatUserNameAndEmail(false));
         ((TextView) findViewById(R.id.messenger_toolbar_listing_name_view)).setText(mListingTitle + " - $" + mListingPrice);
+
+        ((Button) findViewById(R.id.messenger_pay_using_venmo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayTakingToVenmoDialogue();
+            }
+        });
     }
 
     @Override
@@ -371,4 +381,36 @@ public class MessengerActivity extends AppCompatActivity {
         }
         return mOtherUserName + " <" + mOtherUserEmail + ">";
     }
+
+    private void displayVenmoNotInstalledDialogue() {
+        new AlertDialog.Builder(this)
+                .setTitle("Venmo Not installed")
+                .setMessage("Cannot Proceed with the payment since Venmo is not installed. Please pay using other methods.")
+                .setNegativeButton("OK", null).show();
+    }
+
+    private void displayListerVenmoNotConnectedDialogue() {
+        new AlertDialog.Builder(this)
+                .setTitle("Lister's Venmo Not Connected")
+                .setMessage("Cannot Proceed with the payment since the lister's venmo is not connected to the account")
+                .setNegativeButton("OK", null).show();
+    }
+
+    private void displayTakingToVenmoDialogue() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm to exit to Venmo")
+                .setMessage("Are you sure you want to continue with this payment through Venmo App?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        goToVenmo();
+                    }
+                })
+                .setNegativeButton("No", null).show();
+    }
+
+    private void goToVenmo() {
+
+    }
+
 }

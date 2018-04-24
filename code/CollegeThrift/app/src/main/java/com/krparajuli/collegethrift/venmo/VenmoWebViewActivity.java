@@ -10,6 +10,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
+import com.krparajuli.collegethrift.R;
+
 
 public class VenmoWebViewActivity extends Activity {
     

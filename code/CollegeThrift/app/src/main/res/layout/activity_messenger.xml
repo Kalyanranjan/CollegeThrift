@@ -30,9 +30,9 @@
                     android:layout_height="wrap_content"
                     android:text="User"
                     android:textColor="@color/total_white"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:textStyle="bold"
-                    android:maxLines="2"/>
+                    android:maxLines="1"/>
 
                 <TextView
                     android:id="@+id/messenger_toolbar_listing_name_view"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="Listing"
                     android:textColor="@color/total_white"
-                    android:textSize="14dp"
+                    android:textSize="13dp"
                     android:maxLines="1"/>
 
             </LinearLayout>

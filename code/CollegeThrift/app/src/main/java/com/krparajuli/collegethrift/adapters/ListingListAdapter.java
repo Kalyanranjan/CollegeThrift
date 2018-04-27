@@ -223,7 +223,7 @@ public class ListingListAdapter extends RecyclerView.Adapter<ListingListAdapter.
 
             }
         };
-        mSwitchFavoritesDatabaseReference.addValueEventListener(mSwitchFavoritesListener);
+        mSwitchFavoritesDatabaseReference.addListenerForSingleValueEvent(mSwitchFavoritesListener);
     }
 
     @Override

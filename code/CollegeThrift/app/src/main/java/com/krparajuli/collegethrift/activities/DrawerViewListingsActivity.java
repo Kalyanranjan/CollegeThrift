@@ -230,6 +230,14 @@ public class DrawerViewListingsActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (mUserDetailValueEventListener != null) {
+            mUserDetailQuery.removeEventListener(mUserDetailValueEventListener);
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if (mUserDetailValueEventListener != null) {

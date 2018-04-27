@@ -133,13 +133,6 @@ public class MessengerActivity extends AppCompatActivity {
 
         ((TextView) findViewById(R.id.messenger_toolbar_user_name_view)).setText(formatUserNameAndEmail(false));
         ((TextView) findViewById(R.id.messenger_toolbar_listing_name_view)).setText(mListingTitle + " - $" + mListingPrice);
-
-        ((Button) findViewById(R.id.messenger_pay_using_venmo)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayTakingToVenmoDialogue();
-            }
-        });
     }
 
     @Override
@@ -221,6 +214,18 @@ public class MessengerActivity extends AppCompatActivity {
                         mListingTitle = listing.getTitle();
                         mListingPrice = listing.getPrice();
                         mListingSellerUid = listing.getListerUid();
+
+                        Button payUsingVenmo = ((Button) findViewById(R.id.messenger_pay_using_venmo));
+                        if (listing.getListerUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            payUsingVenmo.setVisibility(View.GONE);
+                        } else {
+                            payUsingVenmo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    displayTakingToVenmoDialogue();
+                                }
+                            });
+                        }
                     }
 
                     @Override
@@ -414,7 +419,7 @@ public class MessengerActivity extends AppCompatActivity {
 
     private void goToVenmo() {
         if (VenmoLibrary.isVenmoInstalled(this)) {
-            Intent venmoIntent = VenmoLibrary.openVenmoPayment("SD", "CollegeThrift", mOtherUserEmail, String.valueOf(mListingPrice), "CollegeThrift: Payment for <"+ mListingTitle+">", "Pay");
+            Intent venmoIntent = VenmoLibrary.openVenmoPayment("SD", "CollegeThrift", "@Sababa-Anber", String.valueOf(mListingPrice), "CollegeThrift: Payment for <"+ mListingTitle+">", "Pay");
             startActivityForResult(venmoIntent, REQUEST_CODE_VENMO_APP_SWITCH);
         } else {
             displayVenmoNotInstalledDialogue();

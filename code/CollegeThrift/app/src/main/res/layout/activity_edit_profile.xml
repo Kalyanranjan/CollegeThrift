@@ -36,6 +36,27 @@
             android:maxLines="1"
             android:textAlignment="center"/>
 
+        <TextView
+            android:id="@+id/pe_venmo_username_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Please Enter Your Venmo Username To Connect CollegeThrift with your Venmo Account. You will make and recieve payments using this account."
+            android:textAlignment="center"/>
+
+        <EditText
+            android:id="@+id/pe_venmo_username_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="Your Venmo Username (ex: @John-Doe)"
+            android:maxLines="1"
+            android:textAlignment="center"/>
+
 
         <!--<ImageView-->
             <!--android:id="@+id/cl_listing_thumb_image"-->

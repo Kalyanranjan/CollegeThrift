@@ -16,6 +16,7 @@ public class User {
     private String fullname = "User";
     private String profileImageUrl = "";
     private String userFCMToken = "";
+    private String venmoUsername = null;
 
     public User() {}
 
@@ -82,5 +83,13 @@ public class User {
 
     public void setUserFCMToken(String userFCMToken) {
         this.userFCMToken = userFCMToken;
+    }
+
+    public String getVenmoUsername() {
+        return venmoUsername;
+    }
+
+    public void setVenmoUsername(String venmoUsername) {
+        this.venmoUsername = venmoUsername;
     }
 }
